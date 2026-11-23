@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    ========================================================================
+    PROJECT: Varidhi
+    PAGE: Home / Welcome Page (index.html)
+    DESIGN SPECIFICATIONS:
+      - Background Colour: #D4DE95 (Soft Olive/Matcha)
+      - Typography / Text: Pure Black (#000000)
+      - Button Background: #3D4127 (Deep Forest Olive)
+      - Button Shape: Strict Rectangular (border-radius: 0)
+      - Heading / Button Font: 'Playfair Display'
+      - Body / Content Font: 'Inter'
+      - Architecture: Self-contained HTML with internal <style> and <script>
+      - Layout: 2-Column Desktop Grid / 1-Column Responsive Mobile
+    ======================================================================== 
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Varidhi — Luxury 15-Day Island Expeditions</title>
+
+  <!-- Google Fonts Import: Inter and Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Internal Styles -->
+  <style>
+    /* ----------------------------------------------------------------------
+       1. CSS VARIABLES (DESIGN TOKENS)
+       ---------------------------------------------------------------------- */
+    :root {
+      --bg-color: #D4DE95;              /* Mandatory background color */
+      --text-color: #000000;            /* Pure black text */
+      --text-muted: rgba(0, 0, 0, 0.75); /* Secondary black */
+      --btn-bg: #3D4127;                /* Primary button background color */
+      --btn-text: #D4DE95;              /* Contrasting button label tone */
+      --btn-hover: #262917;             /* Darker tone on hover */
+      
+      --card-bg-white: #FAF9F5;         /* Deckled paper white */
+      --card-kraft: #383027;            /* Dark torn kraft paper backing */
+      --card-tag-bg: #F0EAD6;          /* Parchment label background */
+      --tape-color: rgba(238, 228, 208, 0.75); /* Translucent washi tape */
+
+      --font-heading: 'Playfair Display', Georgia, serif; /* For all headings and buttons */
+      --font-body: 'Inter', sans-serif;                   /* For regular content and body text */
+    }
+
+    /* ----------------------------------------------------------------------
+       2. UNIVERSAL RESETS & OVERFLOW SAFETY
+       ---------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ----------------------------------------------------------------------
+       3. DOCUMENT & BACKGROUND COLOR ENFORCEMENT
+       ---------------------------------------------------------------------- */
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-color); /* Strict background color #D4DE95 */
+      color: var(--text-color);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ----------------------------------------------------------------------
+       4. TOP-CENTERED LUXURY HERO CONTAINER
+       ---------------------------------------------------------------------- */
+    .brand-showcase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: clamp(3.5rem, 7vh, 5.5rem) clamp(1.25rem, 5vw, 3rem) 2rem clamp(1.25rem, 5vw, 3rem);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ----------------------------------------------------------------------
+       5. RECREATED "VARIDHI" BRAND IDENTITY
+       ---------------------------------------------------------------------- */
+    .brand-logo-wrapper {
+      width: 100%;
+      max-width: clamp(220px, 36vw, 360px);
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .brand-logo-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ----------------------------------------------------------------------
+       6. THIN BLACK HORIZONTAL DIVIDER
+       ---------------------------------------------------------------------- */
+    .brand-divider {
+      width: clamp(245px, 40vw, 395px);
+      height: 1px;
+      background-color: var(--text-color);
+      margin: -0.4rem auto 0 auto;
+      border: none;
+      display: block;
+    }
+
+    /* ----------------------------------------------------------------------
+       7. POETIC TAGLINE
+       ---------------------------------------------------------------------- */
+    .brand-tagline {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 0.03em;
+      color: var(--text-color);
+      margin-top: clamp(1.15rem, 2.5vh, 1.75rem);
+      max-width: 580px;
+      line-height: 1.6;
+    }
+
+    /* ----------------------------------------------------------------------
+       8. 3 STEP BOXES WITH ARROW SIGNS (CLEAN & RECTANGULAR)
+       Purpose: Displays the 3 actual steps in stylish rectangular boxes 
+                connected by arrow signs:
+                1. Choose Island → 2. Book Now → 3. Enjoy your vacation
+       ---------------------------------------------------------------------- */
+    .steps-flow-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 1.5rem);
+      margin: clamp(2.5rem, 5vh, 3.75rem) auto 1.5rem auto;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 950px;
+    }
+
+    .step-pill {
+      background-color: var(--btn-bg); /* #3D4127 */
+      color: var(--btn-text);           /* #D4DE95 */
+      font-family: var(--font-heading); /* Playfair Display */
+      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.9rem clamp(1.25rem, 2.5vw, 2.1rem);
+      border: 1px solid var(--btn-bg);
+      border-radius: 0;                /* Mandatory rectangular shape */
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .step-arrow {
+      font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+      font-weight: 700;
+      color: var(--text-color);
+      user-select: none;
+    }
+
+    /* "Explore islands" Heading with Extended Underline */
+    .section-explore-heading {
+      position: relative;
+      font-family: var(--font-heading);
+      font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.15;               /* Tight line-height to reduce vertical gap */
+      color: var(--text-color);
+      margin: clamp(1.75rem, 3.5vh, 2.5rem) auto clamp(2.5rem, 5vh, 3.5rem) auto;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    /* Extended Underline extending well beyond the text, nestled closely */
+    .section-explore-heading::after {
+      content: "";
+      display: block;
+      width: clamp(260px, 145%, 480px); /* Generously extends beyond "Explore Islands" */
+      height: 2px;
+      background-color: var(--text-color);
+      margin-top: 3px;                  /* Decreased gap so it sits snugly beneath the text */
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ----------------------------------------------------------------------
+       9. 2-COLUMN ISLAND GRID & SCRAPBOOK PHOTO STYLING
+       ---------------------------------------------------------------------- */
+    .islands-section {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding-bottom: 5rem;
+    }
+
+    .islands-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3.5rem 3rem;
+      padding: 1rem 0;
+    }
+
+    .island-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .island-card-link:hover {
+      transform: translateY(-8px) scale(1.015);
+    }
+
+    .island-card-link:focus-visible {
+      box-shadow: 0 0 0 3px var(--btn-bg);
+    }
+
+    .scrapbook-frame {
+      position: relative;
+      padding: 1.5rem 1rem 2.25rem 1.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .kraft-backing {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      width: calc(100% - 30px);
+      height: calc(100% - 20px);
+      background-color: var(--card-kraft);
+      box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.25);
+      transform: rotate(-1.5deg);
+      z-index: 1;
+      clip-path: polygon(
+        0% 2%, 3% 0%, 97% 1%, 100% 4%, 99% 98%, 96% 100%, 
+        4% 99%, 0% 96%, 1% 50%
+      );
+    }
+
+    .photo-deckle-mat {
+      position: relative;
+      z-index: 2;
+      background-color: var(--card-bg-white);
+      padding: 0.9rem 0.9rem 1.25rem 0.9rem;
+      width: 100%;
+      box-shadow: 2px 8px 22px rgba(0, 0, 0, 0.18);
+      transform: rotate(1deg);
+      clip-path: polygon(
+        1% 1%, 5% 0%, 15% 1%, 25% 0%, 35% 1%, 50% 0%, 65% 1%, 80% 0%, 92% 1%, 99% 0%,
+        100% 12%, 99% 25%, 100% 40%, 99% 55%, 100% 70%, 99% 85%, 100% 98%,
+        92% 99%, 80% 100%, 65% 99%, 50% 100%, 35% 99%, 20% 100%, 8% 99%, 1% 100%,
+        0% 88%, 1% 72%, 0% 55%, 1% 38%, 0% 20%, 1% 8%
+      );
+    }
+
+    .photo-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background-color: #222;
+    }
+
+    .island-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .island-card-link:hover .island-photo {
+      transform: scale(1.04);
+    }
+
+    .tape-top-left {
+      position: absolute;
+      top: -8px;
+      left: 12px;
+      width: 85px;
+      height: 26px;
+      background: var(--tape-color);
+      transform: rotate(-32deg);
+      z-index: 5;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(1px);
+    }
+
+    .tape-bottom-right {
+      position: absolute;
+      bottom: -6px;
+      right: 18px;
+      width: 88px;
+      height: 26px;
+      background: var(--tape-color);
+      transform: rotate(-22deg);
+      z-index: 5;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(1px);
+    }
+
+    .island-info-tag {
+      position: absolute;
+      bottom: 6px;
+      left: -8px;
+      z-index: 6;
+      background-color: var(--card-tag-bg);
+      color: var(--text-color);
+      padding: 0.65rem 1.15rem 0.65rem 0.9rem;
+      box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.22);
+      transform: rotate(-3.5deg);
+      max-width: 80%;
+      clip-path: polygon(
+        2% 3%, 15% 1%, 50% 2%, 85% 0%, 98% 3%,
+        99% 20%, 100% 60%, 99% 95%,
+        88% 99%, 55% 98%, 20% 100%, 2% 98%,
+        0% 80%, 1% 40%, 0% 15%
+      );
+    }
+
+    .island-name {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-color);
+      line-height: 1.2;
+    }
+
+    .island-location {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 0.15rem;
+    }
+
+    .island-price {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--btn-bg);
+      margin-top: 0.25rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ----------------------------------------------------------------------
+       10. MINIMALIST LUXURY FOOTER
+       ---------------------------------------------------------------------- */
+    .site-footer {
+      width: 100%;
+      background-color: var(--btn-bg); /* #3D4127 */
+      color: var(--btn-text);           /* #D4DE95 */
+      padding: clamp(3rem, 5vh, 4rem) 1.5rem 2.5rem 1.5rem;
+      border-top: 2px solid var(--text-color);
+      margin-top: 3.5rem;
+      text-align: center;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(1.5rem, 3.5vw, 3rem);
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+      list-style: none;
+    }
+
+    .footer-links-row a {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--btn-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-row a:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: rgba(212, 222, 149, 0.85);
+      border-top: 1px solid rgba(212, 222, 149, 0.2);
+      padding-top: 1.5rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ----------------------------------------------------------------------
+       11. RESPONSIVE MEDIA QUERIES (MOBILE & TABLET)
+       ---------------------------------------------------------------------- */
+    @media (max-width: 768px) {
+      .islands-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .brand-showcase {
+        padding-top: 3.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .brand-logo-wrapper {
+        max-width: 260px;
+      }
+      .brand-divider {
+        width: 285px;
+      }
+
+      /* Keep "Explore Islands" on a single balanced line with controlled underline */
+      .section-explore-heading {
+        font-size: clamp(1.35rem, 5.5vw, 1.8rem);
+        white-space: nowrap;
+      }
+      .section-explore-heading::after {
+        width: 118%;        /* Proportional extension on mobile */
+        max-width: 240px;   /* Prevents touching the screen edges */
+        margin-top: 3px;
+      }
+
+      .island-info-tag {
+        left: -4px;
+        bottom: 4px;
+        padding: 0.5rem 0.9rem;
+      }
+      .island-name {
+        font-size: 1rem;
+      }
+      .footer-links-row {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      /* Vertical flow on small smartphones */
+      .steps-flow-container {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .step-arrow {
+        transform: rotate(90deg); /* Points down when stacked */
+        font-size: 1.25rem;
+      }
+      .step-pill {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top-Centered Brand Showcase Container -->
+  <main class="brand-showcase">
+    
+    <!-- "Varidhi" Vector Typography -->
+    <header class="brand-logo-wrapper">
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 755 276" 
+        class="brand-logo-svg" 
+        role="img" 
+        aria-label="Varidhi"
+      >
+        <path 
+          fill="#000000" 
+          fill-rule="evenodd" 
+          d="M 247 117 L 243 121 L 241 125 L 241 131 L 245 134 L 248 134 L 252 131 L 256 124 L 257 120 L 264 112 L 270 109 L 281 109 L 287 112 L 292 118 L 293 121 L 293 132 L 291 136 L 285 142 L 271 149 L 252 155 L 235 164 L 227 172 L 223 180 L 222 190 L 226 199 L 232 204 L 241 207 L 252 207 L 253 206 L 260 205 L 263 203 L 265 203 L 277 195 L 288 183 L 292 176 L 293 177 L 294 189 L 301 200 L 310 205 L 322 205 L 328 202 L 320 201 L 315 196 L 312 188 L 312 178 L 311 177 L 312 125 L 308 115 L 304 111 L 296 107 L 293 107 L 292 106 L 274 106 L 273 107 L 269 107 L 262 109 L 257 112 L 253 113 Z M 292 138 L 293 139 L 293 169 L 287 181 L 278 190 L 271 194 L 265 196 L 254 196 L 250 194 L 245 189 L 243 184 L 243 178 L 247 168 L 257 158 L 265 153 L 283 145 Z M 673 113 L 677 114 L 682 119 L 684 124 L 684 191 L 682 197 L 678 201 L 673 203 L 699 203 L 700 204 L 706 204 L 707 205 L 721 205 L 734 200 L 735 199 L 726 203 L 716 203 L 711 201 L 705 194 L 703 188 L 703 175 L 702 174 L 702 104 L 681 112 Z M 442 104 L 427 110 L 413 113 L 418 115 L 422 119 L 423 121 L 423 126 L 424 127 L 424 182 L 423 183 L 423 194 L 422 197 L 418 201 L 414 202 L 453 202 L 451 202 L 446 199 L 444 196 L 443 188 L 442 187 Z M 403 107 L 393 104 L 392 105 L 384 106 L 376 110 L 365 121 L 357 135 L 356 134 L 357 104 L 336 112 L 327 113 L 332 115 L 336 119 L 338 125 L 338 189 L 337 190 L 337 195 L 335 199 L 330 203 L 368 203 L 364 202 L 359 197 L 357 192 L 357 186 L 356 185 L 356 143 L 357 142 L 357 139 L 363 128 L 367 124 L 374 120 L 380 119 L 386 121 L 390 125 L 396 127 L 402 125 L 405 122 L 407 116 L 406 111 Z M 690 66 L 683 71 L 681 76 L 681 81 L 685 87 L 689 89 L 695 89 L 699 87 L 703 83 L 705 78 L 705 75 L 703 70 L 698 66 Z M 431 66 L 427 68 L 423 72 L 422 74 L 422 82 L 424 86 L 427 88 L 435 89 L 441 86 L 445 80 L 445 73 L 440 67 L 438 66 Z M 655 124 L 651 116 L 648 112 L 643 108 L 633 104 L 621 104 L 614 106 L 603 113 L 598 118 L 590 130 L 588 128 L 589 127 L 588 126 L 589 125 L 588 123 L 588 105 L 589 104 L 589 57 L 590 56 L 590 46 L 591 45 L 591 38 L 592 36 L 573 42 L 562 43 L 562 44 L 564 44 L 567 46 L 570 52 L 570 87 L 571 88 L 570 194 L 568 198 L 563 202 L 598 202 L 595 201 L 591 197 L 589 190 L 589 137 L 593 128 L 599 120 L 610 112 L 613 111 L 623 111 L 627 113 L 633 119 L 636 126 L 637 134 L 638 135 L 638 142 L 639 143 L 639 177 L 638 178 L 638 187 L 637 188 L 635 201 L 632 210 L 629 215 L 629 217 L 625 224 L 616 235 L 606 243 L 595 248 L 586 249 L 585 250 L 570 250 L 569 249 L 564 249 L 563 248 L 558 248 L 554 246 L 551 246 L 545 243 L 537 241 L 522 234 L 520 234 L 515 231 L 510 230 L 507 228 L 479 220 L 475 220 L 469 218 L 463 218 L 462 217 L 455 217 L 454 216 L 416 216 L 415 217 L 407 217 L 406 218 L 400 218 L 399 219 L 390 220 L 389 221 L 378 223 L 359 230 L 338 241 L 324 251 L 319 256 L 334 245 L 357 234 L 380 227 L 395 225 L 396 224 L 403 224 L 404 223 L 414 223 L 415 222 L 441 222 L 442 223 L 452 223 L 453 224 L 459 224 L 460 225 L 474 227 L 495 233 L 498 235 L 503 236 L 506 238 L 508 238 L 511 240 L 513 240 L 516 242 L 535 249 L 547 251 L 548 252 L 553 252 L 554 253 L 564 253 L 565 254 L 569 254 L 570 253 L 582 253 L 583 252 L 587 252 L 588 251 L 598 249 L 615 241 L 626 233 L 639 220 L 647 209 L 653 197 L 657 184 L 657 177 L 658 176 L 658 142 L 657 141 L 657 132 L 656 131 Z M 552 36 L 534 41 L 524 41 L 523 40 L 520 40 L 523 41 L 528 46 L 529 49 L 529 108 L 526 109 L 523 107 L 516 105 L 512 105 L 511 104 L 498 104 L 497 105 L 493 105 L 487 107 L 479 111 L 467 122 L 459 136 L 457 142 L 457 146 L 456 147 L 456 154 L 455 155 L 455 162 L 456 163 L 457 174 L 459 180 L 464 189 L 473 198 L 478 201 L 484 203 L 488 203 L 489 204 L 497 204 L 498 203 L 502 203 L 508 201 L 517 195 L 522 190 L 529 180 L 533 191 L 537 196 L 543 200 L 549 202 L 558 202 L 561 201 L 561 200 L 557 199 L 551 192 L 549 186 L 549 178 L 548 177 L 548 64 L 549 63 L 549 52 L 550 51 L 550 44 L 551 43 L 551 38 Z M 502 106 L 510 106 L 517 108 L 522 111 L 529 119 L 529 122 L 530 123 L 530 173 L 529 174 L 529 177 L 526 182 L 519 189 L 513 193 L 507 195 L 496 195 L 489 192 L 482 185 L 478 177 L 476 171 L 476 167 L 475 166 L 475 160 L 474 159 L 474 144 L 475 143 L 475 137 L 476 136 L 477 129 L 482 119 L 491 110 Z M 338 27 L 333 24 L 319 20 L 302 20 L 301 21 L 297 21 L 288 24 L 277 30 L 268 37 L 258 47 L 243 68 L 234 86 L 232 88 L 186 188 L 184 186 L 184 183 L 182 179 L 182 175 L 180 171 L 177 156 L 175 152 L 175 148 L 174 147 L 170 128 L 168 124 L 168 120 L 166 116 L 163 101 L 161 97 L 161 94 L 159 90 L 157 81 L 151 68 L 141 55 L 135 50 L 125 44 L 112 40 L 107 40 L 106 39 L 88 39 L 87 40 L 82 40 L 70 44 L 67 44 L 56 49 L 43 58 L 35 66 L 26 79 L 22 89 L 21 97 L 20 98 L 21 113 L 23 119 L 28 128 L 37 137 L 50 144 L 53 144 L 58 146 L 75 146 L 85 143 L 94 138 L 103 129 L 98 134 L 90 139 L 88 139 L 83 142 L 74 143 L 73 144 L 60 143 L 54 141 L 44 135 L 36 126 L 30 113 L 30 109 L 29 108 L 30 88 L 36 73 L 43 63 L 49 57 L 63 48 L 76 44 L 87 43 L 88 44 L 99 45 L 111 51 L 121 61 L 131 79 L 140 106 L 142 116 L 146 126 L 150 143 L 153 150 L 157 167 L 161 177 L 161 180 L 164 187 L 164 190 L 166 194 L 166 197 L 174 222 L 189 190 L 189 188 L 194 179 L 194 177 L 201 164 L 201 162 L 226 111 L 228 109 L 229 105 L 231 103 L 235 94 L 237 92 L 245 77 L 258 59 L 272 44 L 282 36 L 294 29 L 305 25 L 316 24 L 317 23 L 329 24 Z"
+        />
+      </svg>
+    </header>
+
+    <!-- Thin Black Horizontal Divider -->
+    <div class="brand-divider" aria-hidden="true"></div>
+
+    <!-- Poetic Tagline -->
+    <p class="brand-tagline">
+      “Choose the shore you adore — we’ll craft memories forevermore.”
+    </p>
+
+    <!-- 
+      ----------------------------------------------------------------------
+      3 ACTUAL STEP BOXES WITH ARROW SIGNS
+      1. Choose Island → 2. Book Now → 3. Enjoy your vacation
+      ---------------------------------------------------------------------- 
+    -->
+    <section class="steps-flow-container" aria-label="Booking Process">
+      <div class="step-pill">1. Choose Island</div>
+      <span class="step-arrow" aria-hidden="true">→</span>
+      <div class="step-pill">2. Book Now</div>
+      <span class="step-arrow" aria-hidden="true">→</span>
+      <div class="step-pill">3. Enjoy your vacation</div>
+    </section>
+
+    <!-- Heading at Bottom of the Steps with Underline -->
+    <h2 class="section-explore-heading">Explore islands</h2>
+
+    <!-- 
+      ----------------------------------------------------------------------
+      2-COLUMN ISLAND SHOWCASE GRID
+      ---------------------------------------------------------------------- 
+    -->
+    <section class="islands-section" aria-label="Curated Island Packages">
+      <div class="islands-grid">
+
+        <!-- 1. Bora Bora, French Polynesia -->
+        <a href="bora-bora.html" class="island-card-link" aria-label="Explore Bora Bora, French Polynesia package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-1.jpg" alt="Overwater luxury villas in Bora Bora" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">1. Bora Bora</div>
+              <div class="island-location">French Polynesia</div>
+              <div class="island-price">₹ 7,49,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 2. Maldives (Baa Atoll) -->
+        <a href="maldives.html" class="island-card-link" aria-label="Explore Maldives Baa Atoll package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-2.jpg" alt="Turquoise lagoon and private sandbanks in Maldives" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">2. Maldives</div>
+              <div class="island-location">Baa Atoll Biosphere</div>
+              <div class="island-price">₹ 1,99,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 3. Santorini, Greece -->
+        <a href="santorini.html" class="island-card-link" aria-label="Explore Santorini, Greece package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-3.jpg" alt="Caldera-view cliffside suites in Santorini" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">3. Santorini</div>
+              <div class="island-location">Cyclades, Greece</div>
+              <div class="island-price">₹ 3,79,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 4. Bali & Nusa Islands, Indonesia -->
+        <a href="bali.html" class="island-card-link" aria-label="Explore Bali and Nusa Islands package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-4.jpg" alt="Coastal cliffs and cultural sanctuaries in Bali and Nusa" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">4. Bali & Nusa</div>
+              <div class="island-location">Indonesia</div>
+              <div class="island-price">₹ 2,29,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 5. Maui, Hawaii -->
+        <a href="maui.html" class="island-card-link" aria-label="Explore Maui, Hawaii package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-5.jpg" alt="Dramatic volcanic coastlines and tropical greenery in Maui" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">5. Maui</div>
+              <div class="island-location">Hawaii, USA</div>
+              <div class="island-price">₹ 6,19,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 6. Seychelles (Mahé & Praslin) -->
+        <a href="seychelles.html" class="island-card-link" aria-label="Explore Seychelles package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-6.jpg" alt="Iconic granite boulder coves in Seychelles" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">6. Seychelles</div>
+              <div class="island-location">Mahé & Praslin</div>
+              <div class="island-price">₹ 3,69,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 7. Galápagos Islands, Ecuador -->
+        <a href="galapagos.html" class="island-card-link" aria-label="Explore Galapagos Islands package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-7.jpg" alt="Volcanic islands and pristine wildlife in Galapagos" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">7. Galápagos</div>
+              <div class="island-location">Ecuador</div>
+              <div class="island-price">₹ 5,39,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 8. Capri & Ischia, Italy -->
+        <a href="capri.html" class="island-card-link" aria-label="Explore Capri and Ischia package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-8.jpg" alt="Faraglioni rock formations and blue waters in Capri" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">8. Capri & Ischia</div>
+              <div class="island-location">Bay of Naples, Italy</div>
+              <div class="island-price">₹ 3,99,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 9. Palawan (El Nido & Coron), Philippines -->
+        <a href="palawan.html" class="island-card-link" aria-label="Explore Palawan package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-9.jpg" alt="Limestone karst cliffs and crystal blue lagoons in Palawan" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">9. Palawan</div>
+              <div class="island-location">El Nido & Coron, Philippines</div>
+              <div class="island-price">₹ 1,89,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+        <!-- 10. Fiji (Mamanuca & Yasawa) -->
+        <a href="fiji.html" class="island-card-link" aria-label="Explore Fiji package">
+          <article class="scrapbook-frame">
+            <div class="kraft-backing"></div>
+            <div class="photo-deckle-mat">
+              <div class="photo-wrapper">
+                <img src="public/island-10.jpg" alt="South Pacific paradise beaches and reefs in Fiji" class="island-photo" loading="lazy">
+              </div>
+            </div>
+            <div class="tape-top-left"></div>
+            <div class="tape-bottom-right"></div>
+            <div class="island-info-tag">
+              <div class="island-name">10. Fiji</div>
+              <div class="island-location">Mamanuca & Yasawa</div>
+              <div class="island-price">₹ 3,59,000 / person</div>
+            </div>
+          </article>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 
+    ========================================================================
+    MINIMALIST LUXURY FOOTER
+    ======================================================================== 
+  -->
+  <footer class="site-footer">
+    <!-- 4 Essential Links -->
+    <ul class="footer-links-row">
+      <li><a href="sitemap.html">Sitemap</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+    </ul>
+
+    <!-- Single Copyright Line -->
+    <div class="footer-copyright">
+      Varidhi Incorporation Ltd.
+    </div>
+  </footer>
+
+  <script>
+    // Ready for future interactive logic as instructed
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+
+:root {
+  /* Brand colours */
+  --color-forest: #142D2B;
+  --color-teal: #087F6A;
+  --color-teal-dark: #06604F;      /* hover states and text links (extra contrast) */
+  --color-amber: #E9A23B;
+  --color-amber-dark: #7A4A00;     /* amber text on light backgrounds */
+
+  /* Surfaces */
+  --color-bg: #F6F7F2;             /* page background (warm off-white) */
+  --color-surface: #FFFFFF;        /* cards */
+  --color-tint: #E8F1ED;           /* soft teal tint for highlights */
+  --color-tint-border: #C5DDD5;
+
+  /* Text */
+  --color-text: #1B2B29;
+  --color-text-muted: #4B5E5B;
+  --color-text-on-dark: #FFFFFF;
+  --color-text-soft-on-dark: #D3E2DE;
+
+  /* Borders */
+  --color-border: #D9E0DB;
+  --color-border-strong: #6B7D79;  /* form controls need 3:1 contrast */
+
+  /* Severity (accessible text/background pairs) */
+  --color-high: #B42318;
+  --color-high-bg: #FDE9E7;
+  --color-medium: #7A4A00;
+  --color-medium-bg: #FCEBC8;
+  --color-low: #1849A9;
+  --color-low-bg: #E3ECFB;
+
+  /* Status */
+  --color-open: #38485E;
+  --color-open-bg: #E7EBF1;
+  --color-progress: #7A4A00;
+  --color-progress-bg: #FCEBC8;
+  --color-resolved: #0B5B4B;
+  --color-resolved-bg: #D8F0E8;
+
+  /* Feedback */
+  --color-error: #B42318;
+  --color-error-bg: #FEF0EE;
+  --color-error-border: #F0A8A0;
+  --color-success: #0F5132;
+  --color-success-bg: #E6F4EC;
+  --color-success-border: #9ACFB0;
+
+  /* Keyboard focus rings */
+  --color-focus: #0B5CAD;
+  --color-focus-on-dark: #FFC857;
+
+  /* Typography */
+  --font-body: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+  --font-heading: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  --text-2xl: clamp(1.875rem, 1.4rem + 2.2vw, 2.75rem);
+  --text-hero: clamp(2.25rem, 1.5rem + 3.6vw, 3.75rem);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --section-space: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+
+  /* Corners (different sizes for different jobs) */
+  --radius-sm: 6px;     /* small controls, focus targets */
+  --radius-md: 10px;    /* buttons, inputs */
+  --radius-lg: 16px;    /* cards and panels */
+  --radius-pill: 999px; /* badges */
+
+  /* Shadows (used sparingly) */
+  --shadow-sm: 0 1px 2px rgba(20, 45, 43, 0.08);
+  --shadow-md: 0 8px 24px rgba(20, 45, 43, 0.10);
+
+  /* Layout */
+  --container-max: 72rem;
+  --container-narrow: 48rem;
+  --gutter: 1.25rem;
+  --header-height: 4.25rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+}
+
+body,
+h1, h2, h3, h4,
+p, figure, blockquote,
+dl, dd {
+  margin: 0;
+}
+
+/* Lists that have a class are styled by that class, so remove default bullets. */
+ul[class],
+ol[class] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* IMPORTANT: the HTML `hidden` attribute must always win over component styles. */
+[hidden] {
+  display: none !important;
+}
+
+/* <template> content is never shown on the page. */
+template {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Base typography
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-forest);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-teal-dark);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--color-forest);
+}
+
+strong {
+  font-weight: 700;
+}
+
+/* One consistent keyboard focus style for every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* The <main> element is focused by the skip link; it does not need a ring. */
+.site-main:focus {
+  outline: none;
+}
+
+/* Text that screen readers read but sighted users do not see. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: off-screen until it receives keyboard focus. */
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 200;
+  padding: var(--space-3) var(--space-4);
+  font-weight: 700;
+  color: var(--color-forest);
+  background-color: var(--color-amber);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Page layout
+   -------------------------------------------------------------------------- */
+body.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1 0 auto;
+}
+
+.container {
+  width: min(100% - (var(--gutter) * 2), var(--container-max));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+/* Alternate "white band" sections give the pages a calm rhythm. */
+.section--featured,
+.section--how,
+.section--status,
+.section--activity,
+.section--similar,
+.section--breakdown + .section--breakdown {
+  background-color: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+/* The filter bar sits right under the page header, so it needs less space. */
+.section--filters {
+  padding-block: var(--space-5) 0;
+}
+
+.section--results {
+  padding-top: var(--space-5);
+}
+
+/* Page header (title area at the top of inner pages) */
+.page-header {
+  padding-block: var(--space-6) var(--space-6);
+  background-color: var(--color-tint);
+  border-bottom: 1px solid var(--color-tint-border);
+}
+
+.page-header__title {
+  font-size: var(--text-2xl);
+  overflow-wrap: anywhere;
+}
+
+.page-header__description {
+  max-width: 42rem;
+  margin-top: var(--space-3);
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+}
+
+.page-header .notice {
+  margin-top: var(--space-5);
+}
+
+/* Section headings (title + short intro above each block of content) */
+.section-heading {
+  max-width: 44rem;
+  margin-bottom: var(--space-6);
+}
+
+.section-heading__title {
+  font-size: var(--text-xl);
+}
+
+.section-heading__text {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Site header and navigation (desktop look; phones are in responsive.css)
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+  min-height: var(--header-height);
+}
+
+/* Logo */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--color-forest);
+}
+
+.site-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text-on-dark);
+  background-color: var(--color-teal);
+  border-radius: var(--radius-md);
+}
+
+.site-logo__text {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* The menu button is only used on small screens (see responsive.css). */
+.nav-toggle {
+  display: none;
+}
+
+/* Navigation */
+.site-nav__panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 0.5rem 0.875rem;
+  font-weight: 600;
+  color: var(--color-forest);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+.nav-link:hover {
+  color: var(--color-forest);
+  background-color: var(--color-tint);
+}
+
+/* Active page. Both values are used in the HTML: "page" and "true". */
+.nav-link[aria-current="page"],
+.nav-link[aria-current="true"] {
+  color: var(--color-teal-dark);
+  background-color: var(--color-tint);
+  box-shadow: inset 0 -3px 0 var(--color-teal);
+}
+
+/* "Report an Issue" button in the header. */
+.site-nav__cta[aria-current="page"] {
+  box-shadow: 0 0 0 3px var(--color-tint-border);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Site footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  margin-top: auto;
+  padding-block: var(--space-7) var(--space-6);
+  color: var(--color-text-soft-on-dark);
+  background-color: var(--color-forest);
+}
+
+.site-footer a {
+  color: var(--color-text-on-dark);
+}
+
+.site-footer a:hover {
+  color: var(--color-amber);
+}
+
+.site-footer :focus-visible {
+  outline-color: var(--color-focus-on-dark);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.site-logo--footer {
+  color: var(--color-text-on-dark);
+}
+
+.site-logo--footer .site-logo__mark {
+  color: var(--color-forest);
+  background-color: var(--color-amber);
+}
+
+.site-footer__tagline {
+  max-width: 22rem;
+  margin-top: var(--space-4);
+  font-family: var(--font-heading);
+  font-size: var(--text-md);
+  color: var(--color-text-on-dark);
+}
+
+.site-footer__heading {
+  margin-bottom: var(--space-3);
+  font-weight: 700;
+  color: var(--color-amber);
+}
+
+.site-footer__text {
+  max-width: 26rem;
+}
+
+.footer-links {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.footer-link {
+  text-underline-offset: 0.25em;
+}
+
+.site-footer__disclaimer {
+  padding-top: var(--space-5);
+  font-size: var(--text-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.site-footer__disclaimer strong {
+  color: var(--color-text-on-dark);
+}

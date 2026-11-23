@@ -1,0 +1,132 @@
+/**
+ * IIPS Connect - Design Tokens & Variables
+ * Authentic campus social network theme with light warm off-white and dark obsidian palettes.
+ */
+
+:root {
+  /* Primary Palette (Light Mode - Signature Campus Theme) */
+  --bg-primary: #F7F7F5;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F0F0ED;
+  --bg-hover: #EAEAE6;
+
+  /* Typography Colors */
+  --text-main: #191919;
+  --text-secondary: #737373;
+  --text-tertiary: #A3A39F;
+  --text-inverse: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-subtle: #E7E7E4;
+  --border-medium: #D8D8D3;
+  --border-focus: #3657D6;
+
+  /* Brand Accent: Deep Cobalt Blue */
+  --accent: #3657D6;
+  --accent-hover: #2944B5;
+  --accent-active: #1F348F;
+  --accent-subtle: #EEF2FF;
+  --accent-text: #2944B5;
+
+  /* Status Colors (Restrained & Accessible) */
+  --color-success: #059669;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
+
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
+
+  --color-danger: #DC2626;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-border: #FECACA;
+
+  --color-purple: #7C3AED;
+  --color-purple-bg: #F5F3FF;
+  --color-purple-border: #DDD6FE;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Border Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Subtle Restrained Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-dropdown: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+
+  /* Layout Widths */
+  --header-height: 60px;
+  --sidebar-left-width: 250px;
+  --sidebar-right-width: 330px;
+  --main-content-max: 720px;
+  --full-content-max: 1280px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --bg-primary: #121316;
+  --bg-surface: #1A1B20;
+  --bg-subtle: #24252C;
+  --bg-hover: #2E303A;
+
+  --text-main: #F4F4F5;
+  --text-secondary: #9FA1A9;
+  --text-tertiary: #6E717B;
+  --text-inverse: #121316;
+
+  --border-subtle: #2A2C35;
+  --border-medium: #373A45;
+  --border-focus: #4F6EF2;
+
+  --accent: #4F6EF2;
+  --accent-hover: #637EF7;
+  --accent-active: #3C5ADB;
+  --accent-subtle: rgba(79, 110, 242, 0.15);
+  --accent-text: #7892FC;
+
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.12);
+  --color-success-border: rgba(16, 185, 129, 0.3);
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-warning-border: rgba(245, 158, 11, 0.3);
+
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger-border: rgba(239, 68, 68, 0.3);
+
+  --color-purple: #8B5CF6;
+  --color-purple-bg: rgba(139, 92, 246, 0.12);
+  --color-purple-border: rgba(139, 92, 246, 0.3);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-dropdown: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,314 @@
+
+@media (max-width: 51.99em) {
+
+  /* Panel layout is shared by the open state and the no-JS fallback. */
+  .site-nav__panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+  }
+
+  .site-nav__cta {
+    width: 100%;
+  }
+
+  /* No-JavaScript fallback: links sit below the logo, always visible. */
+  .site-nav {
+    flex-basis: 100%;
+    padding-bottom: var(--space-4);
+  }
+
+  /* With JavaScript: show the button and turn the nav into a dropdown. */
+  html:not(.no-js) .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    font-weight: 600;
+    color: var(--color-forest);
+    cursor: pointer;
+    background-color: var(--color-surface);
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  html:not(.no-js) .nav-toggle:hover {
+    background-color: var(--color-tint);
+  }
+
+  html:not(.no-js) .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    padding: 0;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Closed by default... */
+  html:not(.no-js) .site-nav__panel {
+    display: none;
+  }
+
+  /* ...and open when the button says aria-expanded="true". */
+  html:not(.no-js) .nav-toggle[aria-expanded="true"] + .site-nav .site-nav__panel {
+    display: flex;
+    max-height: calc(100vh - var(--header-height));
+    padding: var(--space-4) var(--gutter) var(--space-5);
+    overflow-y: auto;
+  }
+
+  /* Hamburger icon: three lines that turn into an X when open. */
+  .nav-toggle__icon {
+    position: relative;
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: background-color 0.15s ease;
+  }
+
+  .nav-toggle__icon::before,
+  .nav-toggle__icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: transform 0.15s ease;
+  }
+
+  .nav-toggle__icon::before {
+    transform: translateY(-6px);
+  }
+
+  .nav-toggle__icon::after {
+    transform: translateY(6px);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle__icon {
+    background-color: transparent;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle__icon::before {
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle__icon::after {
+    transform: rotate(-45deg);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Small phones (narrower than 30em): stack buttons and use full width
+   -------------------------------------------------------------------------- */
+@media (max-width: 29.99em) {
+
+  .hero__actions .button,
+  .cta-banner__actions .button,
+  .cta-banner__inner > .button,
+  .search-form__row .button,
+  .filter-form__actions .button {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* Three status cards in one column on very small screens. */
+  .stats-grid--status {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: var(--space-4);
+  }
+
+  .breakdown-item__value {
+    white-space: normal;
+    text-align: right;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   3. 30em and up (large phones)
+   -------------------------------------------------------------------------- */
+@media (min-width: 30em) {
+
+  .stats-grid--status {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .detail-list__item {
+    grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   4. 40em and up (small tablets)
+   -------------------------------------------------------------------------- */
+@media (min-width: 40em) {
+
+  :root {
+    --gutter: 2rem;
+  }
+
+  .report-layout__main {
+    padding: var(--space-6);
+  }
+
+  .filter-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .filter-form__field--search,
+  .filter-form__actions {
+    grid-column: 1 / -1;
+  }
+
+  /* Severity cards sit side by side. */
+  .form-choice-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* "View all sample issues" moves to the right of the heading. */
+  .section-heading--with-action {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-5);
+    align-items: end;
+  }
+
+  .section-heading--with-action .section-heading__title,
+  .section-heading--with-action .section-heading__text {
+    grid-column: 1;
+  }
+
+  .section-heading--with-action .section-heading__action {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+    margin-top: 0;
+  }
+
+  .activity-item {
+    grid-template-columns: 9rem minmax(0, 1fr) auto;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .activity-item__link {
+    justify-self: end;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. 48em and up (tablets)
+   -------------------------------------------------------------------------- */
+@media (min-width: 48em) {
+
+  .stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Status grid has only three cards; this comes later so it wins. */
+  .stats-grid--status {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .steps-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .breakdown-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-footer__inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr) minmax(0, 1.3fr);
+    column-gap: var(--space-7);
+  }
+
+  .site-footer__disclaimer {
+    grid-column: 1 / -1;
+  }
+
+  .cta-banner__inner {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .cta-banner__actions {
+    justify-content: center;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   6. 60em and up (hero becomes two columns)
+   -------------------------------------------------------------------------- */
+@media (min-width: 60em) {
+
+  .hero {
+    padding-block: var(--space-8);
+  }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: var(--space-7);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   7. 64em and up (laptops and desktops)
+   -------------------------------------------------------------------------- */
+@media (min-width: 64em) {
+
+  /* Search takes a full row, then four filters sit side by side. */
+  .filter-form {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Report form on the left, tips panel on the right. */
+  .report-layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: var(--space-6);
+  }
+
+  .report-layout__aside {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+  }
+
+  /* Issue details: photo on the left stays in view while details scroll. */
+  .issue-detail {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-6);
+  }
+
+  .issue-detail__media {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-5));
+  }
+}

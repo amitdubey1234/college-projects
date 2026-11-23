@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    ========================================================================
+    PROJECT: Varidhi
+    PAGE: Terms & Conditions (terms.html)
+    DESIGN SPECIFICATIONS:
+      - Background Colour: #D4DE95 (Soft Olive/Matcha)
+      - Typography: 'Playfair Display' for Headings, 'Inter' for Body
+      - Headings: Prefixed with an em-dash marker (—)
+      - Detailed explanatory paragraphs under each heading (Zero bullet points)
+      - Zero white background cards or decorative lines
+      - Architecture: Self-contained HTML with internal <style>
+    ======================================================================== 
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Terms & Conditions — Varidhi Incorporation Ltd.</title>
+
+  <!-- Google Fonts: Inter and Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ----------------------------------------------------------------------
+       1. DESIGN TOKENS
+       ---------------------------------------------------------------------- */
+    :root {
+      --bg-color: #D4DE95;              /* Soft Olive / Matcha */
+      --text-heading: #000000;          /* Dark black for headings */
+      --text-body: #111111;             /* Clean black for main content */
+      --text-muted: rgba(0, 0, 0, 0.75);
+      --border-color: rgba(0, 0, 0, 0.18);
+      --btn-bg: #3D4127;                /* Deep Forest Olive */
+      --btn-text: #D4DE95;              /* Pale Olive text */
+      --btn-hover: #262917;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* ----------------------------------------------------------------------
+       2. RESETS & GLOBAL BASE
+       ---------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ----------------------------------------------------------------------
+       3. FIXED TOP NAVIGATION (Sticky with Left-Pointing Back Arrow Only)
+       ---------------------------------------------------------------------- */
+    .top-nav-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--bg-color);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .btn-back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-heading);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-back-arrow:hover {
+      transform: translateX(-4px);
+      opacity: 0.75;
+    }
+
+    .btn-back-arrow svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    /* ----------------------------------------------------------------------
+       4. MAIN CONTENT CONTAINER & TYPOGRAPHY (Zero White Cards)
+       ---------------------------------------------------------------------- */
+    .terms-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem 1.5rem;
+    }
+
+    .terms-header {
+      margin-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.75rem;
+    }
+
+    .terms-main-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.65rem;
+    }
+
+    .terms-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .content-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .body-p {
+      font-size: 1.02rem;
+      color: var(--text-body);
+      margin-bottom: 1.25rem;
+      line-height: 1.85;
+      text-align: justify;
+    }
+
+    /* ----------------------------------------------------------------------
+       5. CLEAN MINIMALIST FOOTER
+       ---------------------------------------------------------------------- */
+    .site-footer {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 3.5rem 1.5rem;
+      border-top: 2px solid var(--text-heading);
+      text-align: center;
+      margin-top: 5rem;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links-row a {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--btn-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-row a:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: rgba(212, 222, 149, 0.85);
+      border-top: 1px solid rgba(212, 222, 149, 0.2);
+      padding-top: 1.25rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      .footer-links-row {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .body-p {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation with Back Arrow Only -->
+  <header class="top-nav-bar" aria-label="Main Navigation">
+    <div class="nav-container">
+      <a href="index.html" onclick="if(window.history.length > 1){ window.history.back(); return false; }" class="btn-back-arrow" aria-label="Return to Previous Page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="terms-container">
+
+    <!-- Header Section -->
+    <header class="terms-header">
+      <h1 class="terms-main-title">Terms & Conditions</h1>
+      <p class="terms-subtitle">
+        Varidhi Incorporation Ltd. — Operational Guidelines, Booking Governance & Expedition Regulations.
+      </p>
+    </header>
+
+    <!-- 1. Booking Policies -->
+    <section class="content-section">
+      <h2 class="section-heading">— Booking Policies</h2>
+      <p class="body-p">
+        Every expedition curated by Varidhi Incorporation Ltd. is structured exclusively as a 15-day all-inclusive journey. To ensure genuine exclusivity, seclusion, and the buyout of private beachfront estates, our journeys are reserved strictly for private groups of 5 or more individuals. We do not accommodate single-ticket passengers or combine unrelated parties, guaranteeing that every group enjoys private maritime charters and dedicated villa compounds.
+      </p>
+      <p class="body-p">
+        Reservations are formally confirmed upon receipt of a 25% Advance Booking Fee. This initial commitment secures your private villa estate, inter-island seaplane and catamaran slots, private culinary staff, and specialized local permits. The remaining 75% balance of the package price is due upon physical arrival at the destination island resort. All prices are transparently quoted in Indian Rupees (INR) and cover all scheduled flights, accommodations, gourmet dining, guided excursions, and statutory conservation levies without hidden resort surcharges.
+      </p>
+    </section>
+
+    <!-- 2. Refund and Cancellation Policy -->
+    <section class="content-section">
+      <h2 class="section-heading">— Refund and Cancellation Policy</h2>
+      <p class="body-p">
+        We recognize that international group coordination occasionally encounters unforeseen schedule adjustments. All cancellation requests must be formally submitted in writing via verified corporate communication channels. If a cancellation is requested 90 or more calendar days prior to scheduled departure, the guest receives a 100% full refund of the 25% advance booking fee, or alternatively, a 100% Future Travel Credit Voucher valid indefinitely across all 10 Varidhi island destinations with zero expiration penalties.
+      </p>
+      <p class="body-p">
+        Cancellations received between 60 and 89 days prior to departure qualify for a 75% refund of the advance fee, or a 100% Future Travel Credit Voucher. For cancellations submitted between 30 and 59 days prior to departure, a 50% refund of the advance payment is granted, or a 90% Future Travel Credit Voucher. Cancellations submitted fewer than 30 days prior to departure are non-refundable due to non-recoverable charter deposits and estate buyouts; however, Varidhi allows free passenger substitutions up to 7 calendar days prior to departure. No refunds or partial credits are issued for voluntary early departure or unused meals during the journey.
+      </p>
+    </section>
+
+    <!-- 3. Visa and Passport Requirements -->
+    <section class="content-section">
+      <h2 class="section-heading">— Visa and Passport Requirements</h2>
+      <p class="body-p">
+        International border compliance remains the direct legal and financial responsibility of each individual traveler. Every member of the traveling party must be in possession of an authentic passport with a minimum validity of six months beyond the planned return date, alongside at least two blank immigration stamp pages.
+      </p>
+      <p class="body-p">
+        Travelers are solely responsible for securing all necessary diplomatic visas, electronic travel authorizations (such as US ESTA for Hawaii or Schengen clearance for Greece and Italy), consular transit approvals, and international customs declarations. Varidhi furnishes complete booking dossiers, flight confirmations, and luxury hospitality vouchers to assist consular submissions, but sovereign immigration decisions remain outside our control. Travelers denied boarding or entry due to non-compliant documentation remain subject to standard cancellation terms.
+      </p>
+    </section>
+
+    <!-- 4. Varidhi's Contribution and Responsibilities -->
+    <section class="content-section">
+      <h2 class="section-heading">— Varidhi's Contribution and Responsibilities</h2>
+      <p class="body-p">
+        Travelers must independently organize and finance their arrival at Indira Gandhi International Airport, Delhi, prior to the scheduled group departure time. From Indira Gandhi International Airport, Delhi onwards, the dedicated Varidhi team takes complete charge and manages all operational logistics, transfers, and arrangements throughout the entire 15-day expedition.
+      </p>
+      <p class="body-p">
+        Throughout the complete duration of the journey, Varidhi oversees all services and commitments specified in our package inclusions, including international flight connections departing from Delhi, private inter-island catamarans and domestic aviation, 5-star beachfront and overwater villa accommodations, three daily gourmet dining experiences, private guided excursions, and 24/7 dedicated concierge assistance. The traveler's primary responsibility is simply to relax, immerse themselves, and enjoy the trip while our team executes all planned arrangements.
+      </p>
+      <p class="body-p">
+        However, any independent activities, side excursions, or personal leisure pursuits undertaken by travelers outside the itinerary, guidelines, and supervision provided by Varidhi will remain strictly the traveler's own responsibility. Varidhi assumes no liability or financial responsibility for such independent personal activities.
+      </p>
+    </section>
+
+    <!-- 5. International Travel Guidelines -->
+    <section class="content-section">
+      <h2 class="section-heading">— International Travel Guidelines</h2>
+      <p class="body-p">
+        Traveling through delicate archipelagos demands heightened cultural respect and ethical awareness. All travelers must strictly respect the national laws, sovereign port authorities, and indigenous traditions of the host island communities across our 10 destinations.
+      </p>
+      <p class="body-p">
+        Varidhi enforces an absolute zero-tolerance policy against marine pollution, littering, single-use plastics, or damage to fragile terrestrial ecosystems. Travelers are expected to maintain dignified personal conduct, fostering respectful interactions with island residents, cultural custodians, hospitality teams, and fellow travelers throughout the expedition.
+      </p>
+    </section>
+
+    <!-- 6. Medical Requirements and Guidelines -->
+    <section class="content-section">
+      <h2 class="section-heading">— Medical Requirements and Guidelines</h2>
+      <p class="body-p">
+        Because our expeditions operate across remote maritime environments, every traveler is required to maintain comprehensive international travel and medical insurance that explicitly covers emergency ocean evacuation, international hospitalization, and trip interruption. Proof of adequate insurance coverage may be requested prior to departure.
+      </p>
+      <p class="body-p">
+        Active water-based pursuits — including outer-barrier reef snorkeling, deep-lagoon scuba diving, volcanic hiking, and catamaran voyages — necessitate reasonable physical fitness. Travelers have an affirmative duty to disclose relevant medical conditions, mobility restrictions, or acute dietary allergies well in advance of departure so that our concierge team can coordinate with remote island healthcare resources.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Clean Minimalist Footer -->
+  <footer class="site-footer">
+    <ul class="footer-links-row">
+      <li><a href="sitemap.html">Sitemap</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+    </ul>
+
+    <div class="footer-copyright">
+      Varidhi Incorporation Ltd.
+    </div>
+  </footer>
+
+</body>
+</html>

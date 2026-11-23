@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Brew & Bytes — coffee, pastry and calm corners made for student life.">
+  <title>Brew &amp; Bytes — Sip · Study · Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="is-loading">
+
+  <!-- Intro -->
+  <section class="intro" id="intro" aria-label="Introduction">
+    <div class="intro-text sequence" aria-hidden="true">
+      <div class="intro-word word-1">COFFEE</div>
+      <div class="intro-word word-2">PASTRY</div>
+      <div class="intro-word word-3">CAKE</div>
+    </div>
+    <div class="intro-brand" id="introBrand">
+      <span>BREW &amp; BYTES</span>
+      <small>SIP · STUDY · CONNECT</small>
+    </div>
+    <button class="skip-btn" id="skipBtn" type="button">SKIP INTRO</button>
+  </section>
+
+  <!-- Navbar -->
+  <header class="navbar" id="navbar">
+    <a href="#home" class="logo">BREW &amp; BYTES</a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="spin.html">Spin</a>
+      <a href="reserve.html">Reserve</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-bg" data-parallax="0.18">
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="assets/images/hero-poster.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture disableremoteplayback>
+          <source src="assets/videos/hero-background.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow hero-in">A PLACE FOR COFFEE &amp; IDEAS</p>
+        <h1>
+          <span class="line"><span class="line-inner">Sip.</span></span>
+          <span class="line"><span class="line-inner">Study.</span></span>
+          <span class="line"><span class="line-inner"><em>Connect.</em></span></span>
+        </h1>
+        <p class="hero-copy hero-in">Good coffee, calm corners, and a space made for your next big idea.</p>
+        <a href="#menu" class="hero-btn hero-in"><span>Explore Menu</span></a>
+      </div>
+      <div class="hero-number hero-in">01 / 04</div>
+      <div class="scroll-cue hero-in" aria-hidden="true"><i></i>SCROLL</div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="about-grid">
+        <div class="about-media reveal">
+          <div class="about-img premium"><img src="https://i.pinimg.com/736x/e9/4e/44/e94e44e3e86554bea08f86b0a1fcdc10.jpg" alt="Brew &amp; Bytes café: main feature photo" loading="lazy" referrerpolicy="no-referrer" decoding="async" data-parallax-img="0.06"></div>
+          <figure class="about-inset premium"><img src="https://i.pinimg.com/1200x/a8/2c/62/a82c625e5b5e17e3799fa2b6c4a19540.jpg" alt="Brew &amp; Bytes café: supporting detail photo" loading="lazy" referrerpolicy="no-referrer" decoding="async"></figure>
+        </div>
+        <div class="about-text">
+          <div class="statement-label reveal">02 — ABOUT US</div>
+          <h2 class="reveal">More than a café.<br><em>Your everyday pause.</em></h2>
+          <p class="about-lead reveal">Brew &amp; Bytes brings together coffee, conversations and focused student life in one warm space.</p>
+          <p class="about-body reveal">Coffee comes first here. We care about carefully selected beans, thoughtful preparation and quality ingredients, because a good cup deserves real attention. Come for the coffee, stay for the ideas.</p>
+          <div class="about-made reveal">
+            <span class="about-made-label">MADE FOR STUDENT LIFE</span>
+            <ul class="about-points">
+              <li>High-speed Wi-Fi</li>
+              <li>Charging stations</li>
+              <li>Quiet study tables</li>
+              <li>Student-friendly prices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="art">
+        <div class="art-head reveal">
+          <span class="statement-label">THE CRAFT</span>
+          <h3>The Art of a <em>Premium</em> Coffee Experience</h3>
+        </div>
+        <div class="art-grid">
+          <article class="art-card reveal">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M8 20h24v10a8 8 0 0 1-8 8h-8a8 8 0 0 1-8-8z"/><path d="M32 22h3a4 4 0 0 1 0 8h-3"/><path d="M14 6c-2 3 2 4 0 8M21 6c-2 3 2 4 0 8M28 6c-2 3 2 4 0 8"/></svg>
+            <h4>Exceptional Coffee</h4>
+            <p>Flavour and aroma come first, with every cup prepared carefully.</p>
+          </article>
+          <article class="art-card reveal" data-delay="120">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4l4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/></svg>
+            <h4>Quality in Every Detail</h4>
+            <p>Thoughtful presentation, quality ingredients and careful craftsmanship.</p>
+          </article>
+          <article class="art-card reveal" data-delay="240">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4v10"/><path d="M12 25a10 10 0 0 1 20 0z"/><path d="M8 40h28M14 40v-8h16v8"/></svg>
+            <h4>A Space to Savour</h4>
+            <p>A welcoming space to relax, catch up, work and make memorable moments.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="menu-section" id="menu">
+      <div class="section-top reveal">
+        <span>03 — MENU</span>
+        <span>CURATED FOR EVERY MOOD</span>
+      </div>
+      <p class="menu-intro reveal">Choose a corner of the menu. Each one opens its own page.</p>
+      <div class="category-grid">
+        <a href="coffee.html" class="cat-card reveal"><div class="cat-img premium"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1000&q=80" data-fallback="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80" alt="Coffee" loading="lazy"></div><h3>Coffee</h3><span>View menu &rarr;</span></a>
+        <a href="cakes.html" class="cat-card reveal" data-delay="120"><div class="cat-img premium"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1000&q=80" data-fallback="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=80" alt="Premium cakes" loading="lazy"></div><h3>Cakes</h3><span>View menu &rarr;</span></a>
+        <a href="combos.html" class="cat-card reveal" data-delay="240"><div class="cat-img premium"><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80" data-fallback="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80" alt="Study combo" loading="lazy"></div><h3>Combos</h3><span>View menu &rarr;</span></a>
+      </div>
+    </section>
+
+    <!-- Customer Reviews (demo) -->
+    <section class="reviews" id="reviews">
+      <div class="section-top reveal"><span>04 — REVIEWS</span><span>SAMPLE REVIEWS · DEMO</span></div>
+
+      <div class="reviews-head">
+        <div class="reviews-title">
+          <h2 class="reveal">Kind words,<br><em>sweet moments.</em></h2>
+          <p class="reviews-note reveal">These are sample reviews written for this demo. They are not real customer feedback.</p>
+        </div>
+        <div class="rating-summary reveal">
+          <div class="avg" id="avgRating">0.0</div>
+          <div class="avg-col">
+            <span class="stars" id="avgStars" role="img" aria-label="Average rating">★★★★★</span>
+            <span class="count" id="reviewCount">Based on 0 reviews</span>
+          </div>
+          <button class="hero-btn write-btn" id="writeBtn" type="button"><span>Write a Review</span></button>
+        </div>
+      </div>
+
+      <div class="carousel reveal" id="carousel" role="region" aria-roledescription="carousel" aria-label="Customer reviews (sample)">
+        <div class="carousel-viewport" id="reviewViewport">
+          <ul class="carousel-track" id="reviewTrack"></ul>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="car-btn" id="prevBtn" aria-label="Previous reviews"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="dots" id="dots"></div>
+          <button type="button" class="car-btn" id="nextBtn" aria-label="Next reviews"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+        <p class="sr-only" id="carouselStatus" aria-live="polite"></p>
+      </div>
+
+      <p class="storage-note reveal">Reviews you add are saved only in this browser and are not sent to the café.
+        <button type="button" class="link-btn" id="clearBtn" hidden>Clear my demo reviews</button></p>
+    </section>
+
+    <!-- Contact / Final -->
+    <section class="final-image" id="contact">
+      <div class="final-bg" data-parallax="0.12"></div>
+      <div class="final-overlay"></div>
+      <div class="final-content reveal">
+        <p>YOUR TABLE IS WAITING</p>
+        <h2>Let's make<br><em>something good.</em></h2>
+        <div class="btn-row"><a href="reserve.html" class="hero-btn"><span>Reserve a Table</span></a><a href="spin.html" class="hero-btn"><span>Spin &amp; Win</span></a><a href="#home" class="hero-btn"><span>Back to Top</span></a></div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Write a review (demo) -->
+  <div class="modal" id="reviewModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card review-modal" role="dialog" aria-modal="true" aria-labelledby="rvTitle">
+      <p class="eyebrow">DEMO REVIEW</p>
+      <h2 id="rvTitle">Write a review</h2>
+      <p class="modal-msg">Share a few words about your visit. This is a demo, so your review stays in this browser only.</p>
+      <form id="reviewForm" novalidate>
+        <fieldset class="star-input" id="ratingField">
+          <legend>Your rating</legend>
+          <div class="star-row">
+            <input type="radio" name="rating" id="st5" value="5"><label for="st5"><span class="sr-only">5 stars</span>★</label>
+            <input type="radio" name="rating" id="st4" value="4"><label for="st4"><span class="sr-only">4 stars</span>★</label>
+            <input type="radio" name="rating" id="st3" value="3"><label for="st3"><span class="sr-only">3 stars</span>★</label>
+            <input type="radio" name="rating" id="st2" value="2"><label for="st2"><span class="sr-only">2 stars</span>★</label>
+            <input type="radio" name="rating" id="st1" value="1"><label for="st1"><span class="sr-only">1 star</span>★</label>
+          </div>
+          <span class="rating-text" id="ratingText">Select a rating</span>
+          <p class="err" id="rating-err" role="alert"></p>
+        </fieldset>
+        <div class="field">
+          <label for="rvName">Your name</label>
+          <input type="text" id="rvName" maxlength="40" autocomplete="given-name" placeholder="e.g. Ananya" aria-describedby="rvName-err">
+          <p class="err" id="rvName-err" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="rvText">Your review</label>
+          <textarea id="rvText" rows="4" maxlength="300" placeholder="What did you enjoy most?" aria-describedby="rvText-err"></textarea>
+          <p class="counter"><span id="rvCount">0</span> / 300</p>
+          <p class="err" id="rvText-err" role="alert"></p>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="hero-btn modal-primary" id="rvSubmit"><span>Submit Review</span></button>
+          <button type="button" class="reset-btn" data-close>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="reviewToast" role="status" aria-live="polite"></div>
+
+  <footer>
+    <span>© 2026 Brew &amp; Bytes</span>
+    <span>CRAFTED FOR COFFEE &amp; GOOD IDEAS.</span>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="cart.js"></script>
+  <script src="reviews.js"></script>
+</body>
+</html>

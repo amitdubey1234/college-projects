@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    ========================================================================
+    PROJECT: Varidhi
+    PAGE: Expedition Booking & Advance Deposit (booking.html)
+    DESIGN SPECIFICATIONS:
+      - Background Colour: #D4DE95 (Soft Olive/Matcha)
+      - Typography: 'Inter' throughout the entire page
+      - Headings: Dark black (#000000) prefixed with an em-dash marker (—)
+      - Content & Inputs: Regular black (#111111)
+      - Zero white background cards or containers
+      - Zero decorative lines
+      - Architecture: Self-contained HTML with internal styles and scripts
+    ======================================================================== 
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Book Expedition — Varidhi Incorporation Ltd.</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Self-contained QRCode library -->
+  <script src="public/qrcode.min.js"></script>
+  <!-- EmailJS Browser SDK (Pure Client-Side Email Delivery) -->
+  <script src="public/jspdf.umd.min.js"></script>
+
+  <style>
+    /* ----------------------------------------------------------------------
+       1. DESIGN TOKENS
+       ---------------------------------------------------------------------- */
+    :root {
+      --bg-color: #D4DE95;              /* Soft Olive / Matcha */
+      --text-heading: #000000;          /* Dark black for headings */
+      --text-body: #111111;             /* Regular black for main content */
+      --text-muted: rgba(0, 0, 0, 0.72);
+      --border-color: rgba(0, 0, 0, 0.22);
+      --input-border: rgba(0, 0, 0, 0.35);
+      --input-bg: rgba(255, 255, 255, 0.18);
+      --btn-bg: #3D4127;                /* Deep Forest Olive */
+      --btn-text: #D4DE95;              /* Pale Olive text */
+      --btn-hover: #262917;
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* ----------------------------------------------------------------------
+       2. RESETS & GLOBAL BASE
+       ---------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-body);
+      font-family: var(--font-inter);
+      font-size: 1rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ----------------------------------------------------------------------
+       3. FIXED TOP NAVIGATION (Sticky with Left-Pointing Back Arrow Only)
+       ---------------------------------------------------------------------- */
+    .top-nav-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--bg-color);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .btn-back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-heading);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-back-arrow:hover {
+      transform: translateX(-4px);
+      opacity: 0.75;
+    }
+
+    .btn-back-arrow svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    /* ----------------------------------------------------------------------
+       4. MAIN CONTAINER & SECTION TYPOGRAPHY (Zero White Cards)
+       ---------------------------------------------------------------------- */
+    .booking-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 6rem 1.5rem;
+    }
+
+    .booking-header {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+
+    .booking-main-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .booking-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .booking-section {
+      margin-bottom: 3.25rem;
+    }
+
+    .section-heading {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+    }
+
+    /* ----------------------------------------------------------------------
+       5. FORM ELEMENTS (Clean, Minimal, Directly on Background)
+       ---------------------------------------------------------------------- */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 0.45rem;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 0;                 /* Strictly rectangular */
+      color: var(--text-heading);
+      font-family: var(--font-inter);
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      outline: none;
+    }
+
+    /* Remove up/down spinner arrows on number inputs */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--text-heading);
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .form-input::placeholder {
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    .form-input[readonly] {
+      background-color: rgba(0, 0, 0, 0.05);
+      border-style: dashed;
+      cursor: default;
+      color: var(--text-heading);
+      font-weight: 600;
+    }
+
+    .form-hint {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      line-height: 1.5;
+    }
+
+    /* Dates Grid */
+    .dates-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    /* Selected Island Presentation */
+    .island-badge-display {
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-top: 1rem;
+    }
+
+    .island-badge-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+
+    .island-badge-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--btn-bg);
+    }
+
+    /* ----------------------------------------------------------------------
+       6. DYNAMIC TRAVELLER BLOCKS (Directly on Background, Zero Cards)
+       ---------------------------------------------------------------------- */
+    .traveller-count-wrapper {
+      max-width: 320px;
+      margin-bottom: 2rem;
+    }
+
+    .travellers-fields-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .traveller-row-block {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.75rem;
+    }
+
+    .traveller-block-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 1.25rem;
+    }
+
+    .traveller-fields-grid {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .consent-checkbox-wrapper {
+      margin-top: 0.85rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: var(--btn-bg);
+      margin-top: 0.2rem;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-text {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .checkbox-text a {
+      color: var(--text-heading);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* ----------------------------------------------------------------------
+       7. PAYMENT SUMMARY & CALCULATION (Zero White Cards)
+       ---------------------------------------------------------------------- */
+    .payment-summary-block {
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 2.5rem;
+    }
+
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      font-size: 1.05rem;
+    }
+
+    .calc-row-total {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      border-top: 1px solid var(--border-color);
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+    }
+
+    .calc-row-advance {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--btn-bg);
+      background-color: rgba(61, 65, 39, 0.08);
+      padding: 0.85rem 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .calc-row-balance {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Pay Button */
+    .btn-pay-now {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      font-family: var(--font-inter);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1.1rem 2rem;
+      border: 1px solid var(--btn-bg);
+      border-radius: 0;                 /* Strictly rectangular */
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    #payBtnAmountText {
+      margin-left: 0.25rem;
+    }
+
+    .btn-pay-now:hover {
+      background-color: var(--btn-hover);
+      opacity: 0.95;
+    }
+
+    .error-banner {
+      background-color: rgba(180, 40, 40, 0.12);
+      border-left: 4px solid #b42828;
+      color: #7a1515;
+      padding: 1rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 1.25rem;
+      display: none;
+    }
+
+    /* ----------------------------------------------------------------------
+       8. SIMULATED DUMMY PAYMENT MODAL (Minimalist Overlay)
+       ---------------------------------------------------------------------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 560px;
+      background-color: var(--bg-color);
+      border: 2px solid var(--text-heading);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.35rem;
+    }
+
+    .qr-box-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.5rem auto 2rem auto;
+      padding: 1rem;
+      background-color: #FAF9F5;
+      width: 230px;
+      height: 230px;
+      max-width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* QRCode.js generates canvas & img; only show the active one and keep strict 1:1 square ratio */
+    .qr-box-wrapper canvas[style*="none"],
+    .qr-box-wrapper img[style*="none"] {
+      display: none !important;
+    }
+
+    .qr-box-wrapper canvas,
+    .qr-box-wrapper img {
+      width: 190px !important;
+      height: 190px !important;
+      max-width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      object-fit: contain !important;
+      margin: 0 auto !important;
+    }
+
+    .qr-amount-callout {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-top: 0.35rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .sim-buttons-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .btn-simulate-phone {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      font-family: var(--font-inter);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 1.5rem;
+      border: 1px solid var(--btn-bg);
+      cursor: pointer;
+      border-radius: 0;
+      transition: background-color 0.2s ease;
+      width: 100%;
+    }
+
+    .btn-simulate-phone:hover {
+      background-color: var(--btn-hover);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      display: inline-block;
+    }
+
+    /* ----------------------------------------------------------------------
+       9. BOOKING SUCCESS CONFIRMATION VIEW (Zero White Cards)
+       ---------------------------------------------------------------------- */
+    #bookingSuccessView {
+      display: none;
+    }
+
+    .success-hero {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .success-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 0.4rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .booking-id-tag {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      background-color: rgba(61, 65, 39, 0.1);
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+    }
+
+    .confirm-section {
+      margin-bottom: 3rem;
+    }
+
+    .confirm-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem 3rem;
+      margin-top: 1rem;
+    }
+
+    .confirm-item-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .confirm-item-val {
+      font-size: 1.15rem;
+      color: var(--text-heading);
+      font-weight: 700;
+    }
+
+    .confirm-travellers-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .confirm-travellers-table th {
+      text-align: left;
+      font-size: 0.9rem;
+      color: var(--text-heading);
+      border-bottom: 2px solid var(--border-color);
+      padding: 0.75rem 0.5rem;
+      font-weight: 700;
+    }
+
+    .confirm-travellers-table td {
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.98rem;
+    }
+
+    .email-dispatch-status {
+      background-color: rgba(61, 65, 39, 0.08);
+      border-left: 4px solid #2d6a2d;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .email-sent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    }
+
+    .email-sent-item:last-child {
+      border-bottom: none;
+    }
+
+    .email-sent-badge {
+      color: #2d6a2d;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .delhi-airport-callout {
+      background-color: rgba(61, 65, 39, 0.08);
+      border-left: 4px solid var(--btn-bg);
+      padding: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .delhi-airport-callout h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.5rem;
+    }
+
+    .delhi-airport-callout p {
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .success-actions-row {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-primary {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      font-family: var(--font-inter);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid var(--btn-bg);
+      border-radius: 0;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-action-primary:hover {
+      background-color: var(--btn-hover);
+    }
+
+    .btn-action-secondary {
+      background-color: transparent;
+      color: var(--text-heading);
+      font-family: var(--font-inter);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.8rem;
+      border: 1.5px solid var(--text-heading);
+      border-radius: 0;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-action-secondary:hover {
+      background-color: var(--text-heading);
+      color: var(--bg-color);
+    }
+
+    /* ----------------------------------------------------------------------
+       10. CLEAN MINIMALIST FOOTER
+       ---------------------------------------------------------------------- */
+    .site-footer {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 3.5rem 1.5rem;
+      border-top: 2px solid var(--text-heading);
+      text-align: center;
+      margin-top: 6rem;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links-row a {
+      font-family: var(--font-inter);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--btn-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-row a:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      font-family: var(--font-inter);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: rgba(212, 222, 149, 0.85);
+      border-top: 1px solid rgba(212, 222, 149, 0.2);
+      padding-top: 1.25rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .dates-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .traveller-fields-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .confirm-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .footer-links-row {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .modal-overlay {
+        padding: 1rem;
+      }
+      .modal-content {
+        padding: 2.25rem 1.25rem;
+      }
+      .qr-box-wrapper {
+        margin: 1.25rem auto 1.75rem auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation with Back Arrow Only -->
+  <header class="top-nav-bar" aria-label="Main Navigation">
+    <div class="nav-container">
+      <a href="index.html" onclick="if(window.history.length > 1){ window.history.back(); return false; }" class="btn-back-arrow" aria-label="Return to Previous Page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN BOOKING FORM VIEW -->
+  <main class="booking-container" id="bookingFormView">
+
+    <!-- Header Section -->
+    <header class="booking-header">
+      <h1 class="booking-main-title">Expedition Reservation</h1>
+      <p class="booking-subtitle">
+        Varidhi Incorporation Ltd. — 15-Day Worldwide Luxury Island Archipelagos.
+      </p>
+    </header>
+
+    <form id="expeditionBookingForm" novalidate>
+
+      <!-- 1. Selected Island -->
+      <section class="booking-section">
+        <h2 class="section-heading">— Selected Island Package</h2>
+        <div class="form-group">
+          <label for="islandSelect" class="form-label">Destination Island:</label>
+          <select id="islandSelect" class="form-select">
+            <option value="bora-bora" data-name="Bora Bora" data-location="French Polynesia" data-price="749000">Bora Bora, French Polynesia — ₹ 7,49,000 / person</option>
+            <option value="maldives" data-name="Maldives (Baa Atoll)" data-location="Indian Ocean" data-price="199000">Maldives (Baa Atoll), Indian Ocean — ₹ 1,99,000 / person</option>
+            <option value="santorini" data-name="Santorini" data-location="Cyclades, Greece" data-price="379000">Santorini, Greece — ₹ 3,79,000 / person</option>
+            <option value="bali" data-name="Bali & Nusa Islands" data-location="Indonesia" data-price="229000">Bali & Nusa Islands, Indonesia — ₹ 2,29,000 / person</option>
+            <option value="maui" data-name="Maui" data-location="Hawaii, USA" data-price="619000">Maui, Hawaii, USA — ₹ 6,19,000 / person</option>
+            <option value="seychelles" data-name="Seychelles (Mahé & Praslin)" data-location="Indian Ocean" data-price="369000">Seychelles, Indian Ocean — ₹ 3,69,000 / person</option>
+            <option value="galapagos" data-name="Galápagos Islands" data-location="Ecuador" data-price="539000">Galápagos Islands, Ecuador — ₹ 5,39,000 / person</option>
+            <option value="capri" data-name="Capri & Ischia" data-location="Bay of Naples, Italy" data-price="399000">Capri & Ischia, Italy — ₹ 3,99,000 / person</option>
+            <option value="palawan" data-name="Palawan (El Nido & Coron)" data-location="Philippines" data-price="189000">Palawan, Philippines — ₹ 1,89,000 / person</option>
+            <option value="fiji" data-name="Fiji (Mamanuca & Yasawa)" data-location="South Pacific" data-price="359000">Fiji, South Pacific — ₹ 3,59,000 / person</option>
+          </select>
+        </div>
+
+        <div class="island-badge-display">
+          <div class="island-badge-name" id="displayIslandName">Bora Bora, French Polynesia</div>
+          <div class="island-badge-price" id="displayIslandPrice">Package Rate: ₹ 7,49,000 per person (15-Day All-Inclusive)</div>
+        </div>
+      </section>
+
+      <!-- 2. Travel Dates (Fixed 15-Day Duration) -->
+      <section class="booking-section">
+        <h2 class="section-heading">— Travel Dates (Fixed 15-Day Duration)</h2>
+        <div class="dates-grid">
+          <div class="form-group">
+            <label for="boardingDate" class="form-label">Boarding Date (Delhi Departure):</label>
+            <input type="date" id="boardingDate" class="form-input" min="2026-11-17" required>
+            <small class="form-hint">Departure from Indira Gandhi International Airport, Delhi.</small>
+          </div>
+          <div class="form-group">
+            <label for="arrivalDate" class="form-label">Arrival / Return Date:</label>
+            <input type="text" id="arrivalDate" class="form-input" readonly>
+            <small class="form-hint">Fixed 15-day luxury expedition timeline.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Traveller Details -->
+      <section class="booking-section">
+        <h2 class="section-heading">— Traveller Details</h2>
+        <div class="traveller-count-wrapper">
+          <label for="travellerCount" class="form-label">Number of Travellers (Min. 5):</label>
+          <input type="number" id="travellerCount" class="form-input" min="5" max="20" value="5" required>
+          <small class="form-hint">Exclusive format: Varidhi expeditions require a minimum of 5 travellers.</small>
+        </div>
+
+        <!-- Dynamic fields container (Pre-rendered for instant visibility) -->
+        <div id="travellersContainer" class="travellers-fields-list">
+          <div class="traveller-row-block">
+            <div class="traveller-block-title">Traveller 1 (Lead Guest)</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required>
+              </div>
+            </div>
+          </div>
+          <div class="traveller-row-block">
+            <div class="traveller-block-title">Traveller 2</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required>
+              </div>
+            </div>
+          </div>
+          <div class="traveller-row-block">
+            <div class="traveller-block-title">Traveller 3</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required>
+              </div>
+            </div>
+          </div>
+          <div class="traveller-row-block">
+            <div class="traveller-block-title">Traveller 4</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required>
+              </div>
+            </div>
+          </div>
+          <div class="traveller-row-block">
+            <div class="traveller-block-title">Traveller 5</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Terms and Privacy Consent -->
+      <section class="booking-section">
+        <h2 class="section-heading">— Terms & Privacy Consent</h2>
+        <div class="consent-checkbox-wrapper">
+          <label class="checkbox-label">
+            <input type="checkbox" id="consentCheckbox" required>
+            <span class="checkbox-text">
+              I confirm that I have read, understood, and accept both the 
+              <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and 
+              <a href="terms.html" target="_blank" rel="noopener">Terms & Conditions</a> 
+              of Varidhi Incorporation Ltd. on behalf of all registered travellers.
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- 5. Advance Payment -->
+      <section class="booking-section">
+        <h2 class="section-heading">— Advance Payment</h2>
+        <div class="payment-summary-block">
+          <div class="calc-row">
+            <span>Destination Island:</span>
+            <strong id="calcSummaryIsland">Bora Bora, French Polynesia</strong>
+          </div>
+          <div class="calc-row">
+            <span>Price Per Person:</span>
+            <strong id="calcSummaryPerPerson">₹ 7,49,000</strong>
+          </div>
+          <div class="calc-row">
+            <span>Number of Travellers:</span>
+            <strong id="calcSummaryCount">5 Travellers</strong>
+          </div>
+          <div class="calc-row calc-row-total">
+            <span>Total Package Price:</span>
+            <strong id="calcSummaryTotal">₹ 37,45,000</strong>
+          </div>
+          <div class="calc-row calc-row-advance">
+            <span>25% Advance Payment Due Today:</span>
+            <strong id="calcSummaryAdvance">₹ 9,36,250</strong>
+          </div>
+          <div class="calc-row calc-row-balance">
+            <span>Remaining 75% Balance on Island Arrival:</span>
+            <strong id="calcSummaryArrival">₹ 28,08,750</strong>
+          </div>
+        </div>
+
+        <div class="pay-btn-box">
+          <button type="submit" id="btnPayNow" class="btn-pay-now"><span>Pay Now</span> <span id="payBtnAmountText">₹ 9,36,250</span></button>
+          <div id="errorBanner" class="error-banner"></div>
+        </div>
+      </section>
+
+    </form>
+
+  </main>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-overlay" id="paymentModal" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <div class="modal-content">
+      <h2 class="modal-title" id="modalHeading">Scan to Complete Advance Payment</h2>
+      
+      <div class="qr-amount-callout" id="modalAmountDisplay">₹ 9,36,250</div>
+
+      <!-- QR Code Canvas Container (Centered) -->
+      <div class="qr-box-wrapper" id="qrContainer">
+        <!-- QRCode library injects canvas here -->
+      </div>
+
+      <div class="sim-buttons-col">
+        <button type="button" id="btnDirectSimulatePay" class="btn-simulate-phone">Pay</button>
+      </div>
+
+      <button type="button" id="btnCloseModal" class="btn-close-modal">Cancel and Return to Form</button>
+    </div>
+  </div>
+
+  <!-- BOOKING SUCCESS CONFIRMATION VIEW -->
+  <main class="booking-container" id="bookingSuccessView">
+
+    <div class="success-hero">
+      <div class="success-badge">✓ Booking Successful & Confirmed</div>
+      <h1 class="success-title">Expedition Reserved</h1>
+      <p class="booking-subtitle">
+        Your 25% advance deposit has been successfully simulated and confirmed. Your 15-day luxury island journey is now registered with Varidhi Incorporation Ltd.
+      </p>
+      <div style="margin-top: 1.25rem;">
+        <span class="confirm-item-label">Booking Reference Number:</span><br>
+        <span class="booking-id-tag" id="successBookingId">VAR-2026-BB-84920</span>
+      </div>
+    </div>
+
+    <!-- Confirmed Expedition Details -->
+    <section class="confirm-section">
+      <h2 class="section-heading">— Confirmed Expedition Details</h2>
+      <div class="confirm-grid">
+        <div>
+          <div class="confirm-item-label">Destination Island:</div>
+          <div class="confirm-item-val" id="successIsland">Bora Bora, French Polynesia</div>
+        </div>
+        <div>
+          <div class="confirm-item-label">Package Duration:</div>
+          <div class="confirm-item-val">15 Days / 14 Nights (All-Inclusive)</div>
+        </div>
+        <div>
+          <div class="confirm-item-label">Boarding Date (Delhi):</div>
+          <div class="confirm-item-val" id="successBoardingDate">—</div>
+        </div>
+        <div>
+          <div class="confirm-item-label">Return Date:</div>
+          <div class="confirm-item-val" id="successArrivalDate">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Confirmed Travellers -->
+    <section class="confirm-section">
+      <h2 class="section-heading">— Confirmed Travellers</h2>
+      <table class="confirm-travellers-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <tbody id="successTravellersTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Payment Summary -->
+    <section class="confirm-section">
+      <h2 class="section-heading">— Payment Summary</h2>
+      <div class="payment-summary-block">
+        <div class="calc-row">
+          <span>Total Package Price:</span>
+          <strong id="successTotalPrice">₹ 37,45,000</strong>
+        </div>
+        <div class="calc-row calc-row-advance">
+          <span>25% Advance Deposit Paid (Simulated):</span>
+          <strong id="successAdvancePaid">₹ 9,36,250 [PAID]</strong>
+        </div>
+        <div class="calc-row calc-row-balance">
+          <span>Remaining 75% Balance on Island Arrival:</span>
+          <strong id="successArrivalBalance">₹ 28,08,750</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- Important Delhi Airport Notice -->
+    <div class="delhi-airport-callout">
+      <h3>— Important Departure & Logistics Notice</h3>
+      <p>
+        <strong>Indira Gandhi International Airport, Delhi:</strong> All registered travellers must independently reach Indira Gandhi International Airport, Delhi, at their own expense prior to scheduled flight departure. From Delhi onwards, the dedicated Varidhi concierge team takes full operational charge of your entire 15-day journey — managing all international flights, private catamaran charters, 5-star villa estates, chef-curated dining, and guided excursions.
+      </p>
+      <p style="margin-top: 0.75rem;">
+        <strong>Dedicated WhatsApp Group:</strong> All further assistance and communication will be handled through a dedicated WhatsApp group. The Varidhi team will follow up with the travellers through this WhatsApp group from this point onwards.
+      </p>
+      <p style="margin-top: 0.75rem; color: var(--text-muted); font-size: 0.9rem;">
+        Note: Any activities or excursions pursued independently outside the official guidelines and arrangements curated by Varidhi remain the traveller's personal responsibility.
+      </p>
+    </div>
+
+    <!-- Actions: Download PDF Option -->
+    <div class="success-actions-row">
+      <button type="button" id="btnDownloadPDF" class="btn-action-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; vertical-align: -2px;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download PDF
+      </button>
+      <a href="index.html" class="btn-action-secondary">Return to Homepage</a>
+    </div>
+
+  </main>
+
+  <!-- Clean Minimalist Footer -->
+  <footer class="site-footer">
+    <ul class="footer-links-row">
+      <li><a href="sitemap.html">Sitemap</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+    </ul>
+
+    <div class="footer-copyright">
+      Varidhi Incorporation Ltd.
+    </div>
+  </footer>
+
+  <!-- ----------------------------------------------------------------------
+       JAVASCRIPT LOGIC (100% Client-Side Pure Frontend)
+       ---------------------------------------------------------------------- -->
+  <script>
+    (function() {
+      // Currency Formatter (Indian Rupee style)
+      function formatINR(number) {
+        return '₹ ' + number.toLocaleString('en-IN');
+      }
+
+      // DOM Elements
+      const islandSelect = document.getElementById('islandSelect');
+      const displayIslandName = document.getElementById('displayIslandName');
+      const displayIslandPrice = document.getElementById('displayIslandPrice');
+      const boardingDateInput = document.getElementById('boardingDate');
+      const arrivalDateInput = document.getElementById('arrivalDate');
+      const travellerCountInput = document.getElementById('travellerCount');
+      const travellersContainer = document.getElementById('travellersContainer');
+      const consentCheckbox = document.getElementById('consentCheckbox');
+      const errorBanner = document.getElementById('errorBanner');
+
+      // Calculation summary DOM
+      const calcSummaryIsland = document.getElementById('calcSummaryIsland');
+      const calcSummaryPerPerson = document.getElementById('calcSummaryPerPerson');
+      const calcSummaryCount = document.getElementById('calcSummaryCount');
+      const calcSummaryTotal = document.getElementById('calcSummaryTotal');
+      const calcSummaryAdvance = document.getElementById('calcSummaryAdvance');
+      const calcSummaryArrival = document.getElementById('calcSummaryArrival');
+      const payBtnAmountText = document.getElementById('payBtnAmountText');
+
+      // Modal DOM
+      const paymentModal = document.getElementById('paymentModal');
+      const modalAmountDisplay = document.getElementById('modalAmountDisplay');
+      const qrContainer = document.getElementById('qrContainer');
+      const btnDirectSimulatePay = document.getElementById('btnDirectSimulatePay');
+      const btnCloseModal = document.getElementById('btnCloseModal');
+
+      // Success DOM
+      const bookingFormView = document.getElementById('bookingFormView');
+      const bookingSuccessView = document.getElementById('bookingSuccessView');
+      const successBookingId = document.getElementById('successBookingId');
+      const successIsland = document.getElementById('successIsland');
+      const successBoardingDate = document.getElementById('successBoardingDate');
+      const successArrivalDate = document.getElementById('successArrivalDate');
+      const successTravellersTableBody = document.getElementById('successTravellersTableBody');
+      const successTotalPrice = document.getElementById('successTotalPrice');
+      const successAdvancePaid = document.getElementById('successAdvancePaid');
+      const successArrivalBalance = document.getElementById('successArrivalBalance');
+      const btnDownloadPDF = document.getElementById('btnDownloadPDF');
+
+      // State
+      let currentBookingId = '';
+      let currentBookingData = null;
+      let calculatedAdvanceAmount = 0;
+      let calculatedTotalAmount = 0;
+      let calculatedArrivalBalance = 0;
+      let pollInterval = null;
+
+      // 1. Set Min Date for Boarding (Tomorrow onwards - strictly no past dates)
+      const now = new Date();
+      now.setDate(now.getDate() + 1);
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const minBoardingDate = `${yyyy}-${mm}-${dd}`;
+      boardingDateInput.min = minBoardingDate;
+      boardingDateInput.setAttribute('min', minBoardingDate);
+
+      // 2. Read URL Param for Island Preselection
+      function initIslandFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const islandParam = urlParams.get('island');
+        if (islandParam) {
+          const match = Array.from(islandSelect.options).find(opt => opt.value === islandParam.toLowerCase());
+          if (match) {
+            islandSelect.value = match.value;
+          }
+        }
+      }
+
+      // 3. Date Auto-calculation (Fixed 15 Days)
+      function updateDates() {
+        const val = boardingDateInput.value;
+        if (!val) {
+          arrivalDateInput.value = '';
+          return;
+        }
+
+        // Strict client validation against past dates
+        if (val < minBoardingDate) {
+          errorBanner.innerHTML = '<div>• Boarding date cannot be in the past or today. Please select a valid future departure date.</div>';
+          errorBanner.style.display = 'block';
+          errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          boardingDateInput.value = '';
+          arrivalDateInput.value = '';
+          return;
+        } else {
+          errorBanner.style.display = 'none';
+        }
+
+        const parts = val.split('-');
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+
+        const bDate = new Date(year, month, day);
+        const aDate = new Date(bDate);
+        aDate.setDate(aDate.getDate() + 15);
+
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        arrivalDateInput.value = aDate.toLocaleDateString('en-GB', options);
+      }
+
+      boardingDateInput.addEventListener('change', updateDates);
+      boardingDateInput.addEventListener('input', updateDates);
+
+      // 4. Update Island Badge & Calculations
+      function updateCalculations() {
+        const opt = islandSelect.selectedOptions[0];
+        const name = opt.getAttribute('data-name');
+        const location = opt.getAttribute('data-location');
+        const pricePerPerson = parseInt(opt.getAttribute('data-price'), 10);
+
+        let count = parseInt(travellerCountInput.value, 10);
+        if (isNaN(count) || count < 5) {
+          count = 5;
+        }
+
+        const fullName = `${name}, ${location}`;
+        displayIslandName.textContent = fullName;
+        displayIslandPrice.textContent = `Package Rate: ${formatINR(pricePerPerson)} per person (15-Day All-Inclusive)`;
+
+        calculatedTotalAmount = pricePerPerson * count;
+        calculatedAdvanceAmount = Math.round(calculatedTotalAmount * 0.25);
+        calculatedArrivalBalance = calculatedTotalAmount - calculatedAdvanceAmount;
+
+        calcSummaryIsland.textContent = fullName;
+        calcSummaryPerPerson.textContent = formatINR(pricePerPerson);
+        calcSummaryCount.textContent = `${count} Travellers`;
+        calcSummaryTotal.textContent = formatINR(calculatedTotalAmount);
+        calcSummaryAdvance.textContent = formatINR(calculatedAdvanceAmount);
+        calcSummaryArrival.textContent = formatINR(calculatedArrivalBalance);
+        if (payBtnAmountText) payBtnAmountText.textContent = formatINR(calculatedAdvanceAmount);
+      }
+
+      islandSelect.addEventListener('change', updateCalculations);
+
+      // 5. Dynamic Traveller Fields Generation
+      function renderTravellerFields() {
+        let count = parseInt(travellerCountInput.value, 10);
+        if (isNaN(count) || count < 5) {
+          count = 5;
+          travellerCountInput.value = 5;
+        }
+        if (count > 25) {
+          count = 25;
+          travellerCountInput.value = 25;
+        }
+
+        const existingBlocks = travellersContainer.querySelectorAll('.traveller-row-block');
+        if (existingBlocks.length === count) {
+          updateCalculations();
+          return;
+        }
+
+        // Cache existing entries if any
+        const existingData = [];
+        existingBlocks.forEach(b => {
+          existingData.push({
+            name: b.querySelector('.input-traveller-name') ? b.querySelector('.input-traveller-name').value : '',
+            email: b.querySelector('.input-traveller-email') ? b.querySelector('.input-traveller-email').value : '',
+            age: b.querySelector('.input-traveller-age') ? b.querySelector('.input-traveller-age').value : ''
+          });
+        });
+
+        travellersContainer.innerHTML = '';
+
+        for (let i = 1; i <= count; i++) {
+          const cached = existingData[i - 1] || {};
+          const block = document.createElement('div');
+          block.className = 'traveller-row-block';
+          block.innerHTML = `
+            <div class="traveller-block-title">Traveller ${i} ${i === 1 ? '(Lead Guest)' : ''}</div>
+            <div class="traveller-fields-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input input-traveller-name" placeholder="As per passport" required value="${cached.name || ''}">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-input input-traveller-email" placeholder="For travel documentation" required value="${cached.email || ''}">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age *</label>
+                <input type="number" class="form-input input-traveller-age" min="1" max="115" placeholder="e.g. 32" required value="${cached.age || ''}">
+              </div>
+            </div>
+          `;
+          travellersContainer.appendChild(block);
+        }
+
+        updateCalculations();
+      }
+
+      travellerCountInput.addEventListener('input', renderTravellerFields);
+
+      // 6. Validation and "Pay Now" Handling
+      const form = document.getElementById('expeditionBookingForm');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        errorBanner.style.display = 'none';
+        errorBanner.innerHTML = '';
+
+        // Validation checks
+        const errors = [];
+
+        if (!boardingDateInput.value) {
+          errors.push('Please select a valid Boarding Date.');
+        } else if (boardingDateInput.value < minBoardingDate) {
+          errors.push('Boarding date cannot be in the past or today. Please select a valid future departure date.');
+        }
+
+        const count = parseInt(travellerCountInput.value, 10);
+        if (isNaN(count) || count < 5) {
+          errors.push('Minimum group size is 5 travellers.');
+        }
+
+        const blocks = travellersContainer.querySelectorAll('.traveller-row-block');
+        blocks.forEach((block, idx) => {
+          const num = idx + 1;
+          const name = block.querySelector('.input-traveller-name').value.trim();
+          const email = block.querySelector('.input-traveller-email').value.trim();
+          const age = block.querySelector('.input-traveller-age').value.trim();
+
+          if (!name) errors.push(`Traveller ${num}: Please enter full legal name.`);
+          if (!email || !email.includes('@')) errors.push(`Traveller ${num}: Please enter a valid email address.`);
+          if (!age || parseInt(age, 10) < 1) errors.push(`Traveller ${num}: Please enter a valid age.`);
+        });
+
+        if (!consentCheckbox.checked) {
+          errors.push('You must accept the Privacy Policy and Terms & Conditions to proceed.');
+        }
+
+        if (errors.length > 0) {
+          errorBanner.innerHTML = errors.map(err => `<div>• ${err}</div>`).join('');
+          errorBanner.style.display = 'block';
+          errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        // Open Payment Modal
+        openPaymentSimulation();
+      });
+
+      // 7. Payment Modal Logic
+      function openPaymentSimulation() {
+        const opt = islandSelect.selectedOptions[0];
+        const islandName = opt.getAttribute('data-name');
+        const islandCode = opt.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3) || 'EXP';
+        currentBookingId = 'VAR-2026-' + islandCode + '-' + Math.floor(10000 + Math.random() * 90000);
+
+        modalAmountDisplay.textContent = formatINR(calculatedAdvanceAmount);
+
+        // Build QR target URL
+        const payUrl = window.location.href.split('booking.html')[0] + 'pay.html?amount=' + calculatedAdvanceAmount + '&island=' + encodeURIComponent(displayIslandName.textContent) + '&id=' + currentBookingId;
+
+        // Render QR Code inside qrContainer (Centered)
+        qrContainer.innerHTML = '';
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrContainer, {
+              text: payUrl,
+              width: 190,
+              height: 190,
+              colorDark: '#000000',
+              colorLight: '#FAF9F5',
+              correctLevel: QRCode.CorrectLevel.M
+            });
+
+            // Enforce single element visibility to prevent dual canvas+img flex distortion
+            const enforceSingleQR = function() {
+              const canvas = qrContainer.querySelector('canvas');
+              const img = qrContainer.querySelector('img');
+              if (img && img.src && img.src.indexOf('data:image') === 0) {
+                if (canvas) canvas.style.display = 'none';
+                img.style.display = 'block';
+              } else if (canvas) {
+                canvas.style.display = 'block';
+                if (img) img.style.display = 'none';
+              }
+            };
+            setTimeout(enforceSingleQR, 20);
+            setTimeout(enforceSingleQR, 100);
+          } catch (e) {
+            qrContainer.innerHTML = '<div style="font-weight:700; padding: 2rem 0;">QR Code Simulator<br><small>' + payUrl + '</small></div>';
+          }
+        } else {
+          qrContainer.innerHTML = '<div style="font-weight:700; padding: 2rem 0;">QR Code Simulator<br><small>' + payUrl + '</small></div>';
+        }
+
+        btnDirectSimulatePay.textContent = 'Pay';
+        btnDirectSimulatePay.disabled = false;
+        paymentModal.style.display = 'flex';
+
+        // Listen for phone completion via localStorage
+        const storageKey = 'varidhi_paid_' + currentBookingId;
+        localStorage.removeItem(storageKey);
+
+        if (pollInterval) clearInterval(pollInterval);
+        pollInterval = setInterval(() => {
+          if (localStorage.getItem(storageKey) === 'SUCCESS') {
+            clearInterval(pollInterval);
+            finishPaymentSuccess();
+          }
+        }, 500);
+      }
+
+      // Direct Pay button inside modal
+      btnDirectSimulatePay.addEventListener('click', function() {
+        btnDirectSimulatePay.textContent = 'Processing...';
+        btnDirectSimulatePay.disabled = true;
+        setTimeout(() => {
+          finishPaymentSuccess();
+        }, 800);
+      });
+
+      // Close modal
+      btnCloseModal.addEventListener('click', function() {
+        paymentModal.style.display = 'none';
+        if (pollInterval) clearInterval(pollInterval);
+        btnDirectSimulatePay.textContent = 'Pay';
+        btnDirectSimulatePay.disabled = false;
+      });
+
+      // 8. Transition to Booking Successful View
+      function finishPaymentSuccess() {
+        if (pollInterval) clearInterval(pollInterval);
+        paymentModal.style.display = 'none';
+        btnDirectSimulatePay.textContent = 'Pay';
+        btnDirectSimulatePay.disabled = false;
+
+        // Populate Success View
+        successBookingId.textContent = currentBookingId;
+        successIsland.textContent = displayIslandName.textContent;
+
+        const bVal = boardingDateInput.value;
+        const bParts = bVal.split('-');
+        const bDate = new Date(parseInt(bParts[0], 10), parseInt(bParts[1], 10) - 1, parseInt(bParts[2], 10));
+        const aDate = new Date(bDate);
+        aDate.setDate(aDate.getDate() + 15);
+
+        const dateOpt = { day: 'numeric', month: 'long', year: 'numeric' };
+        successBoardingDate.textContent = bDate.toLocaleDateString('en-GB', dateOpt);
+        successArrivalDate.textContent = aDate.toLocaleDateString('en-GB', dateOpt);
+
+        // Populate Travellers Table & Collect Travellers for PDF Voucher
+        successTravellersTableBody.innerHTML = '';
+        const travellersList = [];
+        const blocks = travellersContainer.querySelectorAll('.traveller-row-block');
+        blocks.forEach((b, idx) => {
+          const name = b.querySelector('.input-traveller-name').value.trim();
+          const email = b.querySelector('.input-traveller-email').value.trim();
+          const age = b.querySelector('.input-traveller-age').value.trim();
+
+          travellersList.push({ name, email, age });
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td><strong>${name}</strong></td>
+            <td>${email}</td>
+            <td>${age} yrs</td>
+          `;
+          successTravellersTableBody.appendChild(tr);
+        });
+
+        successTotalPrice.textContent = formatINR(calculatedTotalAmount);
+        successAdvancePaid.textContent = `${formatINR(calculatedAdvanceAmount)} [PAID]`;
+        successArrivalBalance.textContent = formatINR(calculatedArrivalBalance);
+
+        // Store Booking Data for PDF Generation
+        currentBookingData = {
+          bookingId: currentBookingId,
+          island: displayIslandName.textContent,
+          boardingDate: successBoardingDate.textContent,
+          arrivalDate: successArrivalDate.textContent,
+          totalPrice: formatINR(calculatedTotalAmount),
+          advancePaid: formatINR(calculatedAdvanceAmount),
+          arrivalBalance: formatINR(calculatedArrivalBalance),
+          travellers: travellersList
+        };
+
+        // Switch Views
+        bookingFormView.style.display = 'none';
+        bookingSuccessView.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ----------------------------------------------------------------------
+      // 9. CLIENT-SIDE PDF BOOKING VOUCHER GENERATION (jsPDF)
+      // ----------------------------------------------------------------------
+      function downloadBookingPDF() {
+        if (!currentBookingData) return;
+
+        const { jsPDF } = window.jspdf || {};
+        if (!jsPDF) {
+          window.print();
+          return;
+        }
+
+        try {
+          const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+          });
+
+          const pageWidth = 210;
+          const pageHeight = 297;
+          const margin = 18;
+          const contentWidth = pageWidth - (margin * 2);
+
+          // Top Accent Bar
+          doc.setFillColor(61, 65, 39);
+          doc.rect(margin, 16, contentWidth, 3, 'F');
+
+          // Header
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(22);
+          doc.setTextColor(0, 0, 0);
+          doc.text('VARIDHI INCORPORATION LTD.', margin, 27);
+
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(80, 80, 80);
+          doc.text('Official Expedition Booking Confirmation & Travel Voucher', margin, 33);
+
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.setTextColor(61, 65, 39);
+          doc.text('REF: ' + currentBookingData.bookingId, pageWidth - margin, 27, { align: 'right' });
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(100, 100, 100);
+          doc.text('Status: 25% Advance Deposit Confirmed', pageWidth - margin, 33, { align: 'right' });
+
+          // Divider
+          doc.setDrawColor(200, 200, 200);
+          doc.setLineWidth(0.5);
+          doc.line(margin, 38, pageWidth - margin, 38);
+
+          let y = 46;
+
+          // 1. EXPEDITION OVERVIEW
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(0, 0, 0);
+          doc.text('— Expedition Overview', margin, y);
+          y += 6;
+
+          const col1 = margin;
+          const col2 = margin + (contentWidth / 2);
+
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(100, 100, 100);
+          doc.text('DESTINATION ISLAND:', col1, y);
+          doc.text('PACKAGE DURATION:', col2, y);
+          y += 5;
+
+          doc.setFontSize(11);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(0, 0, 0);
+          doc.text(currentBookingData.island, col1, y);
+          doc.text('15 Days / 14 Nights (All-Inclusive)', col2, y);
+          y += 8;
+
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(100, 100, 100);
+          doc.text('BOARDING DATE (DELHI DEPARTURE):', col1, y);
+          doc.text('ARRIVAL / RETURN DATE:', col2, y);
+          y += 5;
+
+          doc.setFontSize(11);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(0, 0, 0);
+          doc.text(currentBookingData.boardingDate, col1, y);
+          doc.text(currentBookingData.arrivalDate, col2, y);
+          y += 8;
+
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(100, 100, 100);
+          doc.text('EMBARKATION POINT:', col1, y);
+          doc.text('TOTAL GROUP SIZE:', col2, y);
+          y += 5;
+
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(0, 0, 0);
+          doc.text('Indira Gandhi International Airport (DEL), Delhi', col1, y);
+          doc.text(currentBookingData.travellers.length + ' Travellers', col2, y);
+          y += 12;
+
+          // 2. CONFIRMED TRAVELLERS
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(0, 0, 0);
+          doc.text('— Confirmed Travellers', margin, y);
+          y += 6;
+
+          doc.setFillColor(242, 244, 235);
+          doc.rect(margin, y, contentWidth, 7, 'F');
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(61, 65, 39);
+          doc.text('#', margin + 3, y + 4.8);
+          doc.text('Full Legal Name', margin + 14, y + 4.8);
+          doc.text('Email Address', margin + 80, y + 4.8);
+          doc.text('Age', margin + 155, y + 4.8);
+          y += 8;
+
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9.5);
+          doc.setTextColor(20, 20, 20);
+
+          currentBookingData.travellers.forEach((t, idx) => {
+            doc.setFont('helvetica', 'bold');
+            doc.text(String(idx + 1), margin + 3, y + 4.5);
+            doc.text(t.name, margin + 14, y + 4.5);
+            doc.setFont('helvetica', 'normal');
+            doc.text(t.email, margin + 80, y + 4.5);
+            doc.text(t.age + ' yrs', margin + 155, y + 4.5);
+            doc.setDrawColor(230, 230, 230);
+            doc.line(margin, y + 6.5, pageWidth - margin, y + 6.5);
+            y += 7.5;
+          });
+
+          y += 6;
+
+          // 3. ADVANCE PAYMENT & SETTLEMENT
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(0, 0, 0);
+          doc.text('— Advance Payment & Financial Settlement', margin, y);
+          y += 6;
+
+          doc.setFillColor(248, 248, 246);
+          doc.rect(margin, y, contentWidth, 26, 'F');
+          doc.setDrawColor(215, 215, 210);
+          doc.rect(margin, y, contentWidth, 26, 'S');
+
+          doc.setFontSize(9.5);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(80, 80, 80);
+          doc.text('Total Expedition Package (' + currentBookingData.travellers.length + ' Travellers):', margin + 4, y + 6.5);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(0, 0, 0);
+          doc.text(currentBookingData.totalPrice, pageWidth - margin - 4, y + 6.5, { align: 'right' });
+
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(45, 106, 45);
+          doc.text('25% Advance Deposit Paid (Simulated):', margin + 4, y + 13.5);
+          doc.text(currentBookingData.advancePaid + ' [PAID - RECEIPT CONFIRMED]', pageWidth - margin - 4, y + 13.5, { align: 'right' });
+
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(80, 80, 80);
+          doc.text('Remaining 75% Balance (Due upon Island Arrival - Day 1):', margin + 4, y + 20.5);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(0, 0, 0);
+          doc.text(currentBookingData.arrivalBalance, pageWidth - margin - 4, y + 20.5, { align: 'right' });
+
+          y += 33;
+
+          // 4. LOGISTICS & AIRPORT PROTOCOL
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.setTextColor(0, 0, 0);
+          doc.text('— Logistics, Airport & Concierge Protocol', margin, y);
+          y += 6;
+
+          doc.setFontSize(8.8);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(50, 50, 50);
+
+          const p1 = '1. Indira Gandhi International Airport, Delhi: All registered travellers must independently reach Indira Gandhi International Airport, Delhi, at their own expense prior to scheduled flight departure. From Delhi onwards, the dedicated Varidhi concierge team takes full operational charge of your entire 15-day journey — managing international flights, private catamaran charters, 5-star villa estates, chef-curated dining, and guided excursions.';
+          const p1Lines = doc.splitTextToSize(p1, contentWidth);
+          doc.text(p1Lines, margin, y);
+          y += (p1Lines.length * 4.2) + 2;
+
+          const p2 = '2. Dedicated WhatsApp Group: All further logistics, flight vouchers, visa assistance, and live communication will be handled through a dedicated WhatsApp group. The Varidhi concierge team will follow up directly with the travellers through this group from this point onwards.';
+          const p2Lines = doc.splitTextToSize(p2, contentWidth);
+          doc.text(p2Lines, margin, y);
+          y += (p2Lines.length * 4.2) + 2;
+
+          const p3 = "3. Note: Any excursions or activities pursued independently outside official guidelines curated by Varidhi remain the traveller's personal responsibility.";
+          const p3Lines = doc.splitTextToSize(p3, contentWidth);
+          doc.text(p3Lines, margin, y);
+          y += (p3Lines.length * 4.2) + 6;
+
+          // FOOTER
+          doc.setDrawColor(200, 200, 200);
+          doc.line(margin, 280, pageWidth - margin, 280);
+
+          doc.setFontSize(8.5);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(61, 65, 39);
+          doc.text('VARIDHI INCORPORATION LTD.', margin, 285);
+
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(110, 110, 110);
+          doc.text('Registered Headquarters: Indore, Madhya Pradesh, India | concierge@varidhi.com', margin, 289);
+          doc.text('Official Client Copy — Present during Delhi Airport Embarkation', pageWidth - margin, 289, { align: 'right' });
+
+          doc.save('Varidhi_Expedition_' + currentBookingData.bookingId + '.pdf');
+        } catch (err) {
+          console.error('PDF Generation Error:', err);
+          window.print();
+        }
+      }
+
+      if (btnDownloadPDF) {
+        btnDownloadPDF.addEventListener('click', downloadBookingPDF);
+      }
+
+      // Initial execution
+      initIslandFromURL();
+      renderTravellerFields();
+      updateDates();
+
+    })();
+  </script>
+
+</body>
+</html>

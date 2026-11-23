@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7ff">
+  <title>Study Space | Your personal learning library</title>
+  <link rel="stylesheet" href="design.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-page="home" aria-label="Study Space home">
+        <span class="brand-mark">📖</span>
+        <span><strong>Study Space</strong><small>Your personal learning library</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-page="home"><span>⌂</span>Home</button>
+        <button class="nav-link" data-page="notes"><span>▤</span>My Notes</button>
+        <button class="nav-link" data-page="search"><span>⌕</span>Search</button>
+        <button class="nav-link" data-page="settings"><span>⚙</span>Settings</button>
+      </nav>
+      <div class="sidebar-divider"></div>
+      <p class="side-label">QUICK ACCESS</p>
+      <nav class="quick-nav" aria-label="Quick access">
+        <button class="nav-link" data-page="compartments"><span>▱</span>Compartments</button>
+        <button class="nav-link" data-page="subjects"><span>▧</span>Subjects</button>
+        <button class="nav-link" data-page="notes"><span>▤</span>Notes</button>
+        <button class="nav-link" data-page="profile"><span>♙</span>Profile</button>
+      </nav>
+      <div class="sidebar-motto"><span>✧</span><em>Better Notes,<br>Brighter Future</em><span>♡</span></div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+        <label class="global-search"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything..."></label>
+        <div class="top-actions">
+          <button class="icon-button" id="notificationBtn" aria-label="Notifications" title="Notifications">♧</button>
+          <button class="profile-chip" data-page="profile"><span class="avatar">H</span><span id="topProfileName">Himanshi Samriya</span><span>⌄</span></button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <section class="page active" id="page-home">
+          <div class="hero">
+            <div class="hero-copy">
+              <p class="script-note">Hi, welcome back!</p>
+              <h1>Your ideas, organized.</h1>
+              <p>Keep every subject, chapter and note in one calm space.</p>
+            </div>
+            <div class="hero-art" aria-hidden="true"><span class="sparkle">✦</span><span class="plant">🌿</span><div class="book-stack"><i></i><i></i><i></i></div><span class="sticky-note">Small steps<br>Big dreams ♡</span></div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card lavender"><span class="stat-icon">▱</span><div><strong id="folderCount">5</strong><small>Compartments</small></div></article>
+            <article class="stat-card blue"><span class="stat-icon">▣</span><div><strong id="subjectCount">0</strong><small>Subjects</small></div></article>
+            <article class="stat-card mint"><span class="stat-icon">▤</span><div><strong id="noteCount">0</strong><small>Notes</small></div></article>
+          </div>
+
+          <div class="section-heading"><div><p class="eyebrow">YOUR LIBRARY</p><h2>My compartments</h2></div><button class="text-button" data-page="compartments">View all <span>→</span></button></div>
+          <div class="folder-grid" id="folderGrid"></div>
+          <div class="home-bottom">
+            <div class="mini-panel"><div class="section-heading compact"><div><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h2>Recently opened</h2></div></div><div id="recentList" class="recent-list"><p class="empty-hint">Your notes and chapters will appear here as you use Study Space.</p></div></div>
+            <div class="quote-panel"><span>✦</span><h3>A little progress<br>every day adds up.</h3><p>Make space for curiosity.</p><span class="quote-leaf">❧</span></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-compartments">
+          <div class="page-title-row"><div><p class="eyebrow">YOUR LIBRARY</p><h1>My compartments</h1><p class="page-subtitle">Choose a space to organize your learning.</p></div><button class="btn btn-primary" id="renameBtn">✎ Rename selected</button></div>
+          <div class="folder-grid large-grid" id="allFolderGrid"></div>
+        </section>
+
+        <section class="page" id="page-subjects">
+          <div class="subject-banner" id="subjectBanner"><button class="back-button" data-page="compartments">←</button><div class="banner-icon">🧬</div><div class="banner-copy"><p class="eyebrow">COMPARTMENT</p><h1 id="subjectPageTitle">Biology</h1><p>Your subjects and chapters</p></div><button class="btn btn-primary" id="addSubjectBtn">＋ Add Subject</button></div>
+          <div class="section-heading"><div><p class="eyebrow">ORGANIZE YOUR LEARNING</p><h2>Subjects</h2></div></div>
+          <div class="subject-cards" id="subjectCards"></div>
+        </section>
+
+        <section class="page" id="page-chapters">
+          <div class="breadcrumb"><button data-page="compartments">Compartments</button><span>›</span><button data-page="subjects" id="chapterCrumbFolder">Biology</button><span>›</span><span id="chapterCrumbSubject">Subject</span></div>
+          <div class="subject-banner slim"><div class="banner-icon">📚</div><div class="banner-copy"><p class="eyebrow">SUBJECT</p><h1 id="chapterPageTitle">Subject</h1><p>Keep chapters and study materials together.</p></div><button class="btn btn-primary" id="addChapterBtn">＋ Add Chapter</button></div>
+          <div class="section-heading"><div><p class="eyebrow">YOUR OUTLINE</p><h2>Chapters</h2></div></div>
+          <div class="chapter-rows" id="chapterRows"></div>
+        </section>
+
+        <section class="page" id="page-notes">
+          <div class="breadcrumb"><button data-page="compartments">Compartments</button><span>›</span><button data-page="subjects" id="notesCrumbFolder">Biology</button><span>›</span><button data-page="chapters" id="notesCrumbSubject">Subject</button><span>›</span><span id="notesCrumbChapter">Notes</span></div>
+          <div class="page-title-row notes-title-row"><div><p class="eyebrow">YOUR STUDY MATERIAL</p><h1 id="notesPageTitle">My Notes</h1><p class="page-subtitle">Capture ideas, keep important details, and revise with ease.</p></div><button class="btn btn-primary" id="showEditorBtn">＋ Add Note</button></div>
+          <div class="toolbar"><label class="search-field"><span>⌕</span><input id="searchInput" type="search" placeholder="Search notes..."></label><select id="noteFilter" aria-label="Filter notes"><option value="all">All notes</option><option value="private">Private notes</option><option value="shared">Shared notes</option></select></div>
+          <div class="note-editor" id="editor">
+            <div class="editor-top"><div><p class="eyebrow">NEW NOTE</p><h2>Make a note</h2></div><button class="icon-button close-editor" id="closeEditorBtn" aria-label="Close editor">×</button></div>
+            <label for="noteTitle">Note title</label><input id="noteTitle" placeholder="e.g. Important revision notes">
+            <label for="noteBody">Your notes</label><textarea id="noteBody" rows="5" placeholder="Start writing your thoughts here..."></textarea>
+            <label for="noteFile">Attach a PDF or image (saved only in this browser demo)</label><input id="noteFile" type="file" accept=".pdf,image/*">
+            <label for="noteVisibility">Who can see this note?</label><select id="noteVisibility"><option value="private">🔒 Private — only me on this browser</option><option value="shared">👥 Mark as shared</option></select>
+            <div class="editor-actions"><button class="btn btn-primary" id="saveNoteBtn">Save note</button><button class="btn btn-secondary" id="clearEditorBtn">Clear</button></div><p class="message" id="message" role="status"></p>
+          </div>
+          <div class="note-grid" id="noteList"></div>
+        </section>
+
+        <section class="page" id="page-search">
+          <div class="page-title-row"><div><p class="eyebrow">FIND IT QUICKLY</p><h1>Search your library</h1><p class="page-subtitle">Search across your compartments, subjects, chapters and notes.</p></div></div>
+          <label class="search-field big-search"><span>⌕</span><input id="pageSearchInput" type="search" placeholder="Try “revision”, “biology” or a note title..."></label>
+          <div class="note-grid" id="searchResults"></div>
+        </section>
+
+        <section class="page" id="page-profile">
+          <div class="page-title-row"><div><p class="eyebrow">YOUR SPACE, YOUR WAY</p><h1>Profile</h1><p class="page-subtitle">Manage your student details.</p></div></div>
+          <div class="profile-layout"><div class="profile-card"><div class="profile-card-head"><div class="big-avatar" id="profileInitial">H</div><div><h2 id="profileCardName">Himanshi Samriya</h2><p>Student profile</p></div><button class="btn btn-secondary" id="editProfileBtn">Edit profile</button></div><div class="profile-fields" id="profileFields"></div></div><div class="profile-tip"><span>✧</span><h3>Your learning journey is yours.</h3><p>Keep your subjects organized and your goals close.</p></div></div>
+        </section>
+
+        <section class="page" id="page-settings">
+          <div class="page-title-row"><div><p class="eyebrow">PERSONALIZE YOUR SPACE</p><h1>Settings</h1><p class="page-subtitle">A few options to make Study Space feel like yours.</p></div></div>
+          <div class="settings-card"><div class="setting-row"><div><strong>Appearance</strong><p>Choose the look of your workspace.</p></div><select id="themeSelect"><option value="light">Soft pastel (default)</option><option value="lavender">Lavender glow</option></select></div><div class="setting-row"><div><strong>Export your notes</strong><p>Download a JSON backup of your local Study Space data.</p></div><button class="btn btn-secondary" id="exportBtn">Export data</button></div><div class="setting-row"><div><strong>Clear local data</strong><p>Remove notes saved in this browser. This cannot be undone.</p></div><button class="btn btn-danger" id="clearDataBtn">Clear data</button></div><p class="settings-note">Note: this version saves data in the current browser on this device. “Shared” is a label only; public sharing and accounts need a backend service.</p></div>
+        </section>
+        <footer><span>✦ Study Space</span><span>Made for curious minds.</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="profileDialog"><form method="dialog" id="profileForm"><div class="dialog-head"><h2>Edit profile</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></div><label for="profileNameInput">Name</label><input id="profileNameInput" required><label for="profileDeptInput">Department</label><input id="profileDeptInput" placeholder="e.g. Information Technology"><label for="profileCollegeInput">College</label><input id="profileCollegeInput" placeholder="e.g. DAVV IIPS, Indore"><label for="profileYearInput">Year / course</label><input id="profileYearInput" placeholder="e.g. Integrated M.Tech"><label for="profileSectionInput">Section</label><input id="profileSectionInput"><label for="profileInterestsInput">Interests</label><input id="profileInterestsInput" placeholder="e.g. Reading, coding, dancing"><div class="dialog-actions"><button class="btn btn-secondary" value="cancel">Cancel</button><button class="btn btn-primary" id="saveProfileBtn" value="default">Save profile</button></div></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

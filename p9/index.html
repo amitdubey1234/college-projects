@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-IN" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CivicFix | Report and explore civic issues in your city</title>
+  <meta name="description" content="CivicFix is a frontend prototype for 
+  reporting and exploring civic issues such as potholes, garbage, broken streetlights 
+  and waterlogging in an Indian city. Demo data only.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/home.js" defer></script>
+</head>
+<body class="page page--home" data-page="home">
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner container">
+      <a class="site-logo" href="index.html" aria-label="CivicFix home">
+        <span class="site-logo__mark" aria-hidden="true">CF</span>
+        <span class="site-logo__text">CivicFix</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false"
+       aria-controls="site-nav-panel" data-action="toggle-nav">
+        <span class="nav-toggle__icon" aria-hidden="true"></span>
+        <span class="nav-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <div class="site-nav__panel" id="site-nav-panel">
+          <ul class="nav-links">
+            <li class="nav-links__item"><a class="nav-link" href="index.html" data-nav="home" aria-current="page">Home</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="issues.html" data-nav="issues">Explore Issues</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="impact.html" data-nav="impact">Impact</a></li>
+          </ul>
+          <a class="button button--primary site-nav__cta" href="report.html" data-nav="report">Report an Issue</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main" id="main-content" tabindex="-1">
+
+    <!-- Hero -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__inner container">
+        <div class="hero__content">
+          <p class="hero__eyebrow"><span class="hero__eyebrow-dot" aria-hidden="true"></span>Civic issue reporting prototype</p>
+          <h1 class="hero__title" id="hero-title">See an issue. Report it. Make your city better.</h1>
+          <p class="hero__description">Browse sample reports on potholes, garbage, streetlights, waterlogging and more, then try the reporting flow for an Indian city, all inside your browser.</p>
+
+          <div class="hero__actions">
+            <a class="button button--primary button--large" href="report.html">Report an Issue</a>
+            <a class="button button--secondary button--large" href="issues.html">Explore Issues</a>
+          </div>
+
+          <form class="search-form hero__search" id="home-search-form" action="issues.html" method="get" role="search">
+            <div class="form-group search-form__group">
+              <label class="form-label" for="home-search-input">Search sample civic issues</label>
+              <div class="search-form__row">
+                <input class="form-control" type="search" id="home-search-input" name="q" maxlength="100" autocomplete="off" placeholder="Try “pothole”, “streetlight” or “drain”">
+                <button class="button button--secondary" type="submit" id="home-search-submit">Search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <figure class="hero__media">
+          <img class="hero__image" id="hero-image" src="assets/images/city-hero.svg" width="1200" height="900" alt="Illustration of a city neighbourhood at sunrise with a map pin marking a resolved civic issue" fetchpriority="high" decoding="async">
+          <figcaption class="hero__caption">Illustration: a neighbourhood at sunrise.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Demo statistics -->
+    <section class="section section--stats" id="home-stats" aria-labelledby="home-stats-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="home-stats-title">Demo snapshot</h2>
+          <p class="section-heading__text">These figures come from sample data bundled with 
+            this prototype. They are not real-world results.</p>
+        </div>
+
+        <dl class="stats-grid" id="home-stats-grid">
+          <div class="stat-card" data-stat="total">
+            <dt class="stat-card__label">Sample reports</dt>
+            <dd class="stat-card__value" id="home-stat-total">—</dd>
+          </div>
+          <div class="stat-card" data-stat="open">
+            <dt class="stat-card__label">Open sample issues</dt>
+            <dd class="stat-card__value" id="home-stat-open">—</dd>
+          </div>
+          <div class="stat-card" data-stat="resolved">
+            <dt class="stat-card__label">Resolved sample issues</dt>
+            <dd class="stat-card__value" id="home-stat-resolved">—</dd>
+          </div>
+          <div class="stat-card" data-stat="supports">
+            <dt class="stat-card__label">Total sample supporters</dt>
+            <dd class="stat-card__value" id="home-stat-supports">—</dd>
+          </div>
+        </dl>
+
+        <p class="notice notice--demo" id="demo-notice" role="note">Demo content: all reports,
+           locations, dates, statuses and counts on CivicFix are fictional sample data.</p>
+      </div>
+    </section>
+
+    <!-- Featured issues -->
+    <section class="section section--featured" id="home-featured" aria-labelledby="home-featured-title">
+      <div class="container">
+        <div class="section-heading section-heading--with-action">
+          <h2 class="section-heading__title" id="home-featured-title">Featured civic issues</h2>
+          <p class="section-heading__text">A few sample reports showing how issues appear on CivicFix.</p>
+          <a class="section-heading__action" href="issues.html">View all sample issues</a>
+        </div>
+
+        <ul class="issue-list issue-list--featured" id="featured-issues" data-issue-list="featured"></ul>
+
+        <div class="empty-state" id="featured-issues-empty" hidden>
+          <p class="empty-state__title">No sample issues to show</p>
+          <p class="empty-state__text">Featured issues could not be loaded. Try refreshing the page.</p>
+        </div>
+
+        <noscript>
+          <p class="notice notice--warning">JavaScript is required to load the sample issues on this page.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- Category shortcuts -->
+    <section class="section section--categories" id="home-categories" aria-labelledby="home-categories-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="home-categories-title">Browse by category</h2>
+          <p class="section-heading__text">Jump straight to the type of issue you care about.</p>
+        </div>
+
+        <ul class="category-list" id="category-shortcuts">
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=road-damage" data-category="road-damage">
+              <img class="category-card__icon" src="assets/images/icon-road-damage.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Potholes &amp; road damage</span>
+              <span class="category-card__text">Cracked, uneven or broken road surfaces.</span>
+            </a>
+          </li>
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=garbage" data-category="garbage">
+              <img class="category-card__icon" src="assets/images/icon-garbage.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Garbage accumulation</span>
+              <span class="category-card__text">Overflowing bins and uncollected waste.</span>
+            </a>
+          </li>
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=streetlight" data-category="streetlight">
+              <img class="category-card__icon" src="assets/images/icon-streetlight.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Broken streetlights</span>
+              <span class="category-card__text">Dark stretches and faulty lamp posts.</span>
+            </a>
+          </li>
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=waterlogging" data-category="waterlogging">
+              <img class="category-card__icon" src="assets/images/icon-waterlogging.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Waterlogging</span>
+              <span class="category-card__text">Standing water on roads and underpasses.</span>
+            </a>
+          </li>
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=drainage" data-category="drainage">
+              <img class="category-card__icon" src="assets/images/icon-drainage.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Drainage problems</span>
+              <span class="category-card__text">Blocked, broken or overflowing drains.</span>
+            </a>
+          </li>
+          <li class="category-list__item">
+            <a class="category-card" href="issues.html?category=footpath" data-category="footpath">
+              <img class="category-card__icon" src="assets/images/icon-footpath.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+              <span class="category-card__title">Damaged footpaths</span>
+              <span class="category-card__text">Broken slabs and unsafe walkways.</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section section--how" id="how-it-works" aria-labelledby="how-it-works-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="how-it-works-title">How CivicFix Works</h2>
+          <p class="section-heading__text">Three simple steps in this prototype.</p>
+        </div>
+
+        <ol class="steps-list">
+          <li class="step">
+            <span class="step__number" aria-hidden="true">1</span>
+            <img class="step__icon" src="assets/images/step-describe.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+            <h3 class="step__title">Spot and describe</h3>
+            <p class="step__text">Write a short title and description of the problem you noticed.</p>
+          </li>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">2</span>
+            <img class="step__icon" src="assets/images/step-locate.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+            <h3 class="step__title">Add location and severity</h3>
+            <p class="step__text">Tell us the area, an optional landmark, how serious it is, and optionally add a photo.</p>
+          </li>
+          <li class="step">
+            <span class="step__number" aria-hidden="true">3</span>
+            <img class="step__icon" src="assets/images/step-track.svg" width="64" height="64" alt="" loading="lazy" decoding="async">
+            <h3 class="step__title">Track and support</h3>
+            <p class="step__text">Your report is saved only in this browser, where you can view it and support other sample issues.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Community impact -->
+    <section class="section section--impact" id="home-impact" aria-labelledby="home-impact-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="home-impact-title">Community impact, in demo form</h2>
+          <p class="section-heading__text">The impact page shows how a civic platform could summarise activity. All numbers there are sample data, not verified outcomes.</p>
+        </div>
+
+        <div class="impact-panel">
+        <ul class="impact-points" id="home-impact-list">
+          <li class="impact-points__item">Counts of open, in-progress and resolved sample issues</li>
+          <li class="impact-points__item">A breakdown of sample issues by category and severity</li>
+          <li class="impact-points__item">The most-supported sample issues and recent activity</li>
+        </ul>
+
+        <a class="button button--secondary" href="impact.html">View the impact overview</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section cta-banner" id="home-cta" aria-labelledby="home-cta-title">
+      <div class="container cta-banner__inner">
+        <h2 class="cta-banner__title" id="home-cta-title">Noticed something in your neighbourhood?</h2>
+        <p class="cta-banner__text">Try the report form. It takes about a minute, and nothing is sent to any authority.</p>
+        <a class="button button--primary button--large" href="report.html">Report an Issue</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reusable issue card (same markup on index.html and issues.html) -->
+  <template id="issue-card-template">
+    <li class="issue-list__item">
+      <article class="issue-card" data-issue-card data-issue-id="" data-category="" data-severity="" data-status="">
+        <figure class="issue-card__media">
+          <img class="issue-card__image" data-field="image" src="assets/images/issue-placeholder.svg" data-fallback-src="assets/images/issue-placeholder.svg" width="640" height="400" alt="Photo of the reported issue" loading="lazy" decoding="async">
+        </figure>
+        <div class="issue-card__content">
+          <p class="issue-card__category"><span class="badge badge--category" data-field="category">Category</span></p>
+          <h3 class="issue-card__title" data-field="title">Issue title</h3>
+          <p class="issue-card__description" data-field="description">Short description of the issue.</p>
+          <dl class="issue-card__meta">
+            <div class="issue-card__meta-item">
+              <dt>Location</dt>
+              <dd data-field="location">Sample location</dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Severity</dt>
+              <dd><span class="badge badge--severity badge--medium" data-field="severity">Medium</span></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Status</dt>
+              <dd><span class="badge badge--status badge--open" data-field="status">Open</span></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Reported</dt>
+              <dd><time data-field="date" datetime="2000-01-01">Date</time></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Supporters</dt>
+              <dd data-field="support-count">0</dd>
+            </div>
+          </dl>
+          <a class="issue-card__link button button--secondary" href="issue-details.html" data-field="details-link">View details<span class="visually-hidden"> for <span data-field="details-link-title">this issue</span></span></a>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="site-footer__accent" aria-hidden="true"></div>
+    <div class="site-footer__inner container">
+      <div class="site-footer__brand">
+        <a class="site-logo site-logo--footer" href="index.html" aria-label="CivicFix home">
+          <span class="site-logo__mark" aria-hidden="true">CF</span>
+          <span class="site-logo__text">CivicFix</span>
+        </a>
+        <p class="site-footer__tagline">See an issue. Report it. Make your city better.</p>
+      </div>
+
+      <nav class="footer-nav" id="footer-nav" aria-label="Footer">
+        <p class="site-footer__heading">Explore</p>
+        <ul class="footer-links">
+          <li class="footer-links__item"><a class="footer-link" href="index.html">Home</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="issues.html">Explore Issues</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="report.html">Report an Issue</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="impact.html">Impact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__about">
+        <p class="site-footer__heading">About this project</p>
+        <p class="site-footer__text">CivicFix is a frontend-only student portfolio prototype built with HTML, CSS and vanilla JavaScript.</p>
+      </div>
+
+      <p class="site-footer__disclaimer" id="footer-disclaimer" role="note"><strong>Prototype notice:</strong> CivicFix is not an official government portal. Reports are not sent to any authority, nothing is verified, and all sample data is fictional.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

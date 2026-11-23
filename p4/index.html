@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IIPS Connect — Official College Community | IIPS DAVV Indore</title>
+  <meta name="description" content="Exclusive student-to-club community platform for International Institute of Professional Studies (IIPS), Devi Ahilya Vishwavidyalaya (DAVV), Indore. Discover clubs, recruitments, campus events, and showcases.">
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/png" href="assets/images/logo-icon.png">
+  <link rel="apple-touch-icon" href="assets/images/logo-icon.png">
+</head>
+<body>
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <!-- Mobile Menu & Search Toggle Buttons -->
+      <div class="mobile-header-triggers" style="display: none;">
+        <button type="button" class="btn-icon btn-ghost btn-mobile-menu" id="btn-mobile-menu-toggle" aria-label="Open navigation menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <button type="button" class="btn-icon btn-ghost btn-mobile-search-toggle" id="btn-mobile-search-toggle" aria-label="Toggle mobile search">
+          <i data-lucide="search"></i>
+        </button>
+      </div>
+
+      <!-- Brand Identity -->
+      <a href="#feed" class="brand-wrapper" id="brand-logo-link">
+        <div class="brand-icon-box">
+          <img src="assets/images/logo-icon.png" alt="IIPS Connect Logo" class="brand-icon-img">
+        </div>
+        <div class="brand-text-col">
+          <span class="brand-name"><span class="brand-name-iips">IIPS</span> <span class="brand-name-connect">Connect</span></span>
+          <span class="brand-campus">DAVV Indore</span>
+        </div>
+      </a>
+
+      <!-- Global Search Autocomplete (Desktop & Tablet) -->
+      <div class="header-search-wrap">
+        <div class="header-search-input-box">
+          <i data-lucide="search"></i>
+          <input type="text" id="global-search-input" class="global-search-input" placeholder="Search students, clubs, events, recruitments..." autocomplete="off">
+        </div>
+        <div id="global-search-results" class="global-search-dropdown" style="display: none;"></div>
+      </div>
+
+      <!-- Header Right Actions & Profile Menu -->
+      <div class="header-actions" id="topbar-right-actions">
+        <!-- Rendered dynamically by App.renderTopNav() -->
+      </div>
+    </div>
+
+    <!-- Mobile Expandable Search Bar Panel -->
+    <div class="mobile-search-panel" id="mobile-search-panel" style="display: none;">
+      <div class="mobile-search-input-wrap">
+        <i data-lucide="search"></i>
+        <input type="text" id="mobile-search-input" class="global-search-input" placeholder="Search students, clubs, events..." autocomplete="off">
+        <button type="button" class="btn-clear-search" id="btn-close-mobile-search">&times;</button>
+      </div>
+      <div id="mobile-search-results" class="global-search-dropdown" style="display: none;"></div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Three-Column Social Network Application Shell -->
+  <div class="app-layout-wrapper">
+    <!-- Left Navigation Sidebar (Desktop & Mobile Slide-Out Drawer) -->
+    <aside class="app-sidebar-left" id="app-left-sidebar">
+      <!-- Mobile Drawer Header -->
+      <div class="sidebar-drawer-header">
+        <div class="brand-wrapper">
+          <div class="brand-icon-box">
+            <img src="assets/images/logo-icon.png" alt="IIPS Connect Logo" class="brand-icon-img">
+          </div>
+          <div class="brand-text-col">
+            <span class="brand-name"><span class="brand-name-iips">IIPS</span> <span class="brand-name-connect">Connect</span></span>
+            <span class="brand-campus">DAVV Indore</span>
+          </div>
+        </div>
+        <button type="button" class="btn-icon btn-ghost btn-close-drawer" id="btn-close-drawer" aria-label="Close navigation menu">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-navigation-scroll" id="left-sidebar-navigation" aria-label="Main Navigation">
+        <!-- Populated dynamically based on role (Student vs Club Admin) -->
+      </nav>
+
+      <!-- Bottom Persona Mini Card -->
+      <div class="sidebar-user-minicard" id="sidebar-user-minicard">
+        <!-- Populated dynamically -->
+      </div>
+    </aside>
+
+    <!-- Center Main Dynamic View Column -->
+    <main class="app-center-main" id="main-content-view" role="main">
+      <!-- Populated dynamically by Router -->
+    </main>
+
+    <!-- Right Contextual Sidebar Widgets -->
+    <aside class="app-sidebar-right" id="app-sidebar-right">
+      <div id="right-sidebar-content">
+        <!-- Populated dynamically by Router -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="#feed" class="mobile-nav-link active">
+      <i data-lucide="home"></i>
+      <span>Feed</span>
+    </a>
+    <a href="#students" class="mobile-nav-link">
+      <i data-lucide="users"></i>
+      <span>Students</span>
+    </a>
+    <a href="#clubs" class="mobile-nav-link">
+      <i data-lucide="shield"></i>
+      <span>Clubs</span>
+    </a>
+    <a href="#events" class="mobile-nav-link">
+      <i data-lucide="calendar"></i>
+      <span>Events</span>
+    </a>
+    <a href="#messages" class="mobile-nav-link">
+      <i data-lucide="message-square"></i>
+      <span>Chat</span>
+    </a>
+  </nav>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- =========================================================================
+       GLOBAL MODALS
+       ========================================================================= -->
+
+  <!-- 1. Post Creation Modal -->
+  <div id="create-post-modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog modal-dialog-md">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Campus Post</h3>
+        <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="create-post-form">
+        <div class="modal-body">
+          <div class="form-group mb-3">
+            <label class="form-label" for="composer-post-type">Post Category</label>
+            <select id="composer-post-type" class="select-control">
+              <option value="general">General Campus Update</option>
+              <option value="project">Project Showcase</option>
+              <option value="achievement">Achievement / Milestone</option>
+              <option value="announcement">Official Announcement</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="composer-post-title">Headline / Title (Optional)</label>
+            <input type="text" id="composer-post-title" class="form-control" placeholder="e.g. Launched my open-source project...">
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="composer-post-content">Post Content <span class="text-danger">*</span></label>
+            <textarea id="composer-post-content" class="form-control" rows="5" placeholder="What's happening in your department or club?" required></textarea>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="composer-post-image">Image URL (Optional)</label>
+            <input type="url" id="composer-post-image" class="form-control" placeholder="https://images.unsplash.com/photo-...">
+          </div>
+
+          <div class="form-group mb-2">
+            <label class="form-label" for="composer-post-tags">Tags (comma-separated)</label>
+            <input type="text" id="composer-post-tags" class="form-control" placeholder="e.g. WebDev, Coding, CampusLife">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="send"></i> Publish Post
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Host Campus Event Modal (Club Admin) -->
+  <div id="create-event-modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Host Campus Event</h3>
+        <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="create-event-form">
+        <div class="modal-body">
+          <div class="form-row-2">
+            <div class="form-group mb-3">
+              <label class="form-label" for="event-new-title">Event Title <span class="text-danger">*</span></label>
+              <input type="text" id="event-new-title" class="form-control" placeholder="e.g. Full-Stack Bootcamp 2026" required>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="event-new-category">Category <span class="text-danger">*</span></label>
+              <select id="event-new-category" class="select-control">
+                <option value="Technology">Technology</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Sports">Sports</option>
+                <option value="Arts and Design">Arts &amp; Design</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group mb-3">
+              <label class="form-label" for="event-new-date">Date <span class="text-danger">*</span></label>
+              <input type="date" id="event-new-date" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="event-new-time">Time</label>
+              <input type="text" id="event-new-time" class="form-control" placeholder="04:30 PM - 06:30 PM" required>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="event-new-capacity">Capacity (Seats)</label>
+              <input type="number" id="event-new-capacity" class="form-control" value="80" min="10" max="500">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="event-new-venue">Venue / Room <span class="text-danger">*</span></label>
+            <input type="text" id="event-new-venue" class="form-control" placeholder="e.g. Lab 3, Ground Floor, IIPS Takshashila" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="event-new-desc">Description &amp; Agenda <span class="text-danger">*</span></label>
+            <textarea id="event-new-desc" class="form-control" rows="3" placeholder="What will students learn or experience?" required></textarea>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group mb-2">
+              <label class="form-label" for="event-new-banner">Banner Image URL</label>
+              <input type="url" id="event-new-banner" class="form-control" placeholder="https://images.unsplash.com/photo-...">
+            </div>
+            <div class="form-group mb-2">
+              <label class="form-label" for="event-new-tags">Tags (comma-separated)</label>
+              <input type="text" id="event-new-tags" class="form-control" placeholder="e.g. Coding, Workshop, Hackathon">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="calendar-plus"></i> Publish Event
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Launch Recruitment Drive Modal (Club Admin) -->
+  <div id="create-recruitment-modal" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Launch Club Recruitment Drive</h3>
+        <button type="button" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="create-recruitment-form">
+        <div class="modal-body">
+          <div class="form-row-2">
+            <div class="form-group mb-3">
+              <label class="form-label" for="rec-new-title">Drive / Opportunity Title <span class="text-danger">*</span></label>
+              <input type="text" id="rec-new-title" class="form-control" placeholder="e.g. Technical Associate Lead" required>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="rec-new-role">Specific Role</label>
+              <input type="text" id="rec-new-role" class="form-control" placeholder="e.g. Web Developer / Event Coordinator" required>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group mb-3">
+              <label class="form-label" for="rec-new-deadline">Application Deadline <span class="text-danger">*</span></label>
+              <input type="date" id="rec-new-deadline" class="form-control" required>
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="rec-new-positions">Open Seats</label>
+              <input type="number" id="rec-new-positions" class="form-control" value="3" min="1" max="25">
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="rec-new-eligibility">Eligibility</label>
+              <input type="text" id="rec-new-eligibility" class="form-control" placeholder="e.g. Open to 1st, 2nd & 3rd Year" required>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="rec-new-skills">Required Skills (comma-separated) <span class="text-danger">*</span></label>
+            <input type="text" id="rec-new-skills" class="form-control" placeholder="e.g. React, Git, Team Collaboration, Python" required>
+          </div>
+
+          <div class="form-group mb-2">
+            <label class="form-label" for="rec-new-desc">Description &amp; Responsibilities <span class="text-danger">*</span></label>
+            <textarea id="rec-new-desc" class="form-control" rows="4" placeholder="Detail what the candidate will be working on and what you look for in applicants..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="briefcase"></i> Launch Recruitment Drive
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       JAVASCRIPT MODULES & BOOTSTRAP
+       ========================================================================= -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/views/feedView.js"></script>
+  <script src="js/views/studentsView.js"></script>
+  <script src="js/views/clubsView.js"></script>
+  <script src="js/views/eventsView.js"></script>
+  <script src="js/views/recruitmentView.js"></script>
+  <script src="js/views/applicationsView.js"></script>
+  <script src="js/views/messagesView.js"></script>
+  <script src="js/views/notificationsView.js"></script>
+  <script src="js/views/profileView.js"></script>
+  <script src="js/views/adminViews.js"></script>
+  <script src="js/views/settingsView.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

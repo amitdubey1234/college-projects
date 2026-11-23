@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZippyRide — 100% Electric Vehicle rentals, professional drivers, and tour guides across Tier 1 & 2 Indian cities with instant token bookings and downloadable receipts.">
+  <title>ZippyRide | 100% Electric Ride. Explore. Discover.</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#172a26',
+            muted: '#66736e',
+            paper: '#f7f7f1',
+            limeAccent: '#c9f269',
+            limeDark: '#9cce3e',
+            orangeAccent: '#f58a55',
+            lineColor: '#e4e7dd',
+            cardBg: '#ffffff',
+            evGreen: '#10b981',
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            display: ['Manrope', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased selection:bg-limeAccent selection:text-ink">
+
+  <!-- ANNOUNCEMENT MARQUEE TAG -->
+  <div class="bg-ink text-white text-xs py-2 px-4 overflow-hidden fixed top-0 left-0 right-0 z-50 border-b border-gray-800">
+    <marquee behavior="scroll" direction="left" scrollamount="6" class="font-bold tracking-wide">
+      ⚡ <span class="text-limeAccent">ZAPPYRIDE EV REVOLUTION:</span> 100% Electric Vehicles Now Available in Indore, Jaipur, Bangalore, Pune, Ahmedabad & Goa! Zero Emissions, Maximum Range! ⚡ Book today with instant token advance & download token receipts instantly! ⚡
+    </marquee>
+  </div>
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="site-header fixed top-[33px] left-0 right-0 h-[82px] z-40 flex items-center justify-between px-4 sm:px-8 lg:px-12 glass-nav border-b border-lineColor">
+    
+    <div class="flex items-center gap-3 md:gap-5">
+      <button id="menuToggle" class="flex items-center justify-center w-11 h-11 rounded-xl border border-lineColor bg-white hover:bg-limeAccent transition-colors duration-200 text-ink text-xl focus:outline-none" aria-label="Toggle Navigation Menu">
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+      </button>
+
+      <a href="#home" class="brand flex items-center gap-2.5 font-display font-extrabold text-xl md:text-2xl tracking-tight">
+        <span class="w-9 h-9 grid place-items-center bg-limeAccent text-ink rounded-xl font-black text-lg">Z</span>
+        <span>Zippy<span class="text-[#6d9b25]">Ride</span> <span class="text-[10px] bg-evGreen text-white px-2 py-0.5 rounded-full uppercase">100% EV</span></span>
+      </a>
+    </div>
+
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-[#4b5c55]">
+      <a href="#cities" class="hover:text-[#6d9b25] transition-colors">Cities</a>
+      <a href="#vehicles" class="hover:text-[#6d9b25] transition-colors">EV Fleet</a>
+      <a href="#comparison" class="hover:text-[#6d9b25] transition-colors">Comparison</a>
+      <a href="#map-section" class="hover:text-[#6d9b25] transition-colors">Map & Hubs</a>
+      <a href="#guides" class="hover:text-[#6d9b25] transition-colors">Tour Guides</a>
+      <a href="#how-it-works" class="hover:text-[#6d9b25] transition-colors">How it works</a>
+      <a href="#faqs" class="hover:text-[#6d9b25] transition-colors">FAQs</a>
+      <a href="#contact" class="hover:text-[#6d9b25] transition-colors">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <button id="authModalBtn" class="flex items-center gap-2 text-xs md:text-sm font-bold px-4 py-2.5 rounded-full border border-lineColor bg-white hover:bg-ink hover:text-white transition-all shadow-sm">
+        <i class="fa-regular fa-user text-limeDark"></i>
+        <span id="navUserStatus">Login</span>
+      </button>
+
+      <a href="#vehicles" class="hidden sm:inline-flex items-center gap-2 text-xs md:text-sm font-bold px-5 py-2.5 rounded-full bg-limeAccent hover:bg-limeDark text-ink transition-transform active:scale-95 shadow-sm">
+        Rent EV <i class="fa-solid fa-bolt text-xs"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- SIDEBAR / LEFT DRAWER NAVIGATION -->
+  <div id="sideDrawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+    <div id="drawerOverlay" class="absolute inset-0 bg-ink/60 backdrop-blur-sm cursor-pointer"></div>
+    
+    <div id="drawerPanel" class="absolute top-0 left-0 bottom-0 w-[300px] sm:w-[340px] bg-white shadow-2xl p-6 flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out pointer-events-auto">
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-lineColor">
+          <a href="#home" class="brand flex items-center gap-2.5 font-display font-extrabold text-xl">
+            <span class="w-8 h-8 grid place-items-center bg-limeAccent text-ink rounded-lg font-black text-base">Z</span>
+            <span>Zippy<span class="text-[#6d9b25]">Ride</span></span>
+          </a>
+          <button id="closeDrawer" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <nav class="flex flex-col gap-2 mt-6 font-semibold text-gray-700">
+          <a href="#home" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-house w-6 text-limeDark"></i> Home
+          </a>
+          <a href="#cities" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-city w-6 text-limeDark"></i> Indian Cities
+          </a>
+          <a href="#vehicles" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-bolt w-6 text-limeDark"></i> Electric Fleet (EVs)
+          </a>
+          <a href="#comparison" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-table w-6 text-limeDark"></i> EV Specifications Table
+          </a>
+          <a href="#map-section" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-map-location-dot w-6 text-limeDark"></i> City Map & Hubs
+          </a>
+          <a href="#guides" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-compass w-6 text-limeDark"></i> Tour Guides & Drivers
+          </a>
+          <a href="#how-it-works" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-list-check w-6 text-limeDark"></i> How It Works & Rules
+          </a>
+          <a href="#faqs" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-circle-question w-6 text-limeDark"></i> FAQs
+          </a>
+          <a href="#contact" class="drawer-link flex items-center gap-3 p-3 rounded-xl hover:bg-limeAccent/35 hover:text-ink transition-colors">
+            <i class="fa-solid fa-headset w-6 text-limeDark"></i> Contact Us
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-paper border border-lineColor text-xs space-y-2">
+        <div class="font-bold text-ink flex items-center gap-2">
+          <i class="fa-solid fa-phone text-limeDark"></i> 24/7 EV Support
+        </div>
+        <p class="text-muted">+91 98765 43210</p>
+        <p class="text-muted">ev-support@zippyride.com</p>
+      </div>
+    </div>
+  </div>
+
+  <main class="pt-[115px]">
+    <!-- HERO SECTION -->
+    <section class="hero min-h-[580px] px-6 sm:px-12 lg:px-20 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center overflow-hidden" id="home">
+      <div class="hero-copy max-w-xl">
+        <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase flex items-center gap-2 mb-4">
+          <span class="w-2 h-2 rounded-full bg-evGreen animate-ping"></span> 100% ELECTRIC VEHICLE MOBILITY
+        </div>
+        <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-ink mb-6">
+          Drive the future with <em class="not-italic text-[#7da833]">zero emissions.</em>
+        </h1>
+        <p class="hero-text text-muted text-base sm:text-lg leading-relaxed mb-8">
+          Explore Tier 1 & 2 Indian cities with high-range electric cars, eco-scooters, and electric bikes. Instant advance booking & downloadable token receipts.
+        </p>
+        <div class="hero-actions flex flex-wrap items-center gap-4 mb-10">
+          <a class="btn-primary inline-flex items-center gap-3 font-bold text-sm bg-limeAccent hover:bg-limeDark text-ink px-7 py-4 rounded-full transition-all shadow-md hover:-translate-y-0.5 glow-pulse" href="#vehicles">
+            Rent Electric Ride <i class="fa-solid fa-bolt"></i>
+          </a>
+          <a class="text-link inline-flex items-center gap-2 font-bold text-sm text-ink hover:text-limeDark transition-colors px-4 py-3" href="#cities">
+            Explore Cities <i class="fa-solid fa-arrow-down text-xs"></i>
+          </a>
+        </div>
+
+        <div class="hero-stats flex items-center gap-8 pt-6 border-t border-lineColor">
+          <div>
+            <strong class="font-display font-extrabold text-lg text-ink block">100% EV</strong>
+            <span class="text-xs text-muted">Zero carbon footprint</span>
+          </div>
+          <div>
+            <strong class="font-display font-extrabold text-lg text-ink block">350+ km</strong>
+            <span class="text-xs text-muted">Average EV range</span>
+          </div>
+          <div>
+            <strong class="font-display font-extrabold text-lg text-ink block">Instant PDF</strong>
+            <span class="text-xs text-muted">Downloadable Token Receipt</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO VISUAL GRAPHIC -->
+      <div class="hero-visual relative min-h-[380px] sm:min-h-[440px] bg-[#e3efce] rounded-[2.5rem] overflow-hidden flex items-center justify-center border border-lineColor shadow-inner animate-float">
+        <div class="sun-orb absolute w-64 h-64 bg-[#cbe398] rounded-full top-10 -z-0"></div>
+        
+        <div class="hero-card absolute top-6 left-6 z-10 flex items-center gap-3 bg-white px-4 py-3 rounded-2xl shadow-lg border border-lineColor/50">
+          <span class="w-8 h-8 rounded-xl bg-evGreen text-white grid place-items-center text-sm font-bold"><i class="fa-solid fa-bolt"></i></span>
+          <div>
+            <strong class="block text-xs font-bold">Fast Charging Ready</strong>
+            <small class="text-[10px] text-muted">Free top-up at hubs</small>
+          </div>
+        </div>
+
+        <div class="relative w-full h-full flex items-center justify-center py-16">
+          <div class="relative z-10 text-center">
+            <div class="vehicle-shadow inline-block text-8xl sm:text-9xl transform -rotate-3 hover:scale-105 transition-transform duration-300">
+              ⚡🚘
+            </div>
+            <div class="mt-4 bg-ink/90 backdrop-blur-md text-white text-xs font-bold py-1.5 px-5 rounded-full inline-block tracking-wider uppercase shadow-lg">
+              Next-Gen Electric Mobility
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card absolute bottom-6 right-6 z-10 flex items-center gap-3 bg-white px-4 py-3 rounded-2xl shadow-lg border border-lineColor/50">
+          <span class="w-8 h-8 rounded-xl bg-limeAccent text-ink grid place-items-center text-sm font-bold"><i class="fa-solid fa-shield-halved"></i></span>
+          <div>
+            <strong class="block text-xs font-bold">Secure Deposits</strong>
+            <small class="text-[10px] text-muted">Refundable instantly</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="my-6 border-t border-lineColor max-w-7xl mx-auto">
+
+    <!-- INTRODUCTION TO INDIAN CITIES (Tier 1 & 2 Cities) -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-16" id="cities">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">OPERATIONAL HUBS</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">Explore Tier 1 & 2 <em class="not-italic text-[#7da833]">Indian Cities</em></h2>
+          <p class="text-muted text-xs sm:text-sm mt-3">ZippyRide operates across major metropolitan hubs and heritage tourist cities with dedicated charging stations and local support desks.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- City 1: Indore -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://production-nuego-cms.blr1.digitaloceanspaces.com/static-contents/prod-v1/M_Gandhi_Hall_Ghanta_Ghar_Indore_shutterstock_2272627143_718_X_479_px_1_37045ec5bb.jpg" alt="Indore City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Indore+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 2 Hub</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Indore, Madhya Pradesh</h3>
+              <p class="text-xs text-muted mb-4">India's cleanest city with 25+ EV charging stations and scenic highway routes to Ujjain & Maheshwar.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 28 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="indore">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- City 2: Jaipur -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMFKmk-mEffkYRKL4pKO7SJNpkHNRfCO-OTHUs3coR7A&s" alt="Jaipur City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Jaipur+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 2 Heritage</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Jaipur, Rajasthan</h3>
+              <p class="text-xs text-muted mb-4">Cruise past royal palaces and majestic forts in sustainable electric comfort.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 34 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="jaipur">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- City 3: Bangalore -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=600&q=80" alt="Bangalore City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Bangalore+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 1 Tech Hub</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Bangalore, Karnataka</h3>
+              <p class="text-xs text-muted mb-4">Silicon Valley of India with seamless EV infrastructure and weekend getaways to Nandi Hills.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 55 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="bangalore">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- City 4: Goa -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80" alt="Goa Beaches" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Goa+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 2 Coastal</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Goa Coastal Belt</h3>
+              <p class="text-xs text-muted mb-4">Ride silent electric scooters and beach cruisers along the sun-kissed coastlines of North & South Goa.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 40 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="goa">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- City 5: Pune -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB0scOCbBEMzfSXhemqtHUoEQ6cZUSZ0VwyJmAoCP6RA&s=10" alt="Pune City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Pune+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 1 Metro</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Pune, Maharashtra</h3>
+              <p class="text-xs text-muted mb-4">Cultural capital with easy access to Western Ghat mountain trails and smart city EV charging grids.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 38 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="pune">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- City 6: Ahmedabad -->
+          <div class="city-card bg-white border border-lineColor rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+            <div class="h-44 overflow-hidden relative">
+              <img src="https://tse3.mm.bing.net/th/id/OIP.SXB_Wi9jUBHVkya7EesFOQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Ahmedabad City" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/e7eddd/172a26?text=Ahmedabad+Hub'">
+              <span class="absolute top-3 right-3 bg-ink/80 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tier 1 Heritage</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-extrabold text-lg text-ink mb-1">Ahmedabad, Gujarat</h3>
+              <p class="text-xs text-muted mb-4">UNESCO World Heritage City featuring rapid EV transit lanes and solar-powered charging stations.</p>
+              <div class="flex items-center justify-between pt-3 border-t border-lineColor text-xs">
+                <span class="font-bold text-limeDark"><i class="fa-solid fa-charging-station"></i> 45 Charging Hubs</span>
+                <button class="city-filter-btn text-ink font-bold hover:underline" data-city="ahmedabad">View Fleet →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH & FILTER STRIP -->
+    <section class="search-strip mx-6 sm:mx-12 lg:mx-20 z-20 relative bg-white border border-lineColor rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row items-stretch md:items-center gap-4">
+      <div class="search-intro flex items-center gap-3 min-w-[200px]">
+        <div class="w-11 h-11 bg-[#eff5e4] text-ink rounded-xl grid place-items-center text-lg font-bold">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div>
+          <strong class="block text-xs sm:text-sm font-bold">Search Electric Fleet</strong>
+          <small class="text-[10px] sm:text-xs text-muted">Find EV cars, e-scooters & bikes</small>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 md:border-l md:border-lineColor md:pl-6">
+        <label class="flex flex-col gap-1 text-[10px] font-black uppercase tracking-wider text-gray-500">
+          DESTINATION CITY
+          <input id="destinationInput" type="text" placeholder="e.g. Indore, Goa, Jaipur" class="bg-transparent border-0 outline-none text-ink font-semibold text-sm placeholder:text-gray-400">
+        </label>
+        <label class="flex flex-col gap-1 text-[10px] font-black uppercase tracking-wider text-gray-500 border-t sm:border-t-0 sm:border-l border-lineColor pt-2 sm:pt-0 sm:pl-4">
+          VEHICLE / SERVICE TYPE
+          <select id="serviceSelect" class="bg-transparent border-0 outline-none text-ink font-semibold text-sm cursor-pointer">
+            <option value="all">All Electric Vehicles</option>
+            <option value="car">Electric Cars / SUVs</option>
+            <option value="bike">Electric Scooters & Bikes</option>
+            <option value="driver">Professional EV Drivers</option>
+            <option value="guide">Local Tour Guides</option>
+          </select>
+        </label>
+      </div>
+
+      <button id="searchButton" class="bg-ink hover:bg-gray-800 text-white font-bold text-sm px-6 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md">
+        Search EV <i class="fa-solid fa-arrow-right text-xs"></i>
+      </button>
+    </section>
+
+    <!-- ELECTRIC VEHICLE FLEET SECTION -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-20" id="vehicles">
+      <div class="section-heading flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">100% ELECTRIC VEHICLE FLEET</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">Choose your <em class="not-italic text-[#7da833]">Electric Ride.</em></h2>
+        </div>
+        <p class="text-muted text-xs sm:text-sm max-w-md">Experience silent acceleration, zero emissions, and incredible battery ranges with our fully charged electric cars, e-scooters, and bikes.</p>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="filter-row flex items-center gap-2 sm:gap-3 flex-wrap mb-8">
+        <button class="filter-chip active border border-lineColor px-4 py-2 rounded-full text-xs font-bold transition-all bg-ink text-white" data-filter="all">All EVs</button>
+        <button class="filter-chip border border-lineColor px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-muted hover:bg-ink hover:text-white" data-filter="car">Electric Cars</button>
+        <button class="filter-chip border border-lineColor px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-muted hover:bg-ink hover:text-white" data-filter="bike">Electric Scooters & Bikes</button>
+        <button class="filter-chip border border-lineColor px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-muted hover:bg-ink hover:text-white" data-filter="suv">Electric SUVs</button>
+        <span class="results-count ml-auto text-xs text-muted font-semibold" id="resultsCount">6 options</span>
+      </div>
+
+      <!-- Vehicle Cards Grid (All Electric Vehicles) -->
+      <div class="vehicle-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="vehicleGrid">
+        
+        <!-- EV Card 1 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="car" data-destination="indore" data-search="electric car sedan indore ev tata nexon" data-price="1599" data-advance="300" data-security="2000">
+          <div class="vehicle-image h-48 bg-[#e3f2dc] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 400 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🚗</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">01 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">Tata Nexon EV Max</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 4.9</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Electric Sedan · 5 seats · Fast charging enabled</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹1,599 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="Tata Nexon EV Max" data-type="Electric Car" data-price="1599" data-advance="300" data-security="2000">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- EV Card 2 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="bike" data-destination="goa" data-search="electric scooter goa ather ola bike" data-price="599" data-advance="150" data-security="1000">
+          <div class="vehicle-image h-48 bg-[#e8f5e9] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 120 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🛵</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">02 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">Ather 450X / Ola S1</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 4.8</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Electric Scooter · 2 seats · Helmets & charger</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹599 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="Ather 450X / Ola S1" data-type="Electric Scooter" data-price="599" data-advance="150" data-security="1000">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- EV Card 3 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="suv" data-destination="jaipur" data-search="electric suv mg zs ev jaipur" data-price="2799" data-advance="500" data-security="3500">
+          <div class="vehicle-image h-48 bg-[#d8f3dc] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 460 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🚙</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">03 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">MG ZS EV Pro</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 4.9</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Electric SUV · 5 seats · Panoramic sunroof</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹2,799 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="MG ZS EV Pro" data-type="Electric SUV" data-price="2799" data-advance="500" data-security="3500">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- EV Card 4 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="car" data-destination="bangalore" data-search="electric hatchback tago tiago ev bangalore" data-price="1299" data-advance="250" data-security="1800">
+          <div class="vehicle-image h-48 bg-[#e1f5fe] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 315 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🚗</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">04 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">Tata Tiago EV City</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 4.7</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Electric Hatchback · 4 seats · Compact city cruiser</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹1,299 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="Tata Tiago EV City" data-type="Electric Car" data-price="1299" data-advance="250" data-security="1800">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- EV Card 5 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="suv" data-destination="pune" data-search="mahindra be electric suv pune" data-price="3199" data-advance="600" data-security="4000">
+          <div class="vehicle-image h-48 bg-[#e8f8f5] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 500 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🚙</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">05 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">Mahindra BEV Xtreme</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 5.0</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Flagship Electric SUV · 5 seats · AWD Mountain ready</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹3,199 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="Mahindra BEV Xtreme" data-type="Electric SUV" data-price="3199" data-advance="600" data-security="4000">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- EV Card 6 -->
+        <article class="vehicle-card bg-white border border-lineColor rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col justify-between" data-category="bike" data-destination="ahmedabad" data-search="electric e-luna kinetic bike ahmedabad" data-price="449" data-advance="100" data-security="800">
+          <div class="vehicle-image h-48 bg-[#fdf2e9] relative flex items-center justify-center">
+            <span class="image-tag absolute top-3 left-3 bg-evGreen text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">⚡ 100 KM RANGE</span>
+            <span class="vehicle-emoji text-6xl group-hover:scale-110 transition-transform duration-300">⚡🛵</span>
+            <span class="image-number absolute bottom-3 right-3 text-[10px] font-bold text-gray-500">06 / 06</span>
+          </div>
+          <div class="vehicle-info p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="vehicle-title flex justify-between items-center mb-1">
+                <h3 class="font-display font-extrabold text-lg text-ink">Kinetic E-Luna Pro</h3>
+                <span class="rating bg-[#fff4df] text-[#a96b23] text-xs font-bold px-2 py-0.5 rounded-md">★ 4.6</span>
+              </div>
+              <p class="text-xs text-muted mb-4">Electric Utility Moped · 2 seats · High efficiency</p>
+            </div>
+            <div class="vehicle-bottom flex items-center justify-between border-t border-lineColor pt-4 mt-2">
+              <div class="price font-display font-extrabold text-lg text-ink">₹449 <small class="text-xs font-normal text-muted">/ day</small></div>
+              <button class="book-vehicle px-4 py-2 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center gap-2 transition-transform active:scale-95" 
+                data-name="Kinetic E-Luna Pro" data-type="Electric Scooter" data-price="449" data-advance="100" data-security="800">
+                Book EV <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <p class="no-results hidden p-8 text-center text-muted bg-white rounded-2xl border border-lineColor mt-6" id="noResults">
+        No electric vehicles found for this city or filter. Try searching another Tier 1 or Tier 2 city.
+      </p>
+    </section>
+
+    <!-- HTML TABLE SECTION (EV Specifications Comparison Table) -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-16 bg-white border-t border-b border-lineColor" id="comparison">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">FLEET COMPARISON</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">Electric Vehicle <em class="not-italic text-[#7da833]">Specifications Table</em></h2>
+          <p class="text-muted text-xs sm:text-sm mt-2">Compare battery capacities, ranges, security deposits, and token rates across our EV lineup.</p>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-lineColor shadow-sm">
+          <table class="w-full text-xs sm:text-sm ev-table bg-white">
+            <thead>
+              <tr class="bg-paper font-display font-extrabold text-ink uppercase tracking-wider text-xs">
+                <th>Vehicle Model</th>
+                <th>Type</th>
+                <th>Battery / Range</th>
+                <th>Daily Rental</th>
+                <th>Advance Token</th>
+                <th>Refundable Security</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-700">
+              <tr class="hover:bg-paper/50">
+                <td class="font-bold text-ink">Tata Nexon EV Max</td>
+                <td>Electric Sedan</td>
+                <td>40.5 kWh / 400 km</td>
+                <td>₹1,599 / day</td>
+                <td class="text-limeDark font-bold">₹300</td>
+                <td>₹2,000</td>
+              </tr>
+              <tr class="hover:bg-paper/50 bg-paper/30">
+                <td class="font-bold text-ink">Ather 450X / Ola S1</td>
+                <td>Electric Scooter</td>
+                <td>3.7 kWh / 120 km</td>
+                <td>₹599 / day</td>
+                <td class="text-limeDark font-bold">₹150</td>
+                <td>₹1,000</td>
+              </tr>
+              <tr class="hover:bg-paper/50">
+                <td class="font-bold text-ink">MG ZS EV Pro</td>
+                <td>Electric SUV</td>
+                <td>50.3 kWh / 460 km</td>
+                <td>₹2,799 / day</td>
+                <td class="text-limeDark font-bold">₹500</td>
+                <td>₹3,500</td>
+              </tr>
+              <tr class="hover:bg-paper/50 bg-paper/30">
+                <td class="font-bold text-ink">Tata Tiago EV City</td>
+                <td>Electric Hatchback</td>
+                <td>24.0 kWh / 315 km</td>
+                <td>₹1,299 / day</td>
+                <td class="text-limeDark font-bold">₹250</td>
+                <td>₹1,800</td>
+              </tr>
+              <tr class="hover:bg-paper/50">
+                <td class="font-bold text-ink">Mahindra BEV Xtreme</td>
+                <td>Electric SUV</td>
+                <td>60.0 kWh / 500 km</td>
+                <td>₹3,199 / day</td>
+                <td class="text-limeDark font-bold">₹600</td>
+                <td>₹4,000</td>
+              </tr>
+              <tr class="hover:bg-paper/50 bg-paper/30">
+                <td class="font-bold text-ink">Kinetic E-Luna Pro</td>
+                <td>Electric Moped</td>
+                <td>2.0 kWh / 100 km</td>
+                <td>₹449 / day</td>
+                <td class="text-limeDark font-bold">₹100</td>
+                <td>₹800</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGE MAP & IFRAME SECTION -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-20" id="map-section">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Image Map Area -->
+        <div>
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">INTERACTIVE CITY SELECTOR</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink mb-4">Clickable <em class="not-italic text-[#7da833]">India EV Map</em></h2>
+          <p class="text-muted text-xs sm:text-sm mb-6 leading-relaxed">
+            Use our interactive destination map graphic to quickly jump to vehicles available in your city of choice.
+          </p>
+
+          <div class="relative rounded-3xl overflow-hidden border border-lineColor shadow-md bg-paper p-2">
+            <!-- Image Map Graphic -->
+            <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=700&q=80" alt="India Cities Map" usemap="#citymap" class="w-full h-[280px] object-cover rounded-2xl">
+            
+            <map name="citymap">
+              <area shape="rect" coords="20,20,200,120" href="#vehicles" alt="Indore & Western Hubs" title="Indore & Western Hubs" onclick="document.getElementById('destinationInput').value='indore'; applyFilters();">
+              <area shape="rect" coords="220,20,400,120" href="#vehicles" alt="Jaipur & North" title="Jaipur & North" onclick="document.getElementById('destinationInput').value='jaipur'; applyFilters();">
+              <area shape="rect" coords="420,20,650,120" href="#vehicles" alt="Bangalore & South" title="Bangalore & South" onclick="document.getElementById('destinationInput').value='bangalore'; applyFilters();">
+              <area shape="rect" coords="100,140,320,260" href="#vehicles" alt="Goa & Coastal" title="Goa & Coastal" onclick="document.getElementById('destinationInput').value='goa'; applyFilters();">
+            </map>
+            <div class="text-center py-2 text-[11px] text-muted font-bold">
+              💡 Tip: Click on any region on the image above to instantly filter EV fleet!
+            </div>
+          </div>
+        </div>
+
+        <!-- Iframe Section (Google Maps Hub Embed) -->
+        <div>
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">CENTRAL HUB LOCATION</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink mb-4">Live Hub & <em class="not-italic text-[#7da833]">Charging Station</em></h2>
+          <p class="text-muted text-xs sm:text-sm mb-6 leading-relaxed">
+            Visit our flagship ZippyRide EV Charging Hub and customer service station in Indore, MP.
+          </p>
+
+          <div class="rounded-3xl overflow-hidden border border-lineColor shadow-md h-[300px]">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.7495!2d75.892!3d22.7533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQ1JzEyLjAiTiA3NcKwNTMnMzEuMiJF!5e0!3m2!1sen!2sin!4v1650000000000!5m2!1sen!2sin" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="ZippyRide Indore Hub Map">
+            </iframe>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TRAVEL SERVICES SECTION (GUIDES & DRIVERS) -->
+    <section class="service-band bg-ink text-white py-20 px-6 sm:px-12 lg:px-20 my-10" id="guides">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="service-copy">
+          <div class="eyebrow text-xs font-black tracking-widest text-limeAccent uppercase mb-2">EXPERIENCED COMPANIONS</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-5xl leading-tight mb-4">
+            Professional EV Drivers & <em class="not-italic text-limeAccent">Tour Guides.</em>
+          </h2>
+          <p class="text-gray-300 text-sm leading-relaxed max-w-md mb-8">
+            Prefer not to drive? Book our certified EV chauffeurs or expert local tour guides who know every historical monument and culinary hotspot.
+          </p>
+          <a href="#drivers" class="inline-flex items-center gap-3 bg-white text-ink font-bold text-xs sm:text-sm px-6 py-3.5 rounded-full hover:bg-limeAccent transition-all shadow-md">
+            Explore Services <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="service-cards grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="service-card bg-[#263b34] border border-[#3b5048] rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-limeAccent text-ink grid place-items-center text-xl font-bold mb-6">✧</div>
+              <div class="text-[10px] tracking-widest text-gray-400 font-extrabold mb-1 uppercase">CERTIFIED GUIDES</div>
+              <h3 class="font-display font-extrabold text-xl mb-2 text-white">Local Tour Guides</h3>
+              <p class="text-xs text-gray-300 leading-relaxed mb-6">Multilingual local experts to guide you through heritage walks, food trails, and cultural landmarks.</p>
+            </div>
+            <button class="request-service w-full py-3 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center justify-center gap-2" 
+              data-service="Tour Guide" data-name="Local Tour Guide" data-type="Guide" data-price="1200" data-advance="300" data-security="0">
+              Book Guide <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </button>
+          </div>
+
+          <div class="service-card bg-[#33483e] border border-[#3b5048] rounded-2xl p-6 flex flex-col justify-between" id="drivers">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-limeAccent text-ink grid place-items-center text-xl font-bold mb-6">↗</div>
+              <div class="text-[10px] tracking-widest text-gray-400 font-extrabold mb-1 uppercase">EXPERT CHAUFFEURS</div>
+              <h3 class="font-display font-extrabold text-xl mb-2 text-white">Verified EV Drivers</h3>
+              <p class="text-xs text-gray-300 leading-relaxed mb-6">Professional drivers trained specifically in smooth electric vehicle handling for outstation road trips.</p>
+            </div>
+            <button class="request-service w-full py-3 rounded-xl bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs flex items-center justify-center gap-2" 
+              data-service="Driver" data-name="Verified EV Driver" data-type="Driver" data-price="1500" data-advance="300" data-security="0">
+              Book Driver <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS & TOPICS LIST -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-20" id="how-it-works">
+      <div class="max-w-7xl mx-auto">
+        <div class="section-heading mb-12">
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">EASY BOOKING PROCESS</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">How ZippyRide <em class="not-italic text-[#7da833]">Works.</em></h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <!-- 3 Steps Cards -->
+          <article class="step bg-white border border-lineColor rounded-2xl p-6 relative">
+            <span class="step-no absolute top-5 right-5 font-display font-extrabold text-sm text-[#a2b19b]">01</span>
+            <div class="w-12 h-12 rounded-xl bg-[#f0f6e5] text-limeDark flex items-center justify-center text-xl mb-6">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3 class="font-display font-extrabold text-lg text-ink mb-2">1. Choose EV & City</h3>
+            <p class="text-xs text-muted leading-relaxed">Select your Tier 1 or Tier 2 city, pick an electric car or scooter, and specify travel dates.</p>
+          </article>
+
+          <article class="step bg-white border border-lineColor rounded-2xl p-6 relative">
+            <span class="step-no absolute top-5 right-5 font-display font-extrabold text-sm text-[#a2b19b]">02</span>
+            <div class="w-12 h-12 rounded-xl bg-[#f0f6e5] text-limeDark flex items-center justify-center text-xl mb-6">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <h3 class="font-display font-extrabold text-lg text-ink mb-2">2. Token Advance & Receipt</h3>
+            <p class="text-xs text-muted leading-relaxed">Pay a small advance token fee securely via UPI or Card, and instantly download your token receipt PDF.</p>
+          </article>
+
+          <article class="step bg-white border border-lineColor rounded-2xl p-6 relative">
+            <span class="step-no absolute top-5 right-5 font-display font-extrabold text-sm text-[#a2b19b]">03</span>
+            <div class="w-12 h-12 rounded-xl bg-[#f0f6e5] text-limeDark flex items-center justify-center text-xl mb-6">
+              <i class="fa-solid fa-key"></i>
+            </div>
+            <h3 class="font-display font-extrabold text-lg text-ink mb-2">3. Pickup & Drive Silent</h3>
+            <p class="text-xs text-muted leading-relaxed">Show your token receipt at the hub, complete security deposit, and enjoy your zero-emission ride!</p>
+          </article>
+        </div>
+
+        <!-- TOPICS LIST (Requested Feature) -->
+        <div class="mt-12 bg-white border border-lineColor rounded-3xl p-6 sm:p-8">
+          <h3 class="font-display font-extrabold text-xl text-ink mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-list-ul text-limeDark"></i> Key Topics & Rental Guidelines
+          </h3>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs sm:text-sm text-muted">
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>Driving License:</strong> Valid original DL required for EV cars & scooters.</span>
+            </li>
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>Battery Charging:</strong> 100% free top-ups at any ZippyRide partner station.</span>
+            </li>
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>Security Deposit:</strong> Fully refundable within 24 hours of vehicle return.</span>
+            </li>
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>Token Receipts:</strong> Downloadable token receipts generated immediately.</span>
+            </li>
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>Cancellation:</strong> 100% refund on advance token if cancelled 12h prior.</span>
+            </li>
+            <li class="flex items-start gap-2.5 bg-paper p-3.5 rounded-xl border border-lineColor">
+              <i class="fa-solid fa-check text-limeDark mt-0.5"></i>
+              <span><strong>24/7 Roadside Assist:</strong> Instant battery rescue & replacement across cities.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQS SECTION -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-20 bg-white border-t border-b border-lineColor" id="faqs">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1 justify-center">GOT QUESTIONS?</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">Frequently Asked <em class="not-italic text-[#7da833]">Questions</em></h2>
+          <p class="text-muted text-xs sm:text-sm mt-2">Everything you need to know about our electric vehicle rentals and token receipt downloads.</p>
+        </div>
+
+        <div class="space-y-4" id="faqAccordion">
+          <div class="faq-item border border-lineColor rounded-2xl bg-paper overflow-hidden">
+            <button class="faq-toggle w-full p-5 text-left font-display font-bold text-sm sm:text-base text-ink flex justify-between items-center gap-4 hover:bg-limeAccent/20 transition-colors">
+              <span>How do I download my token receipt after booking?</span>
+              <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-5 text-xs sm:text-sm text-muted leading-relaxed border-t border-transparent">
+              <div class="py-4">
+                Immediately after completing your advance token payment, a success confirmation screen appears with a <strong>"Download Token Receipt"</strong> button. Clicking this instantly downloads a text receipt file to your device! You can also view past bookings anytime from the customer login portal.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item border border-lineColor rounded-2xl bg-paper overflow-hidden">
+            <button class="faq-toggle w-full p-5 text-left font-display font-bold text-sm sm:text-base text-ink flex justify-between items-center gap-4 hover:bg-limeAccent/20 transition-colors">
+              <span>What documents are required to rent an electric vehicle?</span>
+              <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-5 text-xs sm:text-sm text-muted leading-relaxed border-t border-transparent">
+              <div class="py-4">
+                You will need a valid Driving License (DL) for car/scooter class, an Aadhaar Card for identity verification, and your digital token receipt.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item border border-lineColor rounded-2xl bg-paper overflow-hidden">
+            <button class="faq-toggle w-full p-5 text-left font-display font-bold text-sm sm:text-base text-ink flex justify-between items-center gap-4 hover:bg-limeAccent/20 transition-colors">
+              <span>Are EV charging stations free of cost?</span>
+              <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-5 text-xs sm:text-sm text-muted leading-relaxed border-t border-transparent">
+              <div class="py-4">
+                Yes! Recharging at any ZippyRide hub across Indore, Jaipur, Bangalore, Pune, Ahmedabad, and Goa is 100% complimentary during your rental period.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section px-6 sm:px-12 lg:px-20 py-20" id="contact">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-12">
+          <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">GET IN TOUCH</div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-ink">We're here to help <em class="not-italic text-[#7da833]">24/7.</em></h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="space-y-4 lg:col-span-1">
+            <div class="bg-white border border-lineColor rounded-2xl p-5 flex items-start gap-4 shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-limeAccent text-ink flex items-center justify-center shrink-0 text-base">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div>
+                <strong class="block font-display text-sm font-bold text-ink">Headquarters</strong>
+                <p class="text-xs text-muted mt-1">ZippyRide Electric Mobility Ltd, MG Road, Vijay Nagar, Indore, Madhya Pradesh 452010</p>
+              </div>
+            </div>
+
+            <div class="bg-white border border-lineColor rounded-2xl p-5 flex items-start gap-4 shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-limeAccent text-ink flex items-center justify-center shrink-0 text-base">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div>
+                <strong class="block font-display text-sm font-bold text-ink">EV Support Hotline</strong>
+                <p class="text-xs text-muted mt-1">+91 98765 43210 / +91 731 2987654</p>
+                <small class="text-[10px] text-limeDark font-bold">Mon - Sun: 24 Hours Open</small>
+              </div>
+            </div>
+
+            <div class="bg-white border border-lineColor rounded-2xl p-5 flex items-start gap-4 shadow-sm">
+              <div class="w-10 h-10 rounded-xl bg-limeAccent text-ink flex items-center justify-center shrink-0 text-base">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div>
+                <strong class="block font-display text-sm font-bold text-ink">Email Addresses</strong>
+                <p class="text-xs text-muted mt-1">support@zippyride.com</p>
+                <p class="text-xs text-muted">ev-bookings@zippyride.com</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-lineColor rounded-2xl p-6 sm:p-8 shadow-md lg:col-span-2">
+            <h3 class="font-display font-extrabold text-xl text-ink mb-1">Send us an inquiry</h3>
+            <p class="text-xs text-muted mb-6">Have questions regarding corporate EV leasing or multi-city travel packages?</p>
+            
+            <form id="contactForm" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label class="block text-xs font-bold text-gray-700">
+                  Full Name *
+                  <input type="text" required placeholder="e.g. Priya Sharma" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+                </label>
+                <label class="block text-xs font-bold text-gray-700">
+                  Phone Number *
+                  <input type="tel" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+                </label>
+              </div>
+
+              <label class="block text-xs font-bold text-gray-700">
+                Email Address
+                <input type="email" placeholder="priya@example.com" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+              </label>
+
+              <label class="block text-xs font-bold text-gray-700">
+                Message *
+                <textarea rows="3" required placeholder="How can our EV mobility team help you?" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink"></textarea>
+              </label>
+
+              <button type="submit" class="w-full py-3.5 bg-ink hover:bg-gray-800 text-white rounded-xl font-bold text-xs transition-colors shadow-sm">
+                Send Message <i class="fa-solid fa-paper-plane ml-1"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (Enhanced with address, social media links & details) -->
+  <footer class="footer bg-paper border-t border-lineColor px-6 sm:px-12 lg:px-20 py-12">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <a class="brand flex items-center gap-2 font-display font-extrabold text-lg mb-3" href="#home">
+          <span class="w-7 h-7 grid place-items-center bg-limeAccent text-ink rounded-lg font-black text-sm">Z</span>
+          <span>Zippy<span class="text-[#6d9b25]">Ride</span></span>
+        </a>
+        <p class="text-xs text-muted leading-relaxed">
+          India's premier 100% electric vehicle rental & travel platform. Zero carbon footprint across Tier 1 & Tier 2 cities.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-display font-extrabold text-xs uppercase tracking-wider text-ink mb-3">Operational Cities</h4>
+        <ul class="space-y-2 text-xs text-muted">
+          <li>Indore (HQ Hub)</li>
+          <li>Jaipur (Heritage Hub)</li>
+          <li>Bangalore (Tech Hub)</li>
+          <li>Goa (Coastal Hub)</li>
+          <li>Pune & Ahmedabad</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-display font-extrabold text-xs uppercase tracking-wider text-ink mb-3">Quick Links</h4>
+        <ul class="space-y-2 text-xs text-muted">
+          <li><a href="#vehicles" class="hover:text-ink">Electric Fleet</a></li>
+          <li><a href="#comparison" class="hover:text-ink">EV Specifications Table</a></li>
+          <li><a href="#map-section" class="hover:text-ink">City Map & Hubs</a></li>
+          <li><a href="#faqs" class="hover:text-ink">FAQs & Token Receipts</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-display font-extrabold text-xs uppercase tracking-wider text-ink mb-3">Social & Contact</h4>
+        <div class="flex items-center gap-3 mb-4">
+          <a href="#" class="w-9 h-9 rounded-full bg-white border border-lineColor flex items-center justify-center text-ink hover:bg-limeAccent transition-colors"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white border border-lineColor flex items-center justify-center text-ink hover:bg-limeAccent transition-colors"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white border border-lineColor flex items-center justify-center text-ink hover:bg-limeAccent transition-colors"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white border border-lineColor flex items-center justify-center text-ink hover:bg-limeAccent transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <p class="text-xs text-muted">Address: MG Road, Vijay Nagar, Indore, MP 452010</p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto border-t border-lineColor pt-6 text-center text-xs text-gray-400">
+      © <span id="year">2026</span> ZippyRide Electric Mobility Pvt Ltd. All rights reserved. Zero Emission Future.
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+  <dialog id="bookingDialog" class="booking-dialog max-w-xl w-[calc(100%-2rem)] rounded-3xl p-0 overflow-hidden shadow-2xl bg-white backdrop:bg-ink/75 border-0">
+    <div class="relative p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
+      
+      <button id="closeBookingModalBtn" type="button" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors z-20 focus:outline-none" aria-label="Close Modal">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- STEP 1 -->
+      <div id="bookingStep1">
+        <div class="eyebrow text-xs font-black tracking-widest text-[#6d8b53] uppercase mb-1">STEP 1 OF 2 — EV BOOKING</div>
+        <h2 id="dialogTitle" class="font-display font-extrabold text-2xl text-ink mb-2">Request Electric Vehicle</h2>
+        <p class="text-xs text-muted mb-6">Enter your travel details to proceed to advance token payment.</p>
+
+        <form id="bookingFormStep1" class="space-y-4">
+          <input type="hidden" id="selectedService" value="EV">
+          <input type="hidden" id="selectedBasePrice" value="1599">
+          <input type="hidden" id="selectedAdvanceFee" value="300">
+          <input type="hidden" id="selectedSecurityFee" value="2000">
+
+          <div class="bg-paper p-3.5 rounded-xl border border-lineColor flex items-center justify-between text-xs">
+            <div>
+              <span class="text-muted block text-[10px] uppercase font-bold">Selected EV Model</span>
+              <strong id="displayServiceName" class="font-display font-bold text-ink text-sm">Tata Nexon EV Max</strong>
+            </div>
+            <div class="text-right">
+              <span class="text-muted block text-[10px] uppercase font-bold">Daily Rate</span>
+              <strong id="displayDailyRate" class="font-display font-bold text-limeDark text-sm">₹1,599 / day</strong>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="block text-xs font-bold text-gray-700">
+              Customer Full Name *
+              <input id="customerName" type="text" required placeholder="Enter full name" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+            </label>
+            <label class="block text-xs font-bold text-gray-700">
+              Contact Phone *
+              <input id="customerPhone" type="tel" required pattern="[0-9]{10}" placeholder="10-digit number" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+            </label>
+          </div>
+
+          <label class="block text-xs font-bold text-gray-700">
+            City / Destination *
+            <input id="customerDestination" type="text" required placeholder="e.g. Indore, Bangalore, Goa" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none focus:border-ink">
+          </label>
+
+          <button type="submit" class="w-full py-4 bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2 mt-4">
+            Proceed to Advance Token Payment <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="bookingStep2" class="hidden">
+        <div class="flex items-center gap-2 mb-1">
+          <button id="backToStep1" class="text-xs text-muted hover:text-ink font-bold"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <span class="text-[10px] font-black tracking-widest text-[#6d8b53] uppercase ml-auto">STEP 2 OF 2 — TOKEN PAYMENT</span>
+        </div>
+        <h2 class="font-display font-extrabold text-2xl text-ink mb-1">EV Rate Breakdown & Token</h2>
+        <p class="text-xs text-muted mb-4">Select pickup dates and pay token advance.</p>
+
+        <form id="bookingFormStep2" class="space-y-4">
+          <div class="bg-paper p-4 rounded-xl border border-lineColor space-y-3">
+            <span class="text-xs font-extrabold text-ink block uppercase tracking-wider">1. Pick Travel Dates & Timings</span>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-gray-600 mb-1">Pickup Date & Time *</label>
+                <div class="flex gap-2">
+                  <input id="pickupDate" type="date" required class="w-full p-2.5 rounded-lg border border-lineColor text-xs bg-white focus:outline-none">
+                  <input id="pickupTime" type="time" required value="10:00" class="w-28 p-2.5 rounded-lg border border-lineColor text-xs bg-white focus:outline-none">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-gray-600 mb-1">Drop-off Date & Time *</label>
+                <div class="flex gap-2">
+                  <input id="dropDate" type="date" required class="w-full p-2.5 rounded-lg border border-lineColor text-xs bg-white focus:outline-none">
+                  <input id="dropTime" type="time" required value="18:00" class="w-28 p-2.5 rounded-lg border border-lineColor text-xs bg-white focus:outline-none">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-ink text-white p-4 rounded-xl space-y-2">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">Daily Rental Fee:</span>
+              <span id="calcRentalFee" class="font-bold">₹1,599</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-300">Refundable Security Deposit:</span>
+              <span id="calcSecurityDeposit" class="font-bold text-limeAccent">₹2,000</span>
+            </div>
+            <div class="flex justify-between text-xs pb-2 border-b border-gray-700">
+              <span class="text-gray-300">Token Advance Required Now:</span>
+              <span id="calcTokenAdvance" class="font-bold text-limeAccent">₹300</span>
+            </div>
+            <div class="flex justify-between text-sm font-extrabold pt-1">
+              <span>Payable Now (Token):</span>
+              <span id="calcTotalAdvancePayable" class="text-limeAccent font-display text-base">₹300</span>
+            </div>
+            <p class="text-[10px] text-gray-400 italic">Remaining balance & security deposit payable at EV hub pickup.</p>
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-xs font-extrabold text-ink block uppercase tracking-wider">2. Payment Method for Token</span>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <input type="radio" id="payUpi" name="paymentMethod" value="UPI / Google Pay" checked class="hidden payment-radio">
+                <label for="payUpi" class="flex flex-col items-center justify-center p-3 rounded-xl border border-lineColor bg-paper hover:bg-white cursor-pointer text-center transition-all">
+                  <i class="fa-solid fa-mobile-screen text-lg mb-1 text-ink"></i>
+                  <span class="text-xs font-bold text-ink">UPI / GPay / PhonePe</span>
+                </label>
+              </div>
+
+              <div>
+                <input type="radio" id="payCard" name="paymentMethod" value="Credit / Debit Card" class="hidden payment-radio">
+                <label for="payCard" class="flex flex-col items-center justify-center p-3 rounded-xl border border-lineColor bg-paper hover:bg-white cursor-pointer text-center transition-all">
+                  <i class="fa-regular fa-credit-card text-lg mb-1 text-ink"></i>
+                  <span class="text-xs font-bold text-ink">Debit/Credit Card</span>
+                </label>
+              </div>
+
+              <div>
+                <input type="radio" id="payNet" name="paymentMethod" value="Net Banking" class="hidden payment-radio">
+                <label for="payNet" class="flex flex-col items-center justify-center p-3 rounded-xl border border-lineColor bg-paper hover:bg-white cursor-pointer text-center transition-all">
+                  <i class="fa-solid fa-building-columns text-lg mb-1 text-ink"></i>
+                  <span class="text-xs font-bold text-ink">Net Banking</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" id="confirmAdvanceBookingBtn" class="w-full py-4 bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock text-xs"></i> Confirm Token Advance & Generate Receipt
+          </button>
+        </form>
+      </div>
+
+      <!-- SUCCESS CONFIRMATION & DOWNLOAD RECEIPT -->
+      <div id="bookingSuccess" class="hidden text-center py-6 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-limeAccent text-ink mx-auto flex items-center justify-center text-3xl font-extrabold shadow-lg">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2 class="font-display font-extrabold text-2xl text-ink">EV Booking Confirmed!</h2>
+        <p class="text-xs text-muted max-w-sm mx-auto">Your advance token payment was successful. You can now download your official token receipt below.</p>
+        
+        <div id="summaryReceiptBox" class="bg-paper p-4 rounded-2xl border border-lineColor text-left text-xs space-y-2 font-mono">
+          <!-- Filled dynamically -->
+        </div>
+
+        <!-- DOWNLOAD TOKEN RECEIPT BUTTON (Requested Feature) -->
+        <button id="downloadReceiptBtn" class="w-full py-3.5 bg-evGreen hover:bg-emerald-600 text-white font-bold text-xs rounded-xl transition-colors shadow-md flex items-center justify-center gap-2">
+          <i class="fa-solid fa-download"></i> Download Token Receipt (.txt)
+        </button>
+
+        <button id="finishBookingBtn" class="w-full py-3.5 bg-ink text-white font-bold text-xs rounded-xl hover:bg-gray-800 transition-colors">
+          Done & Close
+        </button>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- AUTH MODAL -->
+  <dialog id="authDialog" class="auth-dialog max-w-md w-[calc(100%-2rem)] rounded-3xl p-0 overflow-hidden shadow-2xl bg-white backdrop:bg-ink/75 border-0">
+    <div class="relative p-6 sm:p-8">
+      <button id="closeAuthModalBtn" type="button" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="authFormsContainer">
+        <div class="flex border-b border-lineColor mb-6">
+          <button id="tabLogin" class="flex-1 pb-3 font-display font-bold text-sm text-ink border-b-2 border-ink">Login</button>
+          <button id="tabSignup" class="flex-1 pb-3 font-display font-bold text-sm text-muted border-b-2 border-transparent hover:text-ink">Sign Up</button>
+        </div>
+
+        <form id="loginForm" class="space-y-4">
+          <label class="block text-xs font-bold text-gray-700">
+            Email or Phone Number
+            <input id="loginEmail" type="text" required value="user@zippyride.com" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none">
+          </label>
+          <label class="block text-xs font-bold text-gray-700">
+            Password
+            <input id="loginPass" type="password" required value="password123" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none">
+          </label>
+          <button type="submit" class="w-full py-3.5 bg-ink hover:bg-gray-800 text-white font-bold text-xs rounded-xl transition-colors shadow-sm">
+            Sign In
+          </button>
+        </form>
+
+        <form id="signupForm" class="space-y-4 hidden">
+          <label class="block text-xs font-bold text-gray-700">
+            Full Name
+            <input id="signupName" type="text" required placeholder="Priya Sharma" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none">
+          </label>
+          <label class="block text-xs font-bold text-gray-700">
+            Mobile Phone
+            <input id="signupPhone" type="tel" required pattern="[0-9]{10}" placeholder="10-digit number" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none">
+          </label>
+          <label class="block text-xs font-bold text-gray-700">
+            Email Address
+            <input id="signupEmail" type="email" required placeholder="priya@example.com" class="w-full mt-1.5 p-3 rounded-xl border border-lineColor text-xs bg-paper focus:bg-white focus:outline-none">
+          </label>
+          <button type="submit" class="w-full py-3.5 bg-limeAccent hover:bg-limeDark text-ink font-bold text-xs rounded-xl transition-colors shadow-sm">
+            Create Account
+          </button>
+        </form>
+      </div>
+
+      <div id="userProfileContainer" class="hidden space-y-4">
+        <div class="text-center pb-4 border-b border-lineColor">
+          <div class="w-16 h-16 rounded-full bg-limeAccent text-ink font-black text-2xl mx-auto flex items-center justify-center mb-2">
+            <span id="userAvatarChar">U</span>
+          </div>
+          <h3 id="userNameDisplay" class="font-display font-bold text-lg text-ink">User Name</h3>
+          <p id="userEmailDisplay" class="text-xs text-muted">user@zippyride.com</p>
+        </div>
+
+        <div>
+          <h4 class="font-display font-extrabold text-xs uppercase tracking-wider text-gray-500 mb-2">Your EV Bookings</h4>
+          <div id="userBookingsList" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+        </div>
+
+        <button id="logoutBtn" class="w-full py-2.5 border border-red-200 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl transition-colors">
+          Logout
+        </button>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-ink text-white text-xs font-bold px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-3 flex items-center gap-3 border border-gray-700">
+    <i class="fa-solid fa-circle-info text-limeAccent"></i>
+    <span id="toastMsg">Notification message</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script src="script.js"></script>
+</body>
+</html>

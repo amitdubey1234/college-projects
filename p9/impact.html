@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-IN" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community Impact | CivicFix</title>
+  <meta name="description" content="See how a civic platform could summarise community activity: sample counts by status, category and severity, plus the most-supported issues. All figures are demo data, not verified results.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/impact.js" defer></script>
+</head>
+<body class="page page--impact" data-page="impact">
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner container">
+      <a class="site-logo" href="index.html" aria-label="CivicFix home">
+        <span class="site-logo__mark" aria-hidden="true">CF</span>
+        <span class="site-logo__text">CivicFix</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-action="toggle-nav">
+        <span class="nav-toggle__icon" aria-hidden="true"></span>
+        <span class="nav-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <div class="site-nav__panel" id="site-nav-panel">
+          <ul class="nav-links">
+            <li class="nav-links__item"><a class="nav-link" href="index.html" data-nav="home">Home</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="issues.html" data-nav="issues">Explore Issues</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="impact.html" data-nav="impact" aria-current="page">Impact</a></li>
+          </ul>
+          <a class="button button--primary site-nav__cta" href="report.html" data-nav="report">Report an Issue</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main" id="main-content" tabindex="-1">
+
+    <section class="page-header" id="impact-header" aria-labelledby="page-title">
+      <div class="container">
+        <h1 class="page-header__title" id="page-title">Community Impact</h1>
+        <p class="page-header__description">A demonstration of how a civic platform could summarise activity across a city, built from the sample issues in this prototype.</p>
+        <p class="notice notice--demo" id="demo-notice" role="note"><strong>Demo data only:</strong> every number on this page is calculated from fictional sample reports. These are not verified results and do not reflect any real government action or real-world outcomes.</p>
+      </div>
+    </section>
+
+    <!-- Summary statistics -->
+    <section class="section section--stats" id="impact-summary" aria-labelledby="impact-summary-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-summary-title">Summary</h2>
+          <p class="section-heading__text">Overall figures for the sample data.</p>
+        </div>
+
+        <dl class="stats-grid" id="impact-stats-grid">
+          <div class="stat-card" data-stat="total">
+            <dt class="stat-card__label">Sample reports</dt>
+            <dd class="stat-card__value" id="impact-stat-total">—</dd>
+          </div>
+          <div class="stat-card" data-stat="supports">
+            <dt class="stat-card__label">Total sample supporters</dt>
+            <dd class="stat-card__value" id="impact-stat-supports">—</dd>
+          </div>
+          <div class="stat-card" data-stat="resolution-rate">
+            <dt class="stat-card__label">Share marked resolved (sample)</dt>
+            <dd class="stat-card__value" id="impact-stat-resolution-rate">—</dd>
+          </div>
+          <div class="stat-card" data-stat="top-category">
+            <dt class="stat-card__label">Most-reported category (sample)</dt>
+            <dd class="stat-card__value" id="impact-stat-top-category">—</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Status counts -->
+    <section class="section section--status" id="impact-status" aria-labelledby="impact-status-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-status-title">Issues by status</h2>
+          <p class="section-heading__text">How many sample issues are open, in progress or resolved.</p>
+        </div>
+
+        <dl class="stats-grid stats-grid--status" id="impact-status-grid">
+          <div class="stat-card" data-stat="open" data-status="open">
+            <dt class="stat-card__label">Open</dt>
+            <dd class="stat-card__value" id="impact-count-open">—</dd>
+          </div>
+          <div class="stat-card" data-stat="in-progress" data-status="in-progress">
+            <dt class="stat-card__label">In progress</dt>
+            <dd class="stat-card__value" id="impact-count-in-progress">—</dd>
+          </div>
+          <div class="stat-card" data-stat="resolved" data-status="resolved">
+            <dt class="stat-card__label">Resolved</dt>
+            <dd class="stat-card__value" id="impact-count-resolved">—</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Category breakdown -->
+    <section class="section section--breakdown" id="impact-categories" aria-labelledby="impact-categories-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-categories-title">Category breakdown</h2>
+          <p class="section-heading__text">Number of sample issues in each category.</p>
+        </div>
+
+        <ul class="breakdown-list" id="category-breakdown" data-breakdown="category"></ul>
+
+        <div class="empty-state" id="category-breakdown-empty" hidden>
+          <p class="empty-state__title">No category data</p>
+          <p class="empty-state__text">There are no sample issues to summarise yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Severity distribution -->
+    <section class="section section--breakdown" id="impact-severity" aria-labelledby="impact-severity-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-severity-title">Severity distribution</h2>
+          <p class="section-heading__text">How serious the sample issues were rated by their reporters.</p>
+        </div>
+
+        <ul class="breakdown-list" id="severity-breakdown" data-breakdown="severity"></ul>
+
+        <div class="empty-state" id="severity-breakdown-empty" hidden>
+          <p class="empty-state__title">No severity data</p>
+          <p class="empty-state__text">There are no sample issues to summarise yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Most-supported issues -->
+    <section class="section section--ranking" id="impact-most-supported" aria-labelledby="impact-most-supported-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-most-supported-title">Most-supported issues</h2>
+          <p class="section-heading__text">Sample issues with the highest supporter counts.</p>
+        </div>
+
+        <ol class="ranking-list" id="most-supported-list" data-ranking="most-supported"></ol>
+
+        <div class="empty-state" id="most-supported-empty" hidden>
+          <p class="empty-state__title">No supported issues yet</p>
+          <p class="empty-state__text">Issues will appear here once sample reports have supporters.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent activity -->
+    <section class="section section--activity" id="impact-activity" aria-labelledby="impact-activity-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="impact-activity-title">Recent activity</h2>
+          <p class="section-heading__text">The latest events in the sample data, plus reports saved in this browser.</p>
+        </div>
+
+        <ul class="activity-list" id="recent-activity-list" data-activity-list></ul>
+
+        <div class="empty-state" id="recent-activity-empty" hidden>
+          <p class="empty-state__title">No recent activity</p>
+          <p class="empty-state__text">Reports and status updates will appear here.</p>
+        </div>
+
+        <noscript>
+          <p class="notice notice--warning">JavaScript is required to calculate and display the sample statistics on this page.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section cta-banner" id="impact-cta" aria-labelledby="impact-cta-title">
+      <div class="container cta-banner__inner">
+        <h2 class="cta-banner__title" id="impact-cta-title">See the sample issues behind these numbers</h2>
+        <p class="cta-banner__text">Browse every fictional report, or try the report form yourself.</p>
+        <div class="cta-banner__actions">
+          <a class="button button--primary button--large" href="issues.html">Explore Issues</a>
+          <a class="button button--secondary button--large" href="report.html">Report an Issue</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Breakdown row (rendered into #category-breakdown and #severity-breakdown) -->
+  <template id="breakdown-item-template">
+    <li class="breakdown-item" data-breakdown-item data-key="">
+      <p class="breakdown-item__label" data-field="label">Label</p>
+      <p class="breakdown-item__value"><span data-field="count">0</span> issues (<span data-field="percent">0%</span>)</p>
+      <span class="breakdown-item__bar" aria-hidden="true"><span class="breakdown-item__fill" data-field="fill"></span></span>
+    </li>
+  </template>
+
+  <!-- Ranking row (rendered into #most-supported-list) -->
+  <template id="ranking-item-template">
+    <li class="ranking-item" data-ranking-item data-issue-id="">
+      <a class="ranking-item__link" data-field="link" href="issue-details.html"><span data-field="title">Issue title</span></a>
+      <p class="ranking-item__meta"><span data-field="location">Sample location</span> · <span data-field="support-count">0</span> supporters</p>
+    </li>
+  </template>
+
+  <!-- Activity row (rendered into #recent-activity-list) -->
+  <template id="activity-item-template">
+    <li class="activity-item" data-activity-item>
+      <p class="activity-item__date"><time data-field="date" datetime="2000-01-01">Date</time></p>
+      <p class="activity-item__text" data-field="text">Activity description.</p>
+      <a class="activity-item__link" data-field="link" href="issue-details.html">View issue<span class="visually-hidden"> <span data-field="link-title">details</span></span></a>
+    </li>
+  </template>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="site-footer__accent" aria-hidden="true"></div>
+    <div class="site-footer__inner container">
+      <div class="site-footer__brand">
+        <a class="site-logo site-logo--footer" href="index.html" aria-label="CivicFix home">
+          <span class="site-logo__mark" aria-hidden="true">CF</span>
+          <span class="site-logo__text">CivicFix</span>
+        </a>
+        <p class="site-footer__tagline">See an issue. Report it. Make your city better.</p>
+      </div>
+
+      <nav class="footer-nav" id="footer-nav" aria-label="Footer">
+        <p class="site-footer__heading">Explore</p>
+        <ul class="footer-links">
+          <li class="footer-links__item"><a class="footer-link" href="index.html">Home</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="issues.html">Explore Issues</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="report.html">Report an Issue</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="impact.html">Impact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__about">
+        <p class="site-footer__heading">About this project</p>
+        <p class="site-footer__text">CivicFix is a frontend-only student portfolio prototype built with HTML, CSS and vanilla JavaScript.</p>
+      </div>
+
+      <p class="site-footer__disclaimer" id="footer-disclaimer" role="note"><strong>Prototype notice:</strong> CivicFix is not an official government portal. Reports are not sent to any authority, nothing is verified, and all sample data is fictional.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

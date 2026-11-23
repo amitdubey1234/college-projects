@@ -1,0 +1,2879 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="vibrant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChromaCafé — Interactive Parallax Dining & Table Ordering</title>
+  <meta name="description" content="Scan, Scroll, Savour. Order directly to your table with live order tracking, group ordering, and loyalty rewards." />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Main Stylesheet (Phase 2) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =====================================================================
+       ROLE / SYSTEM VIEW BAR (Switches between Customer, Kitchen Staff, Admin)
+       ===================================================================== -->
+  <div id="system-role-bar" class="role-bar" role="region" aria-label="Platform Mode Switcher">
+    <div class="role-bar__left">
+      <span class="status-dot status-dot--live"></span>
+      <span>ChromaCafé Digital Ecosystem v2.5</span>
+      <span class="role-bar__divider">|</span>
+      <span id="active-table-pill" class="table-pill">
+        🪑 Table: <strong id="current-table-display">17</strong>
+        <button type="button" id="change-table-btn" class="btn-inline" data-open-modal="table-modal">Change / Scan QR</button>
+      </span>
+      <span id="group-order-pill" class="group-pill">
+        👥 Group Mode: <strong id="group-status-display">Active (3 Guests)</strong>
+      </span>
+    </div>
+    <div class="role-bar__right" role="tablist" aria-label="Workspace Views">
+      <button type="button" class="role-tab active" data-view-target="customer-view" role="tab" aria-selected="true">
+        🍽️ Customer Experience
+      </button>
+      <button type="button" class="role-tab" data-view-target="kitchen-view" role="tab" aria-selected="false">
+        👨‍🍳 Kitchen KDS <span id="kds-badge" class="badge">3</span>
+      </button>
+      <button type="button" class="role-tab" data-view-target="admin-view" role="tab" aria-selected="false">
+        ⚙️ Admin ERP
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       26. MAIN NAVIGATION BAR
+       ===================================================================== -->
+  <header id="main-header" class="site-header">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo" aria-label="ChromaCafé Home">
+        <span class="brand-logo__icon">☕</span>
+        <div class="brand-logo__text">
+          <span class="brand-name">ChromaCafé</span>
+          <span class="brand-tag">Table-First Dining</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav id="primary-nav" class="primary-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#menu" class="nav-link">Menu</a></li>
+          <li><a href="#offers" class="nav-link">Offers</a></li>
+          <li><a href="#order-tracking" class="nav-link">Order</a></li>
+          <li><a href="#reservations" class="nav-link">Reservations</a></li>
+          <li><a href="#loyalty" class="nav-link">Loyalty</a></li>
+          <li><a href="#gallery" class="nav-link">Gallery</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Utility Actions -->
+      <div class="nav-actions">
+        <!-- Quick Search Trigger -->
+        <button type="button" id="nav-search-btn" class="icon-btn" aria-label="Search Menu" data-scroll-to="#search-filter-bar">
+          🔍
+        </button>
+
+        <!-- Favorites Trigger -->
+        <button type="button" id="nav-fav-btn" class="icon-btn" aria-label="My Favourites" data-scroll-to="#favourites-section">
+          ❤️ <span id="fav-count-badge" class="counter-badge">3</span>
+        </button>
+
+        <!-- 23. Notifications Trigger -->
+        <button type="button" id="nav-notif-btn" class="icon-btn" aria-label="Notifications" data-toggle-drawer="notification-drawer">
+          🔔 <span id="notif-count-badge" class="counter-badge counter-badge--pulse">4</span>
+        </button>
+
+        <!-- 5. Smart Cart Trigger -->
+        <button type="button" id="nav-cart-btn" class="cart-trigger-btn" aria-label="Open Shopping Cart" data-toggle-drawer="cart-drawer">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-label">Table <strong id="nav-table-num">17</strong></span>
+          <span id="cart-count-badge" class="counter-badge">3</span>
+          <span id="nav-cart-total" class="cart-total-pill">₹720</span>
+        </button>
+
+        <!-- 7. Login / Profile Trigger -->
+        <button type="button" id="nav-profile-btn" class="profile-trigger-btn" data-open-modal="auth-profile-modal">
+          <span class="avatar-circle">A</span>
+          <span class="profile-meta">
+            <strong id="nav-user-name">Antara</strong>
+            <small id="nav-user-points">⚡ 640 pts</small>
+          </span>
+        </button>
+
+        <!-- Mobile Hamburger Button -->
+        <button type="button" id="mobile-menu-toggle" class="hamburger-btn" aria-label="Toggle Mobile Menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer" hidden>
+      <ul class="mobile-nav-list">
+        <li><a href="#home" class="mobile-nav-link">🏠 Home</a></li>
+        <li><a href="#menu" class="mobile-nav-link">🍕 Interactive Menu</a></li>
+        <li><a href="#offers" class="mobile-nav-link">🎟️ Offers & Coupons</a></li>
+        <li><a href="#order-tracking" class="mobile-nav-link">⏱️ Track Live Order</a></li>
+        <li><a href="#reservations" class="mobile-nav-link">🪑 Table Reservations</a></li>
+        <li><a href="#loyalty" class="mobile-nav-link">👑 Loyalty & Rewards</a></li>
+        <li><a href="#gallery" class="mobile-nav-link">📸 Café Gallery</a></li>
+        <li><a href="#about" class="mobile-nav-link">✨ About Us</a></li>
+        <li><a href="#feedback" class="mobile-nav-link">💬 Feedback & Support</a></li>
+        <li><a href="#contact" class="mobile-nav-link">📍 Contact Us</a></li>
+      </ul>
+    </div>
+  </header>
+
+
+  <!-- =====================================================================
+       PRIMARY VIEW 1: CUSTOMER EXPERIENCE (Sections 1–15, 18–25)
+       ===================================================================== -->
+  <main id="customer-view" class="workspace-view active">
+
+    <!-- ===================================================================
+         1. HOME PAGE & MULTI-LAYER PARALLAX HERO SECTION
+         =================================================================== -->
+    <section id="home" class="hero-parallax-section" data-parallax-section="hero">
+      <!-- Parallax Background & Floating Layers -->
+      <div class="parallax-stage" aria-hidden="true">
+        <div class="parallax-layer layer-bg-gradient" data-parallax-speed="0.1"></div>
+        <div class="parallax-layer layer-coffee-beans" data-parallax-speed="0.35">☕ 🫘 ✨ 🫘 ☕</div>
+        <div class="parallax-layer layer-floating-pizza" data-parallax-speed="-0.45">🍕</div>
+        <div class="parallax-layer layer-floating-burger" data-parallax-speed="0.5">🍔</div>
+        <div class="parallax-layer layer-floating-cup" data-parallax-speed="-0.3">🥤</div>
+        <div class="parallax-layer layer-floating-donut" data-parallax-speed="0.65">🍩</div>
+        <div class="parallax-layer layer-steam" data-parallax-speed="-0.2">♨️</div>
+      </div>
+
+      <div class="container hero-grid">
+        <!-- Hero Left Content -->
+        <div class="hero-content" data-animate="fade-up">
+          <div class="hero-pill-badge">
+            <span>⚡ ZERO WAIT STAFF DELAY</span>
+            <span class="dot">•</span>
+            <span>SCAN QR AT YOUR TABLE & ORDER DIRECTLY</span>
+          </div>
+
+          <h1 class="hero-title">
+            Travel Through Flavour at <span class="gradient-text">ChromaCafé</span>
+          </h1>
+
+          <p class="hero-tagline">
+            No waving for waiters. No splitting bill headaches. Lock in your table number, build a solo or group order with friends, track kitchen prep live, and earn instant loyalty rewards.
+          </p>
+
+          <!-- Instant Table Bar inside Hero -->
+          <div class="hero-table-bar glass-card">
+            <div class="hero-table-bar__info">
+              <span class="table-icon">🪑</span>
+              <div>
+                <label for="quick-table-input">Sitting in the café right now?</label>
+                <div class="table-input-row">
+                  <span>Table #</span>
+                  <input type="number" id="quick-table-input" min="1" max="30" value="17" aria-label="Enter Table Number" />
+                  <button type="button" id="confirm-table-quick-btn" class="btn btn--sm btn--primary">Lock Table</button>
+                  <button type="button" id="scan-qr-hero-btn" class="btn btn--sm btn--glass" data-open-modal="table-modal">📷 Scan Table QR</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary CTA Buttons -->
+          <div class="hero-cta-group">
+            <a href="#menu" class="btn btn--xl btn--gradient-primary">🚀 Order Now to Table #17</a>
+            <a href="#coffee-parallax" class="btn btn--xl btn--glass">🧭 Explore Parallax Menu</a>
+          </div>
+
+          <!-- Hero Highlights Strip -->
+          <div class="hero-stats-row">
+            <div class="stat-item">
+              <strong>4.9 ★</strong>
+              <span>2,400+ Verified Table Reviews</span>
+            </div>
+            <div class="stat-item">
+              <strong>~11 Mins</strong>
+              <span>Avg. Kitchen-to-Table Prep</span>
+            </div>
+            <div class="stat-item">
+              <strong>10% Back</strong>
+              <span>In Chroma Loyalty Points</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Visual Stack (Parallax Cards) -->
+        <div class="hero-visual-stack" data-parallax-speed="0.25">
+          <div class="hero-main-showcase">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80" alt="Artisanal Cappuccino and Croissant" class="hero-showcase-img" />
+            <!-- Today's Special Floating Card -->
+            <div class="floating-card floating-card--special glass-card" data-parallax-speed="-0.2">
+              <span class="badge badge--hot">🔥 TODAY'S SPECIAL</span>
+              <h3>Hazelnut Gold Cold Brew & Truffle Fries Combo</h3>
+              <p>Served straight to your table with 2x bonus loyalty points today.</p>
+              <div class="floating-card__footer">
+                <span class="price-tag">₹349 <del>₹440</del></span>
+                <button type="button" class="btn btn--sm btn--primary add-special-btn" data-id="special-1" data-name="Hazelnut Gold Cold Brew Combo" data-price="349">
+                  + Add Special
+                </button>
+              </div>
+            </div>
+
+            <!-- Live Table Status Floating Card -->
+            <div class="floating-card floating-card--live glass-card" data-parallax-speed="0.3">
+              <span class="live-indicator">🟢 Kitchen Live</span>
+              <p><strong>Table #12</strong> just received <em>Cheese Burst Pizza & 2 Mojitos</em> in 9m 40s!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Sub-strip: Popular Dishes, Featured Offers & Customer Reviews Preview -->
+      <div class="container home-highlights-grid">
+        <!-- Popular Dishes Quick Card -->
+        <div class="highlight-box glass-card">
+          <div class="highlight-box__header">
+            <h2>🏆 Most Ordered Right Now</h2>
+            <a href="#menu" class="link-arrow">Full Menu →</a>
+          </div>
+          <div class="mini-dish-list">
+            <div class="mini-dish">
+              <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=200&q=80" alt="Caramel Macchiato" />
+              <div>
+                <h4>Caramel Macchiato</h4>
+                <span>★ 4.9 • ₹210</span>
+              </div>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="cof-7">+ Add</button>
+            </div>
+            <div class="mini-dish">
+              <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=200&q=80" alt="Cheese Burst Pizza" />
+              <div>
+                <h4>Cheese Burst Pizza</h4>
+                <span>★ 4.9 • ₹399</span>
+              </div>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="piz-4">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Offer Quick Card -->
+        <div class="highlight-box glass-card highlight-box--offer">
+          <div class="highlight-box__header">
+            <h2>⚡ Flash Table Deal</h2>
+            <a href="#offers" class="link-arrow">All 7 Offers →</a>
+          </div>
+          <div class="flash-deal-body">
+            <span class="coupon-pill">CODE: TABLE20</span>
+            <h3>Flat 20% OFF on Table Orders Above ₹599</h3>
+            <p>Auto-applies to both solo and group table sessions.</p>
+            <button type="button" class="btn btn--sm btn--secondary apply-coupon-btn" data-coupon="TABLE20">Apply to Table #17</button>
+          </div>
+        </div>
+
+        <!-- Customer Reviews Ticker Card -->
+        <div class="highlight-box glass-card">
+          <div class="highlight-box__header">
+            <h2>💬 Live Diner Love</h2>
+            <a href="#feedback" class="link-arrow">Write Review →</a>
+          </div>
+          <blockquote class="review-snippet">
+            <p>"Scanned the QR at Table 9, my 3 friends added their own items in Group Mode, and hot coffee arrived in 7 minutes!"</p>
+            <footer>— <strong>Rohan K.</strong> (Gold Member • ★ 5.0)</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         4 & 15. TABLE-BASED ORDERING & GROUP ORDERING HUB
+         =================================================================== -->
+    <section id="table-group-hub" class="section-table-hub">
+      <div class="container">
+        <div class="table-group-banner glass-card">
+          <!-- Left: Table Number & QR Association -->
+          <div class="table-association-block">
+            <span class="section-eyebrow">STEP 1: TABLE LINK</span>
+            <h2>🪑 Table-Direct Ordering</h2>
+            <p>Your order goes straight to the kitchen screen tagged with your exact table number.</p>
+            <div class="table-controls">
+              <div class="active-table-badge">
+                <span>Current Table</span>
+                <strong id="hub-table-number">17</strong>
+              </div>
+              <button type="button" class="btn btn--primary" data-open-modal="table-modal">
+                🔄 Switch Table / Scan QR
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: 15. Group Ordering Session -->
+          <div class="group-ordering-block">
+            <div class="group-header">
+              <div>
+                <span class="section-eyebrow">COLLABORATIVE CART</span>
+                <h2>👥 Table #17 Group Order Session</h2>
+                <p>Sitting with friends? Everyone adds their picks into one combined table order.</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="group-mode-toggle" checked />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Group Mode ON</span>
+              </label>
+            </div>
+
+            <!-- Active Diners at the Table -->
+            <div id="group-members-list" class="group-members-list" aria-label="Active Group Members at Table">
+              <div class="group-member-chip active" data-member="Antara">
+                <span class="member-avatar">A</span>
+                <div>
+                  <strong>Antara (You)</strong>
+                  <small>Ordering as Active Diner</small>
+                </div>
+              </div>
+              <div class="group-member-chip" data-member="Rahul">
+                <span class="member-avatar">R</span>
+                <div>
+                  <strong>Rahul</strong>
+                  <small>Added Cheese Burst Pizza</small>
+                </div>
+              </div>
+              <div class="group-member-chip" data-member="Aditi">
+                <span class="member-avatar">Ad</span>
+                <div>
+                  <strong>Aditi</strong>
+                  <small>Added Pink Sauce Pasta</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Friend to Table Order -->
+            <form id="add-group-member-form" class="group-add-form">
+              <label for="new-member-name" class="sr-only">Friend's Name</label>
+              <input type="text" id="new-member-name" placeholder="Add friend at your table (e.g., Kabir)..." required />
+              <button type="submit" class="btn btn--sm btn--secondary">+ Add Diner to Table</button>
+              <span class="active-diner-selector">
+                Adding items for:
+                <select id="current-diner-select" aria-label="Select which friend is adding items">
+                  <option value="Antara" selected>Antara (Host)</option>
+                  <option value="Rahul">Rahul</option>
+                  <option value="Aditi">Aditi</option>
+                </select>
+              </span>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         13. TRENDING & PERSONALIZED RECOMMENDATIONS
+         =================================================================== -->
+    <section id="trending-recommendations" class="section-trending">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">SMART AI CURATION</span>
+            <h2>🔥 Trending & Picked For You</h2>
+          </div>
+          <!-- Personalized Recommendation Banner based on Order History -->
+          <div id="personalized-rec-banner" class="personalized-banner glass-card">
+            <span class="rec-sparkle">✨ Personalized for Antara (ID: CAF10245)</span>
+            <p id="personalized-rec-text">
+              “Because you loved <strong>Cappuccino</strong> on your last visit, you'll love our <strong>Caramel Macchiato</strong>!”
+            </p>
+            <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="cof-7">Try Caramel Macchiato (₹210)</button>
+          </div>
+        </div>
+
+        <!-- 5 Trending Spotlight Cards -->
+        <div class="trending-grid">
+          <article class="trending-card glass-card" data-trend="bestseller">
+            <span class="trend-badge">🏆 Today's Bestseller</span>
+            <h3>Cheese Burst Farmhouse</h3>
+            <p>Ordered 84 times today across tables</p>
+            <div class="trending-card__footer">
+              <strong>₹399</strong>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="piz-4">+ Add</button>
+            </div>
+          </article>
+
+          <article class="trending-card glass-card" data-trend="most-ordered-coffee">
+            <span class="trend-badge">☕ Most Ordered Coffee</span>
+            <h3>Artisanal Cappuccino</h3>
+            <p>Velvety micro-foam & 100% Arabica</p>
+            <div class="trending-card__footer">
+              <strong>₹160</strong>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="cof-2">+ Add</button>
+            </div>
+          </article>
+
+          <article class="trending-card glass-card" data-trend="most-popular-pizza">
+            <span class="trend-badge">🍕 Most Popular Pizza</span>
+            <h3>Peri Peri Paneer Pizza</h3>
+            <p>Wood-fired crust with fiery peri drizzle</p>
+            <div class="trending-card__footer">
+              <strong>₹379</strong>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="piz-7">+ Add</button>
+            </div>
+          </article>
+
+          <article class="trending-card glass-card" data-trend="new-arrival">
+            <span class="trend-badge">🆕 New Arrival</span>
+            <h3>Lotus Biscoff Belgian Waffle</h3>
+            <p>Crispy golden waffle with warm speculoos</p>
+            <div class="trending-card__footer">
+              <strong>₹240</strong>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="des-6">+ Add</button>
+            </div>
+          </article>
+
+          <article class="trending-card glass-card" data-trend="customer-favourite">
+            <span class="trend-badge">💖 Customer Favourite</span>
+            <h3>Pink Sauce Penne Pasta</h3>
+            <p>4.9★ rated creamy tomato-alfredo fusion</p>
+            <div class="trending-card__footer">
+              <strong>₹289</strong>
+              <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="pas-3">+ Add</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         24. SMART SEARCH & MULTI-FILTER STICKY BAR
+         =================================================================== -->
+    <section id="menu" class="section-menu-wrapper">
+      <div id="search-filter-bar" class="search-filter-sticky glass-card">
+        <div class="container">
+          <!-- Top Row: Search Input + Category Jump Pills -->
+          <div class="filter-top-row">
+            <div class="search-input-group">
+              <span class="search-icon">🔍</span>
+              <input type="search" id="menu-search-input" placeholder="Search 41+ dishes (e.g., Cappuccino, Cheese Burst, Mojito)..." aria-label="Search food by name" />
+              <button type="button" id="clear-search-btn" class="btn-clear" aria-label="Clear search" hidden>✕</button>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="category-pills" role="tablist" aria-label="Filter by food category">
+              <button type="button" class="cat-pill active" data-filter-category="all">🌈 All (41)</button>
+              <button type="button" class="cat-pill" data-filter-category="coffee">☕ Coffee (8)</button>
+              <button type="button" class="cat-pill" data-filter-category="pizza">🍕 Pizza (7)</button>
+              <button type="button" class="cat-pill" data-filter-category="burgers">🍔 Burgers (5)</button>
+              <button type="button" class="cat-pill" data-filter-category="pasta">🍝 Pasta (4)</button>
+              <button type="button" class="cat-pill" data-filter-category="snacks">🍟 Snacks (6)</button>
+              <button type="button" class="cat-pill" data-filter-category="desserts">🍰 Desserts (6)</button>
+              <button type="button" class="cat-pill" data-filter-category="beverages">🥤 Beverages (5)</button>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Granular Attribute Filters -->
+          <div class="filter-bottom-row">
+            <!-- Dietary Filter -->
+            <div class="filter-group">
+              <label for="filter-diet">Dietary:</label>
+              <select id="filter-diet">
+                <option value="all">All (Veg & Non-Veg)</option>
+                <option value="veg">🟢 Pure Veg Only</option>
+                <option value="nonveg">🔴 Non-Veg Only</option>
+              </select>
+            </div>
+
+            <!-- Max Price Slider -->
+            <div class="filter-group">
+              <label for="filter-price">Max Price: <strong id="price-filter-label">₹500</strong></label>
+              <input type="range" id="filter-price" min="90" max="500" step="10" value="500" />
+            </div>
+
+            <!-- Minimum Rating -->
+            <div class="filter-group">
+              <label for="filter-rating">Rating:</label>
+              <select id="filter-rating">
+                <option value="0">All Ratings</option>
+                <option value="4.5">★ 4.5 & Above</option>
+                <option value="4.8">★ 4.8 & Above</option>
+              </select>
+            </div>
+
+            <!-- Toggle Checkboxes: Spicy, Bestseller, Availability -->
+            <div class="filter-toggles">
+              <label class="chip-checkbox">
+                <input type="checkbox" id="filter-spicy" />
+                <span>🌶️ Spicy</span>
+              </label>
+              <label class="chip-checkbox">
+                <input type="checkbox" id="filter-bestseller" />
+                <span>🏆 Bestseller</span>
+              </label>
+              <label class="chip-checkbox">
+                <input type="checkbox" id="filter-available" checked />
+                <span>✅ Available Now</span>
+              </label>
+              <button type="button" id="reset-filters-btn" class="btn btn--xs btn--ghost">Reset All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           2 & 3. PARALLAX CATEGORY SECTIONS & COMPLETE 41-ITEM MENU
+           ================================================================= -->
+
+      <!-- =================================================================
+           CATEGORY 1: ☕ COFFEE (Theme: Brown / Roasted Cream) — 8 Items
+           ================================================================= -->
+      <div id="coffee-parallax" class="category-block" data-category-section="coffee" data-theme="coffee-brown">
+        <!-- Parallax Category Header -->
+        <div class="parallax-category-banner" data-parallax-container="coffee">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-beans-layer" data-parallax-speed="0.4" aria-hidden="true">🫘 ☕ 🫘 ☕ 🫘</div>
+          <div class="parallax-layer cat-steam-layer" data-parallax-speed="-0.35" aria-hidden="true">♨️ ☁️ ♨️</div>
+          <div class="parallax-layer cat-cup-layer" data-parallax-speed="-0.2" aria-hidden="true">☕</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">ROASTED ARABICA & ESPRESSO BAR</span>
+            <h2>☕ Artisanal Coffee</h2>
+            <p>Single-origin beans roasted in-house, pulled at 9 bars, and poured steaming hot at your table.</p>
+          </div>
+        </div>
+
+        <!-- Coffee Menu Grid (8 Items) -->
+        <div class="container menu-grid" data-category-grid="coffee">
+          <!-- 1. Espresso -->
+          <article class="menu-card" data-id="cof-1" data-name="Espresso" data-category="coffee" data-price="120" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80" alt="Espresso" loading="lazy" />
+              <span class="diet-badge diet-badge--veg" title="Vegetarian">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Espresso to favourites" data-fav-id="cof-1">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Espresso</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Intense double-shot of 100% Arabica crema with rich dark cocoa notes.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹120</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Cappuccino -->
+          <article class="menu-card" data-id="cof-2" data-name="Cappuccino" data-category="coffee" data-price="160" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" alt="Cappuccino" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn active" aria-label="Save Cappuccino to favourites" data-fav-id="cof-2">❤️</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cappuccino</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Classic Italian balance of bold espresso, steamed milk, and airy micro-foam.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹160</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Americano -->
+          <article class="menu-card" data-id="cof-3" data-name="Americano" data-category="coffee" data-price="140" data-rating="4.6" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?auto=format&fit=crop&w=600&q=80" alt="Americano" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Americano to favourites" data-fav-id="cof-3">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Americano</h3>
+                <span class="rating-pill">★ 4.6</span>
+              </div>
+              <p class="menu-card__desc">Double espresso pulled directly over hot filtered water for a smooth, clean finish.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹140</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Latte -->
+          <article class="menu-card" data-id="cof-4" data-name="Latte" data-category="coffee" data-price="175" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1561882468-9110e03e0f78?auto=format&fit=crop&w=600&q=80" alt="Latte" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Latte to favourites" data-fav-id="cof-4">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Latte</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Silky steamed milk poured over rich espresso, finished with signature latte art.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹175</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Mocha -->
+          <article class="menu-card" data-id="cof-5" data-name="Mocha" data-category="coffee" data-price="195" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=600&q=80" alt="Mocha" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Mocha to favourites" data-fav-id="cof-5">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Mocha</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Belgian dark chocolate ganache melted into espresso and topped with whipped cream.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹195</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Cold Coffee -->
+          <article class="menu-card" data-id="cof-6" data-name="Cold Coffee" data-category="coffee" data-price="180" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80" alt="Cold Coffee" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Cold Coffee to favourites" data-fav-id="cof-6">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cold Coffee</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Thick café-style frappe blended with vanilla bean ice cream and roasted espresso.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹180</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. Caramel Macchiato -->
+          <article class="menu-card" data-id="cof-7" data-name="Caramel Macchiato" data-category="coffee" data-price="210" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80" alt="Caramel Macchiato" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Caramel Macchiato to favourites" data-fav-id="cof-7">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Caramel Macchiato</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Vanilla-infused milk marked with espresso and cross-hatched with buttery caramel.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹210</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8. Iced Latte -->
+          <article class="menu-card" data-id="cof-8" data-name="Iced Latte" data-category="coffee" data-price="170" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80" alt="Iced Latte" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" aria-label="Save Iced Latte to favourites" data-fav-id="cof-8">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Iced Latte</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Chilled double espresso poured over crystal ice cubes and cold farm-fresh milk.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹170</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 2: 🍕 PIZZA (Theme: Fiery Red / Mozzarella Orange) — 7 Items
+           ================================================================= -->
+      <div id="pizza-parallax" class="category-block" data-category-section="pizza" data-theme="pizza-red">
+        <div class="parallax-category-banner" data-parallax-container="pizza">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-pizza-slice" data-parallax-speed="-0.4" aria-hidden="true">🍕 🧀 🍅 🌿 🍕</div>
+          <div class="parallax-layer cat-flame-layer" data-parallax-speed="0.3" aria-hidden="true">🔥 🌶️ 🔥</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">HAND-STRETCHED & STONE-BAKED AT 400°C</span>
+            <h2>🍕 Wood-Fired Pizzas</h2>
+            <p>San Marzano tomato sauce, stretchy mozzarella pulls, and blistered sourdough crusts.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="pizza">
+          <!-- 1. Margherita -->
+          <article class="menu-card" data-id="piz-1" data-name="Margherita" data-category="pizza" data-price="269" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=600&q=80" alt="Margherita Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-1" aria-label="Save Margherita">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Margherita</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Classic Neapolitan tomato base, buffalo mozzarella, sweet basil leaves & olive oil.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹269</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Farmhouse -->
+          <article class="menu-card" data-id="piz-2" data-name="Farmhouse" data-category="pizza" data-price="349" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Farmhouse Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-2" aria-label="Save Farmhouse">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Farmhouse</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Loaded with crunchy bell peppers, button mushrooms, red onions, olives & mozzarella.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹349</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Paneer Pizza -->
+          <article class="menu-card" data-id="piz-3" data-name="Paneer Pizza" data-category="pizza" data-price="359" data-rating="4.8" data-veg="veg" data-spicy="true" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=600&q=80" alt="Paneer Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-3" aria-label="Save Paneer Pizza">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Paneer Pizza</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Char-grilled tandoori cottage cheese cubes, capsicum, red paprika & mint mayo drizzle.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹359</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Cheese Burst -->
+          <article class="menu-card" data-id="piz-4" data-name="Cheese Burst" data-category="pizza" data-price="399" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80" alt="Cheese Burst Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn active" data-fav-id="piz-4" aria-label="Save Cheese Burst">❤️</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cheese Burst</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Molten liquid cheddar core stuffed inside the crust, topped with 3-cheese blend.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹399</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Corn & Cheese -->
+          <article class="menu-card" data-id="piz-5" data-name="Corn & Cheese" data-category="pizza" data-price="319" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80" alt="Corn & Cheese Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-5" aria-label="Save Corn & Cheese">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Corn & Cheese</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Juicy golden sweet corn kernels baked over a blanket of stretchy mozzarella and herbs.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹319</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. BBQ Chicken Pizza -->
+          <article class="menu-card" data-id="piz-6" data-name="BBQ Chicken Pizza" data-category="pizza" data-price="429" data-rating="4.9" data-veg="nonveg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=600&q=80" alt="BBQ Chicken Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--nonveg">🔴 Non-Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-6" aria-label="Save BBQ Chicken Pizza">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>BBQ Chicken Pizza</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Smoky hickory BBQ glazed chicken chunks, caramelized onions & aged mozzarella.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹429</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. Peri Peri Pizza -->
+          <article class="menu-card" data-id="piz-7" data-name="Peri Peri Pizza" data-category="pizza" data-price="379" data-rating="4.8" data-veg="veg" data-spicy="true" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80" alt="Peri Peri Pizza" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="piz-7" aria-label="Save Peri Peri Pizza">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Peri Peri Pizza</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Fiery African Bird's Eye chilli sauce, jalapeños, red paprika, paneer & cheese swirl.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹379</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 3: 🍔 BURGERS (Theme: Golden Yellow / Flame Orange) — 5 Items
+           ================================================================= -->
+      <div id="burgers-parallax" class="category-block" data-category-section="burgers" data-theme="burger-gold">
+        <div class="parallax-category-banner" data-parallax-container="burgers">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-burger-layer" data-parallax-speed="-0.35" aria-hidden="true">🍔 🥬 🧀 🍅 🍔</div>
+          <div class="parallax-layer cat-sesame-layer" data-parallax-speed="0.45" aria-hidden="true">✨ 🍟 ✨</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">TOASTED BRIOCHE BUNS & DOUBLE CRUST PATTIES</span>
+            <h2>🍔 Gourmet Craft Burgers</h2>
+            <p>Stacked high with house secret sauces, crisp iceberg lettuce, and melty cheddar slices.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="burgers">
+          <!-- 1. Classic Burger -->
+          <article class="menu-card" data-id="bur-1" data-name="Classic Burger" data-category="burgers" data-price="169" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" alt="Classic Burger" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bur-1" aria-label="Save Classic Burger">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Classic Burger</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Crispy herb-potato & green pea patty, pickled gherkins, tomato & signature burger mayo.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹169</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Cheese Burger -->
+          <article class="menu-card" data-id="bur-2" data-name="Cheese Burger" data-category="burgers" data-price="209" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Cheese Burger" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bur-2" aria-label="Save Cheese Burger">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cheese Burger</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Double aged cheddar slice + molten nacho cheese pour over a crunchy golden patty.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹209</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Paneer Burger -->
+          <article class="menu-card" data-id="bur-3" data-name="Paneer Burger" data-category="burgers" data-price="239" data-rating="4.8" data-veg="veg" data-spicy="true" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80" alt="Paneer Burger" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bur-3" aria-label="Save Paneer Burger">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Paneer Burger</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Thick panko-crusted spicy paneer steak with chipotle slaw and jalapeño relish.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹239</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Veggie Burger -->
+          <article class="menu-card" data-id="bur-4" data-name="Veggie Burger" data-category="burgers" data-price="189" data-rating="4.6" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=600&q=80" alt="Veggie Burger" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bur-4" aria-label="Save Veggie Burger">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Veggie Burger</h3>
+                <span class="rating-pill">★ 4.6</span>
+              </div>
+              <p class="menu-card__desc">Wholesome superfood patty of sweet corn, broccoli, beans & roasted bell peppers.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹189</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Chicken Burger -->
+          <article class="menu-card" data-id="bur-5" data-name="Chicken Burger" data-category="burgers" data-price="259" data-rating="4.9" data-veg="nonveg" data-spicy="true" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=600&q=80" alt="Chicken Burger" loading="lazy" />
+              <span class="diet-badge diet-badge--nonveg">🔴 Non-Veg • 🌶️</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bur-5" aria-label="Save Chicken Burger">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Chicken Burger</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Buttermilk fried crispy chicken thigh, hot honey glaze, dill pickles & garlic aioli.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹259</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 4: 🍝 PASTA (Theme: Basil Green / Parmesan Cream) — 4 Items
+           ================================================================= -->
+      <div id="pasta-parallax" class="category-block" data-category-section="pasta" data-theme="pasta-green">
+        <div class="parallax-category-banner" data-parallax-container="pasta">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-pasta-layer" data-parallax-speed="-0.35" aria-hidden="true">🍝 🌿 🧄 🧀 🍝</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">DURUM WHEAT PASTA & ARTISANAL ITALIAN SAUCES</span>
+            <h2>🍝 Handcrafted Pastas</h2>
+            <p>Al dente penne and fettuccine tossed to order with fresh basil, roasted garlic, and aged parmesan.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="pasta">
+          <!-- 1. White Sauce Pasta -->
+          <article class="menu-card" data-id="pas-1" data-name="White Sauce Pasta" data-category="pasta" data-price="269" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=600&q=80" alt="White Sauce Pasta" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="pas-1" aria-label="Save White Sauce Pasta">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>White Sauce Pasta</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Velvety béchamel cheese sauce with broccoli, sweet corn, olives & garlic bread.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹269</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Red Sauce Pasta -->
+          <article class="menu-card" data-id="pas-2" data-name="Red Sauce Pasta" data-category="pasta" data-price="259" data-rating="4.7" data-veg="veg" data-spicy="true" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=600&q=80" alt="Red Sauce Pasta" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="pas-2" aria-label="Save Red Sauce Pasta">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Red Sauce Pasta</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Spicy Arrabbiata slow-simmered plum tomato sauce with garlic, chilli flakes & basil.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹259</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Pink Sauce Pasta -->
+          <article class="menu-card" data-id="pas-3" data-name="Pink Sauce Pasta" data-category="pasta" data-price="289" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" alt="Pink Sauce Pasta" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn active" data-fav-id="pas-3" aria-label="Save Pink Sauce Pasta">❤️</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Pink Sauce Pasta</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Signature Mama Rosa blend of tangy marinara and rich cream with sun-dried tomatoes.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹289</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Alfredo Pasta -->
+          <article class="menu-card" data-id="pas-4" data-name="Alfredo Pasta" data-category="pasta" data-price="299" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1621996346565-e3d5d6281298?auto=format&fit=crop&w=600&q=80" alt="Alfredo Pasta" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="pas-4" aria-label="Save Alfredo Pasta">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Alfredo Pasta</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Fettuccine ribbons tossed in decadent parmesan-butter emulsion with sautéed mushrooms.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹299</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 5: 🍟 SNACKS (Theme: Crispy Amber / Tangy Paprika) — 6 Items
+           ================================================================= -->
+      <div id="snacks-parallax" class="category-block" data-category-section="snacks" data-theme="snacks-amber">
+        <div class="parallax-category-banner" data-parallax-container="snacks">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-snacks-layer" data-parallax-speed="-0.3" aria-hidden="true">🍟 🥪 🧀 🌮 🍟</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">SHAREABLE TABLE PLATTERS & CRISPY BITES</span>
+            <h2>🍟 Café Snacks & Sides</h2>
+            <p>Perfect companions for coffee conversations and group table hangouts.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="snacks">
+          <!-- 1. French Fries -->
+          <article class="menu-card" data-id="sna-1" data-name="French Fries" data-category="snacks" data-price="139" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=600&q=80" alt="French Fries" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-1" aria-label="Save French Fries">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>French Fries</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Double-fried golden skin-on potato fries dusted with sea salt and served with dip.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹139</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Peri Peri Fries -->
+          <article class="menu-card" data-id="sna-2" data-name="Peri Peri Fries" data-category="snacks" data-price="159" data-rating="4.9" data-veg="veg" data-spicy="true" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=600&q=80" alt="Peri Peri Fries" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-2" aria-label="Save Peri Peri Fries">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Peri Peri Fries</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Crispy shoestring fries tossed in zesty African peri-peri spice and cheesy jalapeño dip.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹159</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Garlic Bread -->
+          <article class="menu-card" data-id="sna-3" data-name="Garlic Bread" data-category="snacks" data-price="169" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?auto=format&fit=crop&w=600&q=80" alt="Garlic Bread" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-3" aria-label="Save Garlic Bread">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Garlic Bread</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Oven-toasted baguette slices slathered with roasted garlic herb butter & mozzarella.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹169</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Nachos -->
+          <article class="menu-card" data-id="sna-4" data-name="Nachos" data-category="snacks" data-price="219" data-rating="4.8" data-veg="veg" data-spicy="true" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80" alt="Loaded Nachos" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg • 🌶️</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-4" aria-label="Save Nachos">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Nachos</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Tortilla chips loaded with warm queso cheese, pico de gallo, refried beans & sour cream.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹219</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Potato Wedges -->
+          <article class="menu-card" data-id="sna-5" data-name="Potato Wedges" data-category="snacks" data-price="165" data-rating="4.6" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=600&q=80" alt="Potato Wedges" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-5" aria-label="Save Potato Wedges">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Potato Wedges</h3>
+                <span class="rating-pill">★ 4.6</span>
+              </div>
+              <p class="menu-card__desc">Thick-cut seasoned country potato wedges with rosemary, garlic & smoky chipotle dip.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹165</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Sandwiches -->
+          <article class="menu-card" data-id="sna-6" data-name="Sandwiches" data-category="snacks" data-price="199" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" alt="Grilled Club Sandwiches" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="sna-6" aria-label="Save Sandwiches">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Sandwiches</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Triple-decker Bombay & pesto grilled panini stuffed with spiced veggies and cheddar.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹199</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 6: 🍰 DESSERTS (Theme: Berry Pink / Velvet Purple) — 6 Items
+           ================================================================= -->
+      <div id="desserts-parallax" class="category-block" data-category-section="desserts" data-theme="dessert-pink">
+        <div class="parallax-category-banner" data-parallax-container="desserts">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-dessert-layer" data-parallax-speed="-0.35" aria-hidden="true">🍰 🍩 🧇 🍦 🍫</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">PATISSERIE & BELGIAN CHOCOLATE BAR</span>
+            <h2>🍰 Decadent Desserts</h2>
+            <p>Warm fudgy brownies, New York cheesecakes, and crispy Belgian waffles plated fresh.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="desserts">
+          <!-- 1. Brownie -->
+          <article class="menu-card" data-id="des-1" data-name="Brownie" data-category="desserts" data-price="179" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80" alt="Sizzling Walnut Brownie" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-1" aria-label="Save Brownie">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Brownie</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Warm walnut dark-chocolate fudge brownie drizzled with hot couverture ganache.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹179</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Chocolate Cake -->
+          <article class="menu-card" data-id="des-2" data-name="Chocolate Cake" data-category="desserts" data-price="210" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80" alt="Dutch Truffle Chocolate Cake" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-2" aria-label="Save Chocolate Cake">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Chocolate Cake</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Three-layer Belgian Dutch truffle sponge layered with silky dark chocolate mousse.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹210</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Cheesecake -->
+          <article class="menu-card" data-id="des-3" data-name="Cheesecake" data-category="desserts" data-price="249" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80" alt="Blueberry Baked Cheesecake" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-3" aria-label="Save Cheesecake">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cheesecake</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Classic New York baked Philadelphia cream cheesecake topped with wild blueberry compote.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹249</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Donut -->
+          <article class="menu-card" data-id="des-4" data-name="Donut" data-category="desserts" data-price="119" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80" alt="Artisanal Glazed Donut" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-4" aria-label="Save Donut">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Donut</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Pillow-soft brioche ring donut dipped in hazelnut chocolate glaze & rainbow sprinkles.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹119</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Ice Cream -->
+          <article class="menu-card" data-id="des-5" data-name="Ice Cream" data-category="desserts" data-price="149" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80" alt="Artisanal Sundae Ice Cream" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-5" aria-label="Save Ice Cream">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Ice Cream</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Double scoop of Madagascar vanilla & Belgian chocolate gelato with roasted almonds.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹149</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Waffles -->
+          <article class="menu-card" data-id="des-6" data-name="Waffles" data-category="desserts" data-price="240" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=600&q=80" alt="Belgian Chocolate Waffles" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="des-6" aria-label="Save Waffles">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Waffles</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Crispy Brussels waffle topped with Lotus Biscoff spread, fresh strawberries & gelato.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹240</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+
+      <!-- =================================================================
+           CATEGORY 7: 🥤 BEVERAGES (Theme: Ocean Blue / Icy Cyan) — 5 Items
+           ================================================================= -->
+      <div id="beverages-parallax" class="category-block" data-category-section="beverages" data-theme="beverage-cyan">
+        <div class="parallax-category-banner" data-parallax-container="beverages">
+          <div class="parallax-layer cat-bg-layer" data-parallax-speed="0.15"></div>
+          <div class="parallax-layer cat-drinks-layer" data-parallax-speed="-0.35" aria-hidden="true">🥤 🍋 🌿 🧊 🍓</div>
+          <div class="container parallax-banner-content">
+            <span class="cat-theme-pill">CHILLED MOCKTAILS, THICK SHAKES & FRUIT SMOOTHIES</span>
+            <h2>🥤 Refreshing Beverages</h2>
+            <p>Muddled fresh mint, real fruit purees, and thick artisanal milkshakes.</p>
+          </div>
+        </div>
+
+        <div class="container menu-grid" data-category-grid="beverages">
+          <!-- 1. Mojito -->
+          <article class="menu-card" data-id="bev-1" data-name="Mojito" data-category="beverages" data-price="159" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80" alt="Virgin Mint Mojito" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bev-1" aria-label="Save Mojito">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Mojito</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Freshly muddled garden mint leaves, lime wedges, brown cane sugar & sparkling fizz.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹159</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Lemonade -->
+          <article class="menu-card" data-id="bev-2" data-name="Lemonade" data-category="beverages" data-price="129" data-rating="4.7" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=600&q=80" alt="Pink Masala Lemonade" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bev-2" aria-label="Save Lemonade">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Lemonade</h3>
+                <span class="rating-pill">★ 4.7</span>
+              </div>
+              <p class="menu-card__desc">Zesty hand-squeezed pink lemonade infused with Himalayan pink salt and sweet basil.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹129</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Milkshake -->
+          <article class="menu-card" data-id="bev-3" data-name="Milkshake" data-category="beverages" data-price="199" data-rating="4.9" data-veg="veg" data-spicy="false" data-bestseller="true" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80" alt="Oreo Nutella Freak Milkshake" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="bestseller-ribbon">🏆 Bestseller</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bev-3" aria-label="Save Milkshake">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Milkshake</h3>
+                <span class="rating-pill">★ 4.9</span>
+              </div>
+              <p class="menu-card__desc">Thick Belgian chocolate & Oreo crumble milkshake crowned with whipped cream.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹199</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Smoothies -->
+          <article class="menu-card" data-id="bev-4" data-name="Smoothies" data-category="beverages" data-price="210" data-rating="4.8" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=600&q=80" alt="Mixed Berry Greek Yogurt Smoothie" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bev-4" aria-label="Save Smoothies">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Smoothies</h3>
+                <span class="rating-pill">★ 4.8</span>
+              </div>
+              <p class="menu-card__desc">Antioxidant strawberries, blueberries, banana & Greek yogurt blended with chia seeds.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹210</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Cold Drinks -->
+          <article class="menu-card" data-id="bev-5" data-name="Cold Drinks" data-category="beverages" data-price="95" data-rating="4.6" data-veg="veg" data-spicy="false" data-bestseller="false" data-available="true">
+            <div class="menu-card__media">
+              <img src="https://images.unsplash.com/photo-1581006852262-e4307cf6283a?auto=format&fit=crop&w=600&q=80" alt="Chilled Craft Sodas & Cold Drinks" loading="lazy" />
+              <span class="diet-badge diet-badge--veg">🟢 Veg</span>
+              <span class="stock-badge stock-badge--in">Available</span>
+              <button type="button" class="fav-btn" data-fav-id="bev-5" aria-label="Save Cold Drinks">♡</button>
+            </div>
+            <div class="menu-card__body">
+              <div class="menu-card__title-row">
+                <h3>Cold Drinks</h3>
+                <span class="rating-pill">★ 4.6</span>
+              </div>
+              <p class="menu-card__desc">Ice-chilled cola, lemon-lime soda, or ginger ale served in a frosted mason jar with lemon.</p>
+              <div class="menu-card__footer">
+                <span class="price">₹95</span>
+                <button type="button" class="btn btn--sm btn--primary add-to-cart-btn">+ Add to Cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         10. MY FAVOURITES SECTION
+         =================================================================== -->
+    <section id="favourites-section" class="section-favourites">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">SAVED FOR INSTANT ORDERING</span>
+            <h2>❤️ My Favourites</h2>
+          </div>
+          <p>Tap the heart icon on any dish to build your personal quick-order list.</p>
+        </div>
+        <div id="favourites-grid" class="favourites-grid">
+          <!-- Populated dynamically by JS based on active .fav-btn items; seeded with 3 defaults -->
+          <div class="fav-quick-card glass-card" data-fav-card="cof-2">
+            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=200&q=80" alt="Cappuccino" />
+            <div>
+              <h4>Cappuccino</h4>
+              <span>₹160 • ★ 4.9</span>
+            </div>
+            <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="cof-2">+ Add</button>
+          </div>
+          <div class="fav-quick-card glass-card" data-fav-card="piz-4">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=200&q=80" alt="Cheese Burst" />
+            <div>
+              <h4>Cheese Burst Pizza</h4>
+              <span>₹399 • ★ 4.9</span>
+            </div>
+            <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="piz-4">+ Add</button>
+          </div>
+          <div class="fav-quick-card glass-card" data-fav-card="pas-3">
+            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=200&q=80" alt="Pink Sauce Pasta" />
+            <div>
+              <h4>Pink Sauce Pasta</h4>
+              <span>₹289 • ★ 4.9</span>
+            </div>
+            <button type="button" class="btn btn--xs btn--primary quick-add-trigger" data-id="pas-3">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         11. OFFERS & COUPONS SECTION (All 7 Offer Types)
+         =================================================================== -->
+    <section id="offers" class="section-offers">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">PERKS & DEALS</span>
+            <h2>🎟️ Live Offers & Table Coupons</h2>
+          </div>
+          <p>Click any coupon below to auto-apply it to your Smart Cart checkout.</p>
+        </div>
+
+        <div class="offers-grid">
+          <!-- 1. Happy Hour -->
+          <article class="offer-card glass-card" data-coupon-code="HAPPY25" data-discount-type="percent" data-discount-value="25">
+            <span class="offer-tag">🕓 Happy Hour (3 PM – 6 PM)</span>
+            <h3>25% OFF All Artisanal Coffees</h3>
+            <p>Valid on Espresso, Cappuccino, Mocha & Cold Brews ordered from your table.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">HAPPY25</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="HAPPY25">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 2. Student Discount -->
+          <article class="offer-card glass-card" data-coupon-code="CAMPUS15" data-discount-type="percent" data-discount-value="15">
+            <span class="offer-tag">🎓 Student Discount</span>
+            <h3>Flat 15% OFF With Student ID</h3>
+            <p>Study sessions fuel up faster! No minimum order value required.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">CAMPUS15</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="CAMPUS15">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 3. Weekend Offer -->
+          <article class="offer-card glass-card" data-coupon-code="WKND20" data-discount-type="percent" data-discount-value="20">
+            <span class="offer-tag">🎉 Weekend Offer</span>
+            <h3>20% OFF Group Table Orders</h3>
+            <p>Valid Fri–Sun when ordering for 3 or more friends at the same table.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">WKND20</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="WKND20">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 4. Combo Offer -->
+          <article class="offer-card glass-card" data-coupon-code="COMBO120" data-discount-type="flat" data-discount-value="120">
+            <span class="offer-tag">🍕☕ Combo Offer</span>
+            <h3>Save ₹120 on Pizza + 2 Coffees</h3>
+            <p>Pair any Wood-Fired Pizza with two coffees or mocktails for instant savings.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">COMBO120</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="COMBO120">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 5. Festival Offer -->
+          <article class="offer-card glass-card" data-coupon-code="FESTIVE30" data-discount-type="percent" data-discount-value="30">
+            <span class="offer-tag">🪔 Festival Special</span>
+            <h3>30% Festive Celebration Feast</h3>
+            <p>Celebrate with complimentary dessert upgrades & 30% off orders above ₹799.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">FESTIVE30</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="FESTIVE30">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 6. Birthday Offer -->
+          <article class="offer-card glass-card" data-coupon-code="BDAYTREAT" data-discount-type="flat" data-discount-value="200">
+            <span class="offer-tag">🎂 Birthday Treat</span>
+            <h3>Free Chocolate Cake Slice (₹200 OFF)</h3>
+            <p>Celebrating your birthday at ChromaCafé? Your cake is on the house!</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">BDAYTREAT</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="BDAYTREAT">Apply Coupon</button>
+            </div>
+          </article>
+
+          <!-- 7. Loyalty Reward Coupon -->
+          <article class="offer-card glass-card" data-coupon-code="GOLDVIP100" data-discount-type="flat" data-discount-value="100">
+            <span class="offer-tag">👑 Loyalty Exclusive</span>
+            <h3>₹100 Instant Member Cashback</h3>
+            <p>Exclusive perk unlocked for Silver, Gold, and Platinum Chroma members.</p>
+            <div class="offer-card__footer">
+              <code class="coupon-code">GOLDVIP100</code>
+              <button type="button" class="btn btn--sm btn--primary apply-coupon-btn" data-coupon="GOLDVIP100">Apply Coupon</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         6. LIVE ORDER TRACKING SECTION
+         =================================================================== -->
+    <section id="order-tracking" class="section-order-tracking">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">REAL-TIME KITCHEN TELEMETRY</span>
+            <h2>⏱️ Live Table Order Tracker</h2>
+          </div>
+          <button type="button" id="view-digital-bill-btn" class="btn btn--secondary" data-open-modal="digital-bill-modal">
+            🧾 View Digital Receipt
+          </button>
+        </div>
+
+        <div id="live-tracker-card" class="tracker-card glass-card">
+          <div class="tracker-meta-header">
+            <div class="tracker-meta-item">
+              <span>Order Number</span>
+              <strong id="track-order-id">#ORD-9482</strong>
+            </div>
+            <div class="tracker-meta-item">
+              <span>Assigned Table</span>
+              <strong id="track-table-num">Table #17</strong>
+            </div>
+            <div class="tracker-meta-item">
+              <span>Customer ID</span>
+              <strong id="track-customer-id">CAF10245 (Antara)</strong>
+            </div>
+            <div class="tracker-meta-item">
+              <span>Total Amount</span>
+              <strong id="track-total-amount">₹720</strong>
+            </div>
+            <div class="tracker-meta-item">
+              <span>Current Status</span>
+              <span id="track-status-badge" class="status-pill status-pill--preparing">🍳 Preparing in Kitchen</span>
+            </div>
+          </div>
+
+          <!-- 5-Stage Progress Stepper -->
+          <ol id="order-stepper" class="order-stepper" aria-label="Order Progress">
+            <li class="step completed" data-step="placed">
+              <span class="step-icon">📝</span>
+              <span class="step-label">Order Placed</span>
+              <small>7:12 PM</small>
+            </li>
+            <li class="step completed" data-step="accepted">
+              <span class="step-icon">✅</span>
+              <span class="step-label">Order Accepted</span>
+              <small>7:13 PM</small>
+            </li>
+            <li class="step active" data-step="preparing">
+              <span class="step-icon">👨‍🍳</span>
+              <span class="step-label">Preparing</span>
+              <small>In Progress</small>
+            </li>
+            <li class="step" data-step="ready">
+              <span class="step-icon">🔔</span>
+              <span class="step-label">Ready</span>
+              <small>Pending</small>
+            </li>
+            <li class="step" data-step="delivered">
+              <span class="step-icon">🍽️</span>
+              <span class="step-label">Delivered to Table</span>
+              <small>Est. 7:24 PM</small>
+            </li>
+          </ol>
+
+          <!-- Ordered Items Breakdown -->
+          <div class="tracker-items-box">
+            <h3>Items in This Table Order</h3>
+            <ul id="track-items-list" class="track-items-list">
+              <li>
+                <span><strong>1x Cappuccino</strong> <small>(Added by Antara)</small></span>
+                <strong>₹160</strong>
+              </li>
+              <li>
+                <span><strong>1x Cheese Burst Pizza</strong> <small>(Added by Rahul)</small></span>
+                <strong>₹399</strong>
+              </li>
+              <li>
+                <span><strong>1x Peri Peri Fries</strong> <small>(Added by Aditi)</small></span>
+                <strong>₹159</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         14. TABLE AVAILABILITY & RESERVATION SYSTEM
+         =================================================================== -->
+    <section id="reservations" class="section-reservations">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">LIVE FLOOR MAP & BOOKING</span>
+            <h2>🪑 Table Availability & Reservations</h2>
+          </div>
+          <div class="table-legend">
+            <span class="legend-item">🟢 Available (<strong id="count-available">7</strong>)</span>
+            <span class="legend-item">🔴 Occupied (<strong id="count-occupied">3</strong>)</span>
+            <span class="legend-item">🟡 Reserved (<strong id="count-reserved">2</strong>)</span>
+          </div>
+        </div>
+
+        <div class="reservations-layout">
+          <!-- Interactive Floor Map (12 Tables) -->
+          <div class="floor-map glass-card" aria-label="Interactive Café Table Map">
+            <h3>Select an Available Table (🟢) to Reserve or Sit</h3>
+            <div id="table-map-grid" class="table-map-grid">
+              <button type="button" class="table-node available" data-table-id="1" data-seats="2" data-status="available">
+                <span class="node-num">T-01</span>
+                <small>🟢 2 Seats</small>
+              </button>
+              <button type="button" class="table-node occupied" data-table-id="2" data-seats="4" data-status="occupied">
+                <span class="node-num">T-02</span>
+                <small>🔴 4 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="3" data-seats="4" data-status="available">
+                <span class="node-num">T-03</span>
+                <small>🟢 4 Seats</small>
+              </button>
+              <button type="button" class="table-node reserved" data-table-id="4" data-seats="6" data-status="reserved">
+                <span class="node-num">T-04</span>
+                <small>🟡 6 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="5" data-seats="2" data-status="available">
+                <span class="node-num">T-05</span>
+                <small>🟢 2 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="6" data-seats="4" data-status="available">
+                <span class="node-num">T-06</span>
+                <small>🟢 4 Seats</small>
+              </button>
+              <button type="button" class="table-node occupied" data-table-id="12" data-seats="4" data-status="occupied">
+                <span class="node-num">T-12</span>
+                <small>🔴 4 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="14" data-seats="6" data-status="available">
+                <span class="node-num">T-14</span>
+                <small>🟢 6 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="15" data-seats="2" data-status="available">
+                <span class="node-num">T-15</span>
+                <small>🟢 2 Seats</small>
+              </button>
+              <button type="button" class="table-node occupied selected" data-table-id="17" data-seats="4" data-status="occupied">
+                <span class="node-num">T-17 (You)</span>
+                <small>🔴 4 Seats</small>
+              </button>
+              <button type="button" class="table-node reserved" data-table-id="19" data-seats="8" data-status="reserved">
+                <span class="node-num">T-19 VIP</span>
+                <small>🟡 8 Seats</small>
+              </button>
+              <button type="button" class="table-node available" data-table-id="20" data-seats="4" data-status="available">
+                <span class="node-num">T-20</span>
+                <small>🟢 4 Seats</small>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Reservation Form -->
+          <div class="reservation-form-card glass-card">
+            <h3>📅 Book a Table in Advance</h3>
+            <form id="reservation-form">
+              <div class="form-row">
+                <label for="res-name">Guest Name</label>
+                <input type="text" id="res-name" value="Antara Sharma" required />
+              </div>
+              <div class="form-row-split">
+                <div class="form-row">
+                  <label for="res-date">Date</label>
+                  <input type="date" id="res-date" required />
+                </div>
+                <div class="form-row">
+                  <label for="res-time">Time Slot</label>
+                  <input type="time" id="res-time" value="19:30" required />
+                </div>
+              </div>
+              <div class="form-row-split">
+                <div class="form-row">
+                  <label for="res-guests">Number of People</label>
+                  <select id="res-guests" required>
+                    <option value="2">2 Guests</option>
+                    <option value="4" selected>4 Guests</option>
+                    <option value="6">6 Guests</option>
+                    <option value="8">8+ Group</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="res-table-select">Preferred Table</label>
+                  <select id="res-table-select">
+                    <option value="3">Table #03 (Window • 4 Seats)</option>
+                    <option value="1">Table #01 (Corner • 2 Seats)</option>
+                    <option value="6">Table #06 (Patio • 4 Seats)</option>
+                    <option value="14">Table #14 (Booth • 6 Seats)</option>
+                    <option value="20">Table #20 (Garden • 4 Seats)</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn--lg btn--gradient-primary btn--full">
+                ✨ Confirm Reservation & Generate ID
+              </button>
+            </form>
+
+            <!-- Generated Reservation ID Confirmation Box -->
+            <div id="reservation-confirmation" class="reservation-ticket" hidden>
+              <span class="badge badge--success">✅ Reservation Confirmed!</span>
+              <p>Reservation ID: <strong id="generated-res-id">RES-88419</strong></p>
+              <p id="generated-res-summary">Table #03 reserved for 4 Guests.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         7, 8, 9 & 12. CUSTOMER LOYALTY, ACHIEVEMENTS & ORDER HISTORY HUB
+         =================================================================== -->
+    <section id="loyalty" class="section-loyalty-hub">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">CUSTOMER ID: CAF10245 • ₹100 SPENT = 10 POINTS</span>
+            <h2>👑 Chroma Loyalty, Achievements & Order History</h2>
+          </div>
+          <button type="button" class="btn btn--glass" data-open-modal="auth-profile-modal">
+            👤 Edit Customer Profile
+          </button>
+        </div>
+
+        <!-- 8. Loyalty Tier & Progress Bar -->
+        <div class="loyalty-overview-grid">
+          <div class="loyalty-tier-card glass-card">
+            <div class="tier-header">
+              <div>
+                <span class="tier-badge tier-badge--gold" id="loyalty-current-tier">🥇 GOLD MEMBER</span>
+                <h3 id="loyalty-points-display">640 Chroma Points</h3>
+                <p>Earned across <strong id="loyalty-total-orders">14</strong> completed table orders</p>
+              </div>
+              <div class="tier-formula-pill">
+                <span>Earn Rate</span>
+                <strong>₹100 = 10 Pts</strong>
+              </div>
+            </div>
+
+            <!-- Membership Levels Track -->
+            <div class="membership-levels">
+              <span class="level-step achieved">🥉 Bronze (0)</span>
+              <span class="level-step achieved">🥈 Silver (250)</span>
+              <span class="level-step current">🥇 Gold (500)</span>
+              <span class="level-step">💎 Platinum (1,000)</span>
+            </div>
+
+            <!-- Progress Bar to Next Level -->
+            <div class="progress-wrapper">
+              <div class="progress-bar" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100">
+                <div id="loyalty-progress-fill" class="progress-bar__fill" style="width: 64%;"></div>
+              </div>
+              <small id="loyalty-next-tier-text">360 more points needed to unlock <strong>💎 Platinum Level</strong> (Free Dessert on Every Visit!)</small>
+            </div>
+          </div>
+
+          <!-- Redeem Points Rewards Store -->
+          <div class="loyalty-redeem-card glass-card">
+            <h3>🎁 Redeem Your Points</h3>
+            <div class="redeem-grid">
+              <div class="reward-item">
+                <div>
+                  <strong>☕ Free Artisanal Coffee</strong>
+                  <small>Costs 150 Points</small>
+                </div>
+                <button type="button" class="btn btn--xs btn--primary redeem-btn" data-cost="150" data-reward="Free Artisanal Coffee">Redeem</button>
+              </div>
+              <div class="reward-item">
+                <div>
+                  <strong>🍰 Free Brownie or Donut</strong>
+                  <small>Costs 200 Points</small>
+                </div>
+                <button type="button" class="btn btn--xs btn--primary redeem-btn" data-cost="200" data-reward="Free Dessert">Redeem</button>
+              </div>
+              <div class="reward-item">
+                <div>
+                  <strong>💸 ₹150 Instant Bill Discount</strong>
+                  <small>Costs 300 Points</small>
+                </div>
+                <button type="button" class="btn btn--xs btn--primary redeem-btn" data-cost="300" data-reward="₹150 Bill Discount">Redeem</button>
+              </div>
+              <div class="reward-item">
+                <div>
+                  <strong>🍕 VIP Chef's Tasting Platter</strong>
+                  <small>Costs 500 Points</small>
+                </div>
+                <button type="button" class="btn btn--xs btn--primary redeem-btn" data-cost="500" data-reward="VIP Chef Platter">Redeem</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12. Gamification Achievements Badges -->
+        <div class="achievements-block glass-card">
+          <h3>🏅 Customer Gamification Achievements</h3>
+          <div id="achievements-grid" class="achievements-grid">
+            <div class="achievement-badge unlocked" data-badge="first-order">
+              <span class="badge-icon">🚀</span>
+              <strong>First Order</strong>
+              <small>Placed your 1st table order (Unlocked)</small>
+            </div>
+            <div class="achievement-badge unlocked" data-badge="coffee-lover">
+              <span class="badge-icon">☕</span>
+              <strong>Coffee Lover</strong>
+              <small>Ordered 5+ Artisanal Coffees (Unlocked)</small>
+            </div>
+            <div class="achievement-badge unlocked" data-badge="pizza-fan">
+              <span class="badge-icon">🍕</span>
+              <strong>Pizza Fan</strong>
+              <small>Tried 3 Wood-Fired Pizzas (Unlocked)</small>
+            </div>
+            <div class="achievement-badge unlocked" data-badge="regular-customer">
+              <span class="badge-icon">🔥</span>
+              <strong>Regular Customer</strong>
+              <small>10+ Visits at ChromaCafé (Unlocked)</small>
+            </div>
+            <div class="achievement-badge locked" data-badge="vip-customer">
+              <span class="badge-icon">👑</span>
+              <strong>VIP Customer</strong>
+              <small>Reach 1,000 Platinum Points (Locked)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Order History Table with "Order Again" -->
+        <div id="order-history-section" class="order-history-block glass-card">
+          <h3>📜 Previous Table Order History</h3>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Date</th>
+                  <th>Table #</th>
+                  <th>Items Ordered</th>
+                  <th>Total Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="order-history-tbody">
+                <tr>
+                  <td><strong>#ORD-9410</strong></td>
+                  <td>12 Oct 2026</td>
+                  <td>Table #09</td>
+                  <td>2x Cappuccino, 1x Farmhouse Pizza, 1x Brownie</td>
+                  <td><strong>₹848</strong></td>
+                  <td><span class="badge badge--success">Delivered</span></td>
+                  <td>
+                    <button type="button" class="btn btn--xs btn--primary order-again-btn" data-items="cof-2,piz-2,des-1">
+                      🔁 Order Again
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#ORD-9304</strong></td>
+                  <td>05 Oct 2026</td>
+                  <td>Table #14</td>
+                  <td>1x Caramel Macchiato, 1x Pink Sauce Pasta, 1x Garlic Bread</td>
+                  <td><strong>₹668</strong></td>
+                  <td><span class="badge badge--success">Delivered</span></td>
+                  <td>
+                    <button type="button" class="btn btn--xs btn--primary order-again-btn" data-items="cof-7,pas-3,sna-3">
+                      🔁 Order Again
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#ORD-9188</strong></td>
+                  <td>28 Sep 2026</td>
+                  <td>Table #03</td>
+                  <td>1x Cheese Burger, 1x Peri Peri Fries, 1x Mojito</td>
+                  <td><strong>₹527</strong></td>
+                  <td><span class="badge badge--success">Delivered</span></td>
+                  <td>
+                    <button type="button" class="btn btn--xs btn--primary order-again-btn" data-items="bur-2,sna-2,bev-1">
+                      🔁 Order Again
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         19. ABOUT US SECTION (With Parallax Visuals)
+         =================================================================== -->
+    <section id="about" class="section-about" data-parallax-section="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-story" data-animate="fade-right">
+            <span class="section-eyebrow">OUR STORY & PHILOSOPHY</span>
+            <h2>✨ Crafted for Conversation, Engineered for Zero Waiting</h2>
+            <p>
+              Born in 2022, <strong>ChromaCafé</strong> started with a simple question: why should great café hospitality be interrupted by waving for menus or waiting 20 minutes for the bill?
+            </p>
+            <p>
+              We combined specialty 100% Arabica coffee roasters, a 400°C Neapolitan pizza oven, and an interactive table-ordering ecosystem so our baristas and chefs can focus 100% on craft and flavour.
+            </p>
+
+            <div class="about-values-grid">
+              <div class="value-card glass-card">
+                <h4>🌱 Farm-to-Cup</h4>
+                <p>Direct-trade Chikmagalur coffee beans & organic greenhouse produce.</p>
+              </div>
+              <div class="value-card glass-card">
+                <h4>⚡ Table-First Tech</h4>
+                <p>Live kitchen telemetry and collaborative group ordering at every table.</p>
+              </div>
+              <div class="value-card glass-card">
+                <h4>🎨 Artisanal Craft</h4>
+                <p>Zero pre-made bases. Every sauce, dough, and ganache is made fresh daily.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team & Parallax Collage -->
+          <div class="about-team-showcase" data-parallax-speed="0.2">
+            <h3>Meet Our Culinary Leaders</h3>
+            <div class="team-cards">
+              <article class="team-card glass-card">
+                <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=400&q=80" alt="Chef Marco Rossi" loading="lazy" />
+                <div>
+                  <h4>Chef Kabir Verma</h4>
+                  <span>Head Pizzaiolo & Culinary Director</span>
+                </div>
+              </article>
+              <article class="team-card glass-card">
+                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=400&q=80" alt="Meera Nair" loading="lazy" />
+                <div>
+                  <h4>Meera Nair</h4>
+                  <span>Q-Grader & Master Roaster</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         20. INTERACTIVE GALLERY SECTION
+         =================================================================== -->
+    <section id="gallery" class="section-gallery">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">VISUAL TOUR</span>
+            <h2>📸 Inside ChromaCafé</h2>
+          </div>
+          <div class="gallery-filter-pills" role="tablist">
+            <button type="button" class="gal-pill active" data-gallery-filter="all">All</button>
+            <button type="button" class="gal-pill" data-gallery-filter="interior">Café Interior</button>
+            <button type="button" class="gal-pill" data-gallery-filter="coffee">Coffee</button>
+            <button type="button" class="gal-pill" data-gallery-filter="pizza">Pizza & Burgers</button>
+            <button type="button" class="gal-pill" data-gallery-filter="desserts">Desserts</button>
+            <button type="button" class="gal-pill" data-gallery-filter="events">Live Events</button>
+          </div>
+        </div>
+
+        <div id="gallery-grid" class="gallery-masonry">
+          <figure class="gallery-item" data-gal-cat="interior">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=700&q=80" alt="Vibrant ChromaCafé Interior" loading="lazy" />
+            <figcaption>Neon & Botanical Lounge Area</figcaption>
+          </figure>
+          <figure class="gallery-item" data-gal-cat="coffee">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80" alt="Latte Art Pouring" loading="lazy" />
+            <figcaption>Signature Rosetta Pour</figcaption>
+          </figure>
+          <figure class="gallery-item" data-gal-cat="pizza">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=80" alt="Wood Fired Pizza" loading="lazy" />
+            <figcaption>400°C Stone Oven Cheese Burst</figcaption>
+          </figure>
+          <figure class="gallery-item" data-gal-cat="desserts">
+            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=700&q=80" alt="Desserts & Cocktails" loading="lazy" />
+            <figcaption>Artisanal Patisserie & Mocktails</figcaption>
+          </figure>
+          <figure class="gallery-item" data-gal-cat="events">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=700&q=80" alt="Acoustic Night Event" loading="lazy" />
+            <figcaption>Friday Unplugged Acoustic Nights</figcaption>
+          </figure>
+          <figure class="gallery-item" data-gal-cat="pizza">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80" alt="Craft Double Cheese Burger" loading="lazy" />
+            <figcaption>Craft Brioche Smash Burgers</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         18. FEEDBACK & COMPLAINT SECTION
+         =================================================================== -->
+    <section id="feedback" class="section-feedback">
+      <div class="container">
+        <div class="feedback-card glass-card">
+          <div class="section-header">
+            <div>
+              <span class="section-eyebrow">DIRECT TO CAFÉ MANAGER</span>
+              <h2>💬 Table Feedback & Instant Issue Resolution</h2>
+              <p>Sitting at a table right now and need something fixed? Or want to rate your meal? Tell us below.</p>
+            </div>
+          </div>
+
+          <form id="feedback-form" class="feedback-form">
+            <div class="form-row-split">
+              <div class="form-row">
+                <label for="fb-category">Issue / Feedback Category</label>
+                <select id="fb-category" required>
+                  <option value="Food quality">🍽️ Food Quality</option>
+                  <option value="Service">🙌 Table Service</option>
+                  <option value="Waiting time">⏱️ Waiting Time</option>
+                  <option value="Order problem">⚠️ Order Problem</option>
+                  <option value="Payment issue">💳 Payment / Bill Issue</option>
+                  <option value="Cleanliness">✨ Cleanliness</option>
+                  <option value="Other">💡 Other Suggestion</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label>Overall Star Rating (1–5 ★)</label>
+                <div id="star-rating-control" class="star-rating-input" role="radiogroup" aria-label="Star Rating">
+                  <button type="button" class="star-btn active" data-star="1" aria-label="1 Star">★</button>
+                  <button type="button" class="star-btn active" data-star="2" aria-label="2 Stars">★</button>
+                  <button type="button" class="star-btn active" data-star="3" aria-label="3 Stars">★</button>
+                  <button type="button" class="star-btn active" data-star="4" aria-label="4 Stars">★</button>
+                  <button type="button" class="star-btn active" data-star="5" aria-label="5 Stars">★</button>
+                  <input type="hidden" id="fb-rating-value" value="5" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="fb-message">Written Feedback, Complaint, or Suggestion</label>
+              <textarea id="fb-message" rows="3" placeholder="Tell us what you loved or what we should fix immediately for your table..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary">Submit Feedback (+25 Bonus Loyalty Points)</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         21. CONTACT US SECTION
+         =================================================================== -->
+    <section id="contact" class="section-contact">
+      <div class="container">
+        <div class="contact-grid">
+          <!-- Contact Info & Opening Hours -->
+          <div class="contact-info-card glass-card">
+            <span class="section-eyebrow">VISIT OR REACH US</span>
+            <h2>📍 Contact ChromaCafé</h2>
+            <ul class="contact-details-list">
+              <li><strong>📍 Address:</strong> 42 Apollo High Street, Vijay Nagar, Indore, MP 452010</li>
+              <li><strong>📞 Phone:</strong> <a href="tel:+919876543210">+91 98765 43210</a></li>
+              <li><strong>✉️ Email:</strong> <a href="mailto:hello@chromacafe.in">hello@chromacafe.in</a></li>
+              <li><strong>🕒 Opening Hours:</strong> Mon–Sun: 8:00 AM – 11:30 PM</li>
+            </ul>
+
+            <div class="social-links">
+              <a href="#contact" class="social-pill" aria-label="Instagram">📸 Instagram</a>
+              <a href="#contact" class="social-pill" aria-label="YouTube">▶️ YouTube</a>
+              <a href="#contact" class="social-pill" aria-label="X Twitter">🐦 X / Twitter</a>
+            </div>
+
+            <!-- Interactive Map Visual Box -->
+            <div class="map-placeholder">
+              <div class="map-pin-overlay">
+                <span>📍 ChromaCafé Flagship — Vijay Nagar</span>
+                <small>20 Interactive Smart Tables • Free High-Speed Wi-Fi & Valet</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- General Contact Inquiry Form -->
+          <div class="contact-form-card glass-card">
+            <h3>Send Us a Message / Event Inquiry</h3>
+            <form id="contact-form">
+              <div class="form-row">
+                <label for="contact-name">Your Name</label>
+                <input type="text" id="contact-name" placeholder="Enter your full name" required />
+              </div>
+              <div class="form-row">
+                <label for="contact-email">Email Address</label>
+                <input type="email" id="contact-email" placeholder="you@example.com" required />
+              </div>
+              <div class="form-row">
+                <label for="contact-subject">Subject</label>
+                <input type="text" id="contact-subject" placeholder="Birthday Party Booking / Collaboration / Query" required />
+              </div>
+              <div class="form-row">
+                <label for="contact-body">Message</label>
+                <textarea id="contact-body" rows="4" placeholder="How can our team help you?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn--gradient-primary btn--full">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       PRIMARY VIEW 2: 16. KITCHEN / STAFF DASHBOARD (KDS VIEW)
+       ===================================================================== -->
+  <section id="kitchen-view" class="workspace-view section-kitchen-kds" hidden>
+    <div class="container">
+      <div class="dashboard-header">
+        <div>
+          <span class="section-eyebrow">LIVE STAFF DISPLAY SYSTEM</span>
+          <h1>👨‍🍳 Kitchen & Barista Order Queue (KDS)</h1>
+          <p>Real-time table tickets. Click status buttons to push live updates to the customer's phone and notification bell.</p>
+        </div>
+        <div class="kds-summary-pills">
+          <span class="badge badge--hot">🆕 New: <strong id="kds-count-new">1</strong></span>
+          <span class="badge badge--warning">🍳 Preparing: <strong id="kds-count-prep">1</strong></span>
+          <span class="badge badge--success">🔔 Ready: <strong id="kds-count-ready">1</strong></span>
+        </div>
+      </div>
+
+      <div id="kds-orders-grid" class="kds-orders-grid">
+        <!-- Active Ticket 1 (Matches Customer's Table 17 Order) -->
+        <article class="kds-ticket glass-card" data-kds-order-id="#ORD-9482" data-kds-status="preparing">
+          <div class="kds-ticket__header">
+            <div>
+              <span class="kds-table-badge">🪑 TABLE #17</span>
+              <h3>Order #ORD-9482</h3>
+              <small>Customer: Antara (ID: CAF10245) • Group Order (3 Guests)</small>
+            </div>
+            <span class="kds-status-tag">Preparing</span>
+          </div>
+
+          <ul class="kds-item-list">
+            <li><strong>1x Cappuccino</strong> <span>(Antara)</span></li>
+            <li><strong>1x Cheese Burst Pizza</strong> <span>(Rahul)</span></li>
+            <li><strong>1x Peri Peri Fries</strong> <span>(Aditi)</span></li>
+          </ul>
+
+          <div class="kds-instructions">
+            <strong>📝 Special Instructions:</strong> Extra hot cappuccino, extra oregano packets on table.
+          </div>
+
+          <div class="kds-ticket__footer">
+            <span class="kds-total">Total: <strong>₹720</strong></span>
+            <div class="kds-status-actions">
+              <button type="button" class="btn btn--xs kds-Action-btn" data-set-status="accepted">New</button>
+              <button type="button" class="btn btn--xs btn--primary kds-action-btn" data-set-status="preparing">Preparing</button>
+              <button type="button" class="btn btn--xs kds-action-btn" data-set-status="ready">Ready</button>
+              <button type="button" class="btn btn--xs kds-action-btn" data-set-status="delivered">Delivered</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Active Ticket 2 -->
+        <article class="kds-ticket glass-card" data-kds-order-id="#ORD-9485" data-kds-status="placed">
+          <div class="kds-ticket__header">
+            <div>
+              <span class="kds-table-badge">🪑 TABLE #02</span>
+              <h3>Order #ORD-9485</h3>
+              <small>Customer: Vikram (ID: CAF10891)</small>
+            </div>
+            <span class="kds-status-tag">New Order</span>
+          </div>
+
+          <ul class="kds-item-list">
+            <li><strong>2x Cold Coffee</strong></li>
+            <li><strong>1x Paneer Burger</strong></li>
+          </ul>
+
+          <div class="kds-instructions">
+            <strong>📝 Special Instructions:</strong> Less ice in one Cold Coffee.
+          </div>
+
+          <div class="kds-ticket__footer">
+            <span class="kds-total">Total: <strong>₹599</strong></span>
+            <div class="kds-status-actions">
+              <button type="button" class="btn btn--xs btn--primary kds-action-btn" data-set-status="accepted">New</button>
+              <button type="button" class="btn btn--xs kds-action-btn" data-set-status="preparing">Preparing</button>
+              <button type="button" class="btn btn--xs kds-action-btn" data-set-status="ready">Ready</button>
+              <button type="button" class="btn btn--xs kds-action-btn" data-set-status="delivered">Delivered</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================================================================
+       PRIMARY VIEW 3: 17. ADMIN DASHBOARD (OWNER ERP PANEL)
+       ===================================================================== -->
+  <section id="admin-view" class="workspace-view section-admin-erp" hidden>
+    <div class="container">
+      <div class="dashboard-header">
+        <div>
+          <span class="section-eyebrow">OWNER MANAGEMENT CONSOLE</span>
+          <h1>⚙️ ChromaCafé Admin ERP</h1>
+        </div>
+        <!-- Admin Sub-navigation Tabs -->
+        <div class="admin-subtabs" role="tablist">
+          <button type="button" class="admin-tab active" data-admin-panel="admin-analytics">📊 Analytics</button>
+          <button type="button" class="admin-tab" data-admin-panel="admin-menu">🍔 Menu Manager</button>
+          <button type="button" class="admin-tab" data-admin-panel="admin-orders">🧾 Orders</button>
+          <button type="button" class="admin-tab" data-admin-panel="admin-customers">👥 Customers</button>
+          <button type="button" class="admin-tab" data-admin-panel="admin-offers">🎟️ Offers & Coupons</button>
+          <button type="button" class="admin-tab" data-admin-panel="admin-tables">🪑 Tables & Bookings</button>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 1: Analytics -->
+      <div id="admin-analytics" class="admin-panel active">
+        <div class="analytics-kpi-grid">
+          <div class="kpi-card glass-card">
+            <span>Total Today's Revenue</span>
+            <strong id="admin-stat-revenue">₹48,920</strong>
+            <small>+18.4% vs Yesterday</small>
+          </div>
+          <div class="kpi-card glass-card">
+            <span>Total Table Orders</span>
+            <strong id="admin-stat-orders">86</strong>
+            <small>Avg. Ticket ₹568</small>
+          </div>
+          <div class="kpi-card glass-card">
+            <span>Popular Dish #1</span>
+            <strong>Cheese Burst Pizza</strong>
+            <small>29 Orders Today</small>
+          </div>
+          <div class="kpi-card glass-card">
+            <span>Top Category</span>
+            <strong>☕ Coffee (38%)</strong>
+            <small>Followed by Pizza (31%)</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 2: Menu Management (Add / Edit / Delete / Toggle Availability) -->
+      <div id="admin-menu" class="admin-panel" hidden>
+        <div class="admin-split-layout">
+          <form id="admin-add-food-form" class="glass-card admin-form">
+            <h3>➕ Add / Edit Menu Item</h3>
+            <input type="hidden" id="admin-edit-id" />
+            <div class="form-row">
+              <label for="admin-food-name">Dish Name</label>
+              <input type="text" id="admin-food-name" placeholder="e.g., Hazelnut Tiramisu Latte" required />
+            </div>
+            <div class="form-row-split">
+              <div class="form-row">
+                <label for="admin-food-cat">Category</label>
+                <select id="admin-food-cat" required>
+                  <option value="coffee">Coffee</option>
+                  <option value="pizza">Pizza</option>
+                  <option value="burgers">Burgers</option>
+                  <option value="pasta">Pasta</option>
+                  <option value="snacks">Snacks</option>
+                  <option value="desserts">Desserts</option>
+                  <option value="beverages">Beverages</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="admin-food-price">Price (₹)</label>
+                <input type="number" id="admin-food-price" min="50" value="220" required />
+              </div>
+            </div>
+            <div class="form-row-split">
+              <div class="form-row">
+                <label for="admin-food-diet">Veg / Non-Veg</label>
+                <select id="admin-food-diet">
+                  <option value="veg">🟢 Veg</option>
+                  <option value="nonveg">🔴 Non-Veg</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="admin-food-img">Image URL</label>
+                <input type="url" id="admin-food-img" placeholder="https://images.unsplash.com/..." required />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="admin-food-desc">Description</label>
+              <textarea id="admin-food-desc" rows="2" placeholder="Short appetizing description..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Save Dish to Live Menu</button>
+          </form>
+
+          <div class="glass-card admin-table-box">
+            <h3>📋 Live Menu Inventory (Toggle Availability / Edit / Delete)</h3>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Dish</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-menu-tbody">
+                  <!-- Populated & synced by JS with the 41 menu items -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 3: Orders Management -->
+      <div id="admin-orders" class="admin-panel" hidden>
+        <div class="glass-card">
+          <h3>🧾 All Café Orders</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Table</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody">
+              <tr>
+                <td>#ORD-9482</td>
+                <td>Table #17</td>
+                <td>Antara (CAF10245)</td>
+                <td>₹720</td>
+                <td>Preparing</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 4: Customers & Loyalty Database -->
+      <div id="admin-customers" class="admin-panel" hidden>
+        <div class="glass-card">
+          <h3>👥 Registered Customers & Loyalty Points</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Tier</th>
+                <th>Loyalty Points</th>
+                <th>Total Orders</th>
+              </tr>
+            </thead>
+            <tbody id="admin-customers-tbody">
+              <tr>
+                <td><strong>CAF10245</strong></td>
+                <td>Antara Sharma</td>
+                <td>🥇 Gold</td>
+                <td>640 pts</td>
+                <td>14</td>
+              </tr>
+              <tr>
+                <td><strong>CAF10891</strong></td>
+                <td>Vikram Patel</td>
+                <td>🥈 Silver</td>
+                <td>310 pts</td>
+                <td>7</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 5: Offers & Coupon Creator -->
+      <div id="admin-offers" class="admin-panel" hidden>
+        <div class="glass-card">
+          <h3>🎟️ Create New Promotional Coupon</h3>
+          <form id="admin-create-coupon-form" class="inline-admin-form">
+            <input type="text" id="new-coupon-code" placeholder="Coupon Code (e.g. RAINY25)" required />
+            <input type="number" id="new-coupon-discount" placeholder="Discount % or ₹" required />
+            <input type="text" id="new-coupon-title" placeholder="Offer Title" required />
+            <button type="submit" class="btn btn--primary">+ Publish Offer</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Admin Sub-Panel 6: Tables & Reservations Manager -->
+      <div id="admin-tables" class="admin-panel" hidden>
+        <div class="glass-card">
+          <h3>🪑 Floor Table Status & Reservations Override</h3>
+          <p>Click any table in the Reservations map or manage active bookings here.</p>
+          <div id="admin-reservations-list">
+            <p>Active Booking: <strong>RES-88410</strong> — Table #04 (6 Guests at 8:00 PM)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================================================================
+       5. SMART CART SLIDE-OVER DRAWER
+       ===================================================================== -->
+  <aside id="cart-drawer" class="side-drawer" aria-label="Smart Shopping Cart" hidden>
+    <div class="side-drawer__header">
+      <div>
+        <h2>🛒 Smart Table Cart</h2>
+        <small>Linked to <strong>Table #<span id="cart-table-number">17</span></strong> • Customer ID: <strong id="cart-cust-id">CAF10245</strong></small>
+      </div>
+      <button type="button" class="drawer-close-btn" data-close-drawer="cart-drawer" aria-label="Close Cart">✕</button>
+    </div>
+
+    <div class="side-drawer__body">
+      <!-- Cart Items List -->
+      <ul id="cart-items-list" class="cart-items-list">
+        <!-- Populated dynamically by JS -->
+      </ul>
+
+      <!-- Special Kitchen Instructions -->
+      <div class="cart-instructions-box">
+        <label for="cart-special-instructions">📝 Special Cooking / Table Instructions</label>
+        <textarea id="cart-special-instructions" rows="2" placeholder="e.g., Less sugar in coffee, extra oregano, bring water glasses..."></textarea>
+      </div>
+
+      <!-- Coupon Code Box -->
+      <div class="cart-coupon-box">
+        <label for="cart-coupon-input">🎟️ Have a Promo / Offer Code?</label>
+        <div class="coupon-input-row">
+          <input type="text" id="cart-coupon-input" placeholder="Try TABLE20 or HAPPY25" />
+          <button type="button" id="apply-cart-coupon-btn" class="btn btn--sm btn--secondary">Apply</button>
+        </div>
+        <small id="coupon-feedback-msg" class="coupon-msg"></small>
+      </div>
+
+      <!-- Complete Bill Summary -->
+      <div class="cart-summary-box glass-card">
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <strong id="cart-subtotal">₹718.00</strong>
+        </div>
+        <div class="summary-line summary-line--discount">
+          <span>Coupon Discount <small id="applied-coupon-tag"></small></span>
+          <strong id="cart-discount">-₹0.00</strong>
+        </div>
+        <div class="summary-line">
+          <span>GST & Café Taxes (5%)</span>
+          <strong id="cart-tax">₹35.90</strong>
+        </div>
+        <div class="summary-line summary-line--total">
+          <span>Final Payable Amount</span>
+          <strong id="cart-final-total">₹753.90</strong>
+        </div>
+        <div class="summary-points-preview">
+          ⚡ You will earn <strong id="cart-points-earned">+75 Chroma Loyalty Points</strong> on this order!
+        </div>
+      </div>
+    </div>
+
+    <div class="side-drawer__footer">
+      <button type="button" id="place-order-btn" class="btn btn--xl btn--gradient-primary btn--full">
+        🚀 Place Order to Table #17
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- =====================================================================
+       23. NOTIFICATIONS SLIDE-OVER DRAWER & LIVE TOAST CONTAINER
+       ===================================================================== -->
+  <aside id="notification-drawer" class="side-drawer" aria-label="Notifications Center" hidden>
+    <div class="side-drawer__header">
+      <div>
+        <h2>🔔 Activity & Alerts</h2>
+        <small>Live updates from kitchen, loyalty & reservations</small>
+      </div>
+      <button type="button" class="drawer-close-btn" data-close-drawer="notification-drawer" aria-label="Close Notifications">✕</button>
+    </div>
+    <div class="side-drawer__body">
+      <ul id="notification-list" class="notification-list">
+        <li class="notif-item unread">
+          <span class="notif-icon">👨‍🍳</span>
+          <div>
+            <strong>Order #ORD-9482 is Preparing</strong>
+            <p>Chef Kabir has started preparing your Table #17 order.</p>
+            <small>Just now</small>
+          </div>
+        </li>
+        <li class="notif-item unread">
+          <span class="notif-icon">⚡</span>
+          <div>
+            <strong>+80 Loyalty Points Credited!</strong>
+            <p>Your Gold balance is now 640 points.</p>
+            <small>12 mins ago</small>
+          </div>
+        </li>
+        <li class="notif-item unread">
+          <span class="notif-icon">🎟️</span>
+          <div>
+            <strong>Happy Hour Coupon Unlocked: HAPPY25</strong>
+            <p>Get 25% off all coffees between 3 PM and 6 PM.</p>
+            <small>1 hour ago</small>
+          </div>
+        </li>
+        <li class="notif-item">
+          <span class="notif-icon">🏅</span>
+          <div>
+            <strong>Achievement Unlocked: Coffee Lover!</strong>
+            <p>You've ordered 5+ artisanal coffees at ChromaCafé.</p>
+            <small>2 days ago</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Floating Toast Container for Real-Time Alerts -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+
+  <!-- =====================================================================
+       MODALS (Table QR Scanner, Auth/Profile, Digital Receipt Bill)
+       ===================================================================== -->
+
+  <!-- 4. Table Number & QR Scanner Modal -->
+  <div id="table-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="table-modal-title" hidden>
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h2 id="table-modal-title">🪑 Set Your Table or Scan QR</h2>
+        <button type="button" class="modal-close-btn" data-close-modal="table-modal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-scanner-simulator">
+          <div class="qr-frame">
+            <span class="qr-laser"></span>
+            <p>📷 Point camera at the ChromaCafé QR coaster on your table</p>
+          </div>
+          <button type="button" id="simulate-qr-scan-btn" class="btn btn--secondary btn--full">
+            ⚡ Simulate Instant Table QR Scan
+          </button>
+        </div>
+
+        <div class="modal-divider"><span>OR ENTER MANUALLY</span></div>
+
+        <form id="manual-table-form">
+          <label for="modal-table-input">Enter Table Number (1 – 20)</label>
+          <div class="table-input-row">
+            <input type="number" id="modal-table-input" min="1" max="20" value="17" required />
+            <button type="submit" class="btn btn--primary">Confirm Table</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Login / Registration & Customer Account Modal -->
+  <div id="auth-profile-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" hidden>
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h2 id="auth-modal-title">👤 Customer Account & Profile</h2>
+        <button type="button" class="modal-close-btn" data-close-modal="auth-profile-modal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Active Profile Summary -->
+        <div class="profile-summary-banner">
+          <div class="avatar-circle avatar-circle--lg">A</div>
+          <div>
+            <h3 id="profile-modal-name">Antara Sharma</h3>
+            <p>Unique Customer ID: <strong id="profile-modal-id">CAF10245</strong></p>
+            <span class="badge badge--gold">🥇 Gold Tier • 640 Points</span>
+          </div>
+        </div>
+
+        <!-- Switch / Register New Customer Form -->
+        <form id="customer-auth-form">
+          <h4>Switch Account or Register New Diner</h4>
+          <div class="form-row">
+            <label for="auth-name-input">Full Name</label>
+            <input type="text" id="auth-name-input" placeholder="Enter your name" required />
+          </div>
+          <div class="form-row">
+            <label for="auth-phone-input">Phone Number</label>
+            <input type="tel" id="auth-phone-input" placeholder="+91 98765 00000" required />
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">
+            🔐 Login / Generate Unique Customer ID
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 22. Digital Bill / Receipt Modal -->
+  <div id="digital-bill-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="bill-modal-title" hidden>
+    <div class="modal-card modal-card--receipt glass-card">
+      <div class="modal-header">
+        <h2 id="bill-modal-title">🧾 Official Digital Table Receipt</h2>
+        <button type="button" class="modal-close-btn" data-close-modal="digital-bill-modal" aria-label="Close">✕</button>
+      </div>
+      <div id="digital-receipt-content" class="receipt-paper">
+        <div class="receipt-header">
+          <h3>☕ CHROMACAFÉ</h3>
+          <p>42 Apollo High Street, Indore • GSTIN: 23AABCC1234F1Z5</p>
+          <hr />
+          <div class="receipt-meta">
+            <span><strong>Order #:</strong> <span id="bill-order-num">#ORD-9482</span></span>
+            <span><strong>Table #:</strong> <span id="bill-table-num">17</span></span>
+            <span><strong>Customer:</strong> <span id="bill-cust-name">Antara Sharma</span></span>
+            <span><strong>Customer ID:</strong> <span id="bill-cust-id">CAF10245</span></span>
+          </div>
+          <hr />
+        </div>
+
+        <table class="receipt-items-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody id="bill-items-tbody">
+            <tr>
+              <td>Cappuccino (Antara)</td>
+              <td>1</td>
+              <td>₹160.00</td>
+            </tr>
+            <tr>
+              <td>Cheese Burst Pizza (Rahul)</td>
+              <td>1</td>
+              <td>₹399.00</td>
+            </tr>
+            <tr>
+              <td>Peri Peri Fries (Aditi)</td>
+              <td>1</td>
+              <td>₹159.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr />
+        <div class="receipt-totals">
+          <div class="receipt-row"><span>Subtotal:</span><strong id="bill-subtotal">₹718.00</strong></div>
+          <div class="receipt-row"><span>Discount:</span><strong id="bill-discount">-₹0.00</strong></div>
+          <div class="receipt-row"><span>Taxes (5% GST):</span><strong id="bill-tax">₹35.90</strong></div>
+          <div class="receipt-row receipt-row--grand"><span>FINAL AMOUNT:</span><strong id="bill-final">₹753.90</strong></div>
+        </div>
+        <hr />
+        <div class="receipt-loyalty-footer">
+          🌟 Loyalty Points Earned on this Bill: <strong id="bill-points">+75 Points</strong>
+          <p>Thank you for dining at ChromaCafé!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="print-receipt-btn" class="btn btn--secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button type="button" class="btn btn--primary" data-close-modal="digital-bill-modal">Done</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =====================================================================
+       SITE FOOTER
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 <strong>ChromaCafé</strong>. Interactive Parallax Table-Ordering & Café Management Ecosystem.</p>
+      <div class="footer-links">
+        <a href="#home">Back to Top ↑</a>
+        <a href="#menu">Menu</a>
+        <a href="#offers">Offers</a>
+        <a href="#reservations">Reservations</a>
+        <a href="#feedback">Feedback</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main Application Script (Phase 3) -->
+  <script src="script.js" defer></script>
+</body>
+</html>

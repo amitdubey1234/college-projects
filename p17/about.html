@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    ========================================================================
+    PROJECT: Varidhi
+    PAGE: About Us (about.html)
+    DESIGN SPECIFICATIONS:
+      - Background Colour: #D4DE95 (Soft Olive/Matcha)
+      - Typography: 'Playfair Display' for Headings, 'Inter' for Body
+      - Headings: Prefixed with an em-dash marker (—)
+      - Founders: Displaying Photo, Name, Founder, M.Tech, DAVV Indore
+      - Architecture: Self-contained HTML with internal <style>
+    ======================================================================== 
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>About Us — Varidhi Incorporation Ltd.</title>
+
+  <!-- Google Fonts: Inter and Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ----------------------------------------------------------------------
+       1. DESIGN TOKENS
+       ---------------------------------------------------------------------- */
+    :root {
+      --bg-color: #D4DE95;              /* Soft Olive / Matcha */
+      --text-heading: #000000;          /* Dark black for headings */
+      --text-body: #111111;             /* Clean black for main content */
+      --text-muted: rgba(0, 0, 0, 0.75);
+      --border-color: rgba(0, 0, 0, 0.18);
+      --btn-bg: #3D4127;                /* Deep Forest Olive */
+      --btn-text: #D4DE95;              /* Pale Olive text */
+      --btn-hover: #262917;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* ----------------------------------------------------------------------
+       2. RESETS & GLOBAL BASE
+       ---------------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ----------------------------------------------------------------------
+       3. FIXED TOP NAVIGATION (Sticky with Left-Pointing Back Arrow Only)
+       ---------------------------------------------------------------------- */
+    .top-nav-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--bg-color);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .btn-back-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-heading);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-back-arrow:hover {
+      transform: translateX(-4px);
+      opacity: 0.75;
+    }
+
+    .btn-back-arrow svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    /* ----------------------------------------------------------------------
+       4. ABOUT CONTAINER & HEADER
+       ---------------------------------------------------------------------- */
+    .about-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem 1.5rem;
+    }
+
+    .about-header {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.75rem;
+    }
+
+    .about-main-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+
+    /* ----------------------------------------------------------------------
+       5. CONTENT SECTIONS & DASH HEADINGS (No Cards, Sits on #D4DE95)
+       ---------------------------------------------------------------------- */
+    .content-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .body-p {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      margin-bottom: 1.25rem;
+      line-height: 1.75;
+    }
+
+    .body-p:last-child {
+      margin-bottom: 0;
+    }
+
+    .services-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .services-list li {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-body);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+
+    .services-list li::before {
+      content: "—";
+      color: var(--text-heading);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .services-list strong {
+      color: var(--text-heading);
+    }
+
+    /* ----------------------------------------------------------------------
+       6. FOUNDERS SECTION (Horizontal Layout on Desktop, Centered on Mobile)
+       ---------------------------------------------------------------------- */
+    .founders-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      margin-top: 2rem;
+      align-items: center;
+    }
+
+    .founder-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .founder-photo-wrapper {
+      width: 135px;
+      height: 135px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      outline: none;
+      overflow: hidden;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .founder-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .founder-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .founder-name {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.35rem;
+      line-height: 1.25;
+    }
+
+    .founder-meta {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-heading);
+      line-height: 1.4;
+    }
+
+    .founder-title {
+      font-weight: 700;
+    }
+
+    .founder-edu {
+      font-weight: 500;
+      color: var(--text-body);
+    }
+
+    /* ----------------------------------------------------------------------
+       7. CLEAN MINIMALIST FOOTER
+       ---------------------------------------------------------------------- */
+    .site-footer {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 3rem 1.5rem;
+      border-top: 2px solid var(--text-heading);
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links-row a {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--btn-text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-row a:hover {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: rgba(212, 222, 149, 0.85);
+      border-top: 1px solid rgba(212, 222, 149, 0.2);
+      padding-top: 1.25rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 860px) {
+      .founders-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+      }
+      .founder-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .founder-photo-wrapper {
+        width: 170px;
+        height: 170px;
+        margin: 0 auto 1.25rem auto;
+      }
+      .founder-info {
+        text-align: center;
+        align-items: center;
+      }
+      .founder-name {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 0.4rem;
+      }
+      .founder-meta {
+        text-align: center;
+      }
+      .footer-links-row {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation with Back Arrow Only -->
+  <header class="top-nav-bar" aria-label="Main Navigation">
+    <div class="nav-container">
+      <a href="index.html" onclick="if(window.history.length > 1){ window.history.back(); return false; }" class="btn-back-arrow" aria-label="Return to Previous Page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="about-container">
+
+    <!-- Header Section -->
+    <header class="about-header">
+      <h1 class="about-main-title">About Varidhi Incorporation Ltd.</h1>
+    </header>
+
+    <!-- Company Overview -->
+    <section class="content-section">
+      <h2 class="section-heading">— About the Company</h2>
+      <p class="body-p">
+        <strong>Varidhi Incorporation Ltd.</strong> is a premier luxury travel enterprise reimagining how groups experience the world's most remote and breathtaking island archipelagos. Born out of a passion for pristine marine ecology and seamless hospitality, Varidhi offers signature 15-day all-inclusive island tour packages designed exclusively for groups of 5 or more travelers.
+      </p>
+    </section>
+
+    <!-- What We Do -->
+    <section class="content-section">
+      <h2 class="section-heading">— What We Do</h2>
+      <p class="body-p">
+        We have handpicked 10 of the world’s most enchanting island sanctuaries — from the turquoise overwater villas of Bora Bora and the UNESCO biosphere of Maldives Baa Atoll, to the volcanic caldera of Santorini and the wild evolutionary haven of the Galápagos Islands.
+      </p>
+      <p class="body-p">
+        Our core philosophy is absolute end-to-end freedom: we take complete care of all international flight connections, private inter-island catamarans and seaplanes, 5-star beachfront villas, three daily gourmet dining experiences, and private guided excursions throughout the entire 15-day journey.
+      </p>
+    </section>
+
+    <!-- Varidhi's Responsibilities and Travel Arrangements -->
+    <section class="content-section">
+      <h2 class="section-heading">— Varidhi's Responsibilities & Travel Arrangements</h2>
+      <p class="body-p">
+        To ensure total operational transparency, travelers should understand how our travel logistics are orchestrated. The user must independently arrange their travel and reach <strong>Indira Gandhi International Airport, Delhi</strong>, at their own expense prior to scheduled departure.
+      </p>
+      <p class="body-p">
+        From that point onwards, the dedicated Varidhi team takes over and manages all arrangements. Throughout the entire 15-day trip, our team manages all services and operational responsibilities specified in our travel guidelines and package inclusions — including international flight connections departing from Delhi, private inter-island aviation and maritime catamarans, 5-star beachfront and overwater villa estates, three daily chef-curated dining experiences, private guided excursions, and 24/7 dedicated private concierge services.
+      </p>
+      <p class="body-p">
+        The user's primary responsibility is simply to relax, immerse themselves, and enjoy the trip while Varidhi handles all planned arrangements. However, any activities, side trips, or personal interests pursued independently by the user outside the curated arrangements and official guidelines provided by Varidhi will remain strictly the user's own responsibility. Varidhi will not be held responsible or liable for any such independent personal activities.
+      </p>
+    </section>
+
+    <!-- Our Services -->
+    <section class="content-section">
+      <h2 class="section-heading">— Our Services</h2>
+      <ul class="services-list">
+        <li><strong>10 Curated Worldwide Islands:</strong> Handcrafted 15-day journeys across Bora Bora, Maldives, Santorini, Bali, Maui, Seychelles, Galápagos, Capri, Palawan, and Fiji with bespoke day-by-day itineraries.</li>
+        <li><strong>Exclusive Group Format:</strong> Designed exclusively for families, intimate collectives, and close traveler groups of 5 or more seeking private villa estates and secluded marine charters.</li>
+        <li><strong>The 25% Advance Booking Model:</strong> Travelers confirm their journey by paying a 25% advance booking fee, with the remaining 75% balance settled upon arrival at the island destination.</li>
+        <li><strong>Automated Itinerary Delivery:</strong> Upon booking confirmation, travelers receive immediate access to their complete 15-day itinerary schedule and travel documentation.</li>
+      </ul>
+    </section>
+
+    <!-- Founding Members -->
+    <section class="content-section">
+      <h2 class="section-heading">— Founders</h2>
+
+      <div class="founders-grid">
+
+        <!-- Founder 1: Devendra Singh Parihar -->
+        <div class="founder-item">
+          <div class="founder-photo-wrapper">
+            <img 
+              src="public/devendra.png" 
+              alt="Devendra Singh Parihar" 
+              class="founder-photo"
+            >
+          </div>
+          <div class="founder-info">
+            <h3 class="founder-name">Devendra Singh Parihar</h3>
+            <div class="founder-meta">
+              <span class="founder-title">Founder</span>, <span class="founder-edu">M.Tech, DAVV Indore</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder 2: Amar Kumar Panika -->
+        <div class="founder-item">
+          <div class="founder-photo-wrapper">
+            <img 
+              src="public/amar.png" 
+              alt="Amar Kumar Panika" 
+              class="founder-photo"
+            >
+          </div>
+          <div class="founder-info">
+            <h3 class="founder-name">Amar Kumar Panika</h3>
+            <div class="founder-meta">
+              <span class="founder-title">Founder</span>, <span class="founder-edu">M.Tech, DAVV Indore</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Company Headquarters -->
+    <section class="content-section">
+      <h2 class="section-heading">— Company Headquarters</h2>
+      <p class="body-p">
+        Varidhi Incorporation Ltd. is headquartered in Indore, Madhya Pradesh, India. All strategic operations, global island supplier networks, and executive logistics orchestration are coordinated from our central corporate base.
+      </p>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="content-section">
+      <h2 class="section-heading">— Contact Information</h2>
+      <p class="body-p">
+        For group reservations, luxury concierge assistance, or formal inquiries regarding our worldwide island expeditions, please reach out to our executive team:
+      </p>
+      <p class="body-p">
+        <strong>Corporate Inquiries & Concierge Desk:</strong> concierge@varidhi.com<br>
+        <strong>Location:</strong> Indore, Madhya Pradesh, India
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Clean Minimalist Footer -->
+  <footer class="site-footer">
+    <ul class="footer-links-row">
+      <li><a href="sitemap.html">Sitemap</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+    </ul>
+
+    <div class="footer-copyright">
+      Varidhi Incorporation Ltd.
+    </div>
+  </footer>
+
+</body>
+</html>

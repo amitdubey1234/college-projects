@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookshell — Find Your Next Favourite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="announcement">A little magic in every page <span>✦</span> Free delivery on orders over ₹799</div>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Bookshell home"><span class="brand-mark">b.</span><span>bookshell<span class="brand-dot">.</span></span></a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#home">Home</a><a href="#bestsellers">Bestsellers</a><a href="#categories">Categories</a><a href="#about">Our story</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Toggle menu">☰</button>
+      <button class="icon-btn" id="searchToggle" aria-label="Search">⌕</button>
+      <button class="icon-btn" id="wishlistToggle" aria-label="Wishlist">♡ <span class="tiny-count" id="wishCount">0</span></button>
+      <button class="cart-button" id="cartToggle" aria-label="Open cart">Bag <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT CHAPTER STARTS HERE</div>
+        <h1>Stories worth<br>staying up <em>for.</em></h1>
+        <p>Discover page-turners, timeless classics, and fresh perspectives. Your next favourite book is waiting to be found.</p>
+        <div class="hero-buttons"><a class="btn btn-dark" href="#bestsellers">Explore books <span>↗</span></a><a class="text-link" href="#categories">Browse collections <span>→</span></a></div>
+        <div class="hero-proof"><div class="avatar-stack"><span>R</span><span>A</span><span>M</span><span>+</span></div><div><strong>Loved by 12,000+ readers</strong><small>★★★★★ <span>4.9/5 reader rating</span></small></div></div>
+      </div>
+      <div class="hero-art">
+        <div class="sun-shape"></div>
+        <div class="hero-note">A good book<br>changes everything.</div>
+        <div class="book-scene">
+          <div class="hero-book book-one"><span class="cover-kicker">A NOVEL</span><span class="cover-title">THE<br>GOLDEN<br>HOUR</span><span class="cover-author">ELLA JAMES</span><span class="cover-sun"></span></div>
+          <div class="hero-book book-two"><span class="cover-kicker">THE ART OF</span><span class="cover-title">SLOW<br>LIVING</span><span class="cover-author">M. WILLOW</span><span class="cover-leaf">✳</span></div>
+          <div class="hero-book book-three"><span class="cover-kicker">A STORY OF</span><span class="cover-title">WILD<br>PLACES</span><span class="cover-author">NOAH REED</span><span class="cover-moon">☾</span></div>
+          <div class="plant"><span></span><span></span><span></span><i></i></div>
+          <div class="table-shadow"></div>
+        </div>
+        <div class="floating-rating">✦ <strong>Curated with love</strong><small>For every kind of reader</small></div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div><span class="trust-icon">↗</span><span><strong>Free shipping</strong><small>On orders over ₹799</small></span></div>
+      <div><span class="trust-icon">♡</span><span><strong>Handpicked reads</strong><small>Curated by book lovers</small></span></div>
+      <div><span class="trust-icon">↺</span><span><strong>Easy returns</strong><small>7-day return policy</small></span></div>
+      <div><span class="trust-icon">♧</span><span><strong>Read more, spend less</strong><small>Deals you'll love</small></span></div>
+    </section>
+
+    <section class="section categories-section" id="categories">
+      <div class="section-heading"><div><div class="eyebrow">FIND YOUR MOOD</div><h2>What are we reading <em>today?</em></h2></div><a class="text-link" href="#bestsellers">All books <span>→</span></a></div>
+      <div class="category-grid">
+        <button class="category-card cat-fiction" data-category="Fiction"><span class="cat-symbol">✧</span><span class="cat-name">Fiction</span><small>Worlds to get lost in</small><span class="cat-arrow">↗</span></button>
+        <button class="category-card cat-self" data-category="Self-help"><span class="cat-symbol">☼</span><span class="cat-name">Self-growth</span><small>Become your best self</small><span class="cat-arrow">↗</span></button>
+        <button class="category-card cat-business" data-category="Business"><span class="cat-symbol">⌘</span><span class="cat-name">Business</span><small>Ideas that move you</small><span class="cat-arrow">↗</span></button>
+        <button class="category-card cat-classics" data-category="Classics"><span class="cat-symbol">❋</span><span class="cat-name">Classics</span><small>Forever worth reading</small><span class="cat-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="section books-section" id="bestsellers">
+      <div class="section-heading books-heading"><div><div class="eyebrow">THE BOOKSHELF EDIT</div><h2>Reader <em>favourites.</em></h2><p class="section-subtitle">The books everyone's talking about right now.</p></div>
+        <div class="book-controls"><label class="search-box" id="searchBox"><span>⌕</span><input id="searchInput" type="search" placeholder="Search books..." aria-label="Search books"></label><select id="sortSelect" aria-label="Sort books"><option value="featured">Sort: Featured</option><option value="low">Price: Low to high</option><option value="high">Price: High to low</option><option value="rating">Top rated</option></select></div>
+      </div>
+      <div class="filter-row"><button class="filter-chip active" data-category="All">All books</button><button class="filter-chip" data-category="Fiction">Fiction</button><button class="filter-chip" data-category="Self-help">Self-growth</button><button class="filter-chip" data-category="Business">Business</button><button class="filter-chip" data-category="Classics">Classics</button><span class="result-count" id="resultCount"></span></div>
+      <div class="book-grid" id="bookGrid"></div>
+      <div class="empty-state" id="emptyState" hidden><span>☁</span><h3>No books found</h3><p>Try a different title or category.</p><button class="btn btn-dark" id="resetFilters">Show all books</button></div>
+    </section>
+
+    <section class="quote-banner" id="about"><div class="quote-mark">“</div><blockquote>A room without books is like a body without a soul.</blockquote><p>— Marcus Tullius Cicero</p><div class="quote-doodle">✳</div></section>
+
+    <section class="newsletter">
+      <div class="newsletter-icon">✉</div><div class="newsletter-copy"><div class="eyebrow">A NOTE FROM OUR BOOKSHELF</div><h2>Good reads. Great <em>inbox.</em></h2><p>Get book recommendations, new arrivals, and little surprises.</p></div>
+      <form id="newsletterForm" class="newsletter-form"><label class="sr-only" for="emailInput">Email address</label><input type="email" id="emailInput" placeholder="Your email address" required><button class="btn btn-dark" type="submit">Count me in <span>→</span></button><small id="newsletterMessage">No spam, just stories. Unsubscribe anytime.</small></form>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand footer-brand" href="#"><span class="brand-mark">b.</span><span>bookshell<span class="brand-dot">.</span></span></a><p>Made for curious minds and late-night readers.</p><div class="footer-links"><a href="#home">Home</a><a href="#bestsellers">Shop books</a><a href="#about">Our story</a></div><small>© 2026 Bookshell. A demo bookstore made with ♥</small></footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="side-panel" id="cartPanel" aria-label="Shopping cart">
+    <div class="panel-header"><div><span class="eyebrow">YOUR LITTLE LIBRARY</span><h3>Your bag <span id="panelCartCount">(0)</span></h3></div><button class="close-btn" data-close aria-label="Close cart">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty"><div>♡</div><h3>Your bag is waiting</h3><p>Find a book that feels like you.</p><button class="btn btn-dark" data-close>Explore books</button></div>
+    <div class="cart-footer" id="cartFooter"><div class="subtotal"><span>Subtotal</span><strong id="subtotal">₹0</strong></div><p>Shipping calculated at checkout.</p><button class="btn btn-dark checkout-btn" id="checkoutBtn">Continue to checkout <span>→</span></button><small>Secure checkout · Demo only</small></div>
+  </aside>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-backdrop" id="checkoutModal"><div class="checkout-modal"><button class="close-btn modal-close" id="closeCheckout" aria-label="Close">×</button><div class="modal-icon">✦</div><div class="eyebrow">ONE MORE CHAPTER</div><h2>You're almost there!</h2><p>This is a presentation-ready demo. Your cart works, but payments are not connected.</p><div class="modal-total"><span>Order total</span><strong id="checkoutTotal">₹0</strong></div><button class="btn btn-dark" id="finishCheckout">Got it, thanks!</button></div></div>
+  <script src="script.js"></script>
+</body>
+</html>

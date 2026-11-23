@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Brew & Bytes — coffee, pastry and calm corners made for student life.">
+  <title>Reserve a Table — Brew &amp; Bytes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="loaded subpage">
+  <header class="navbar" id="navbar">
+    <a href="First.html" class="logo">BREW &amp; BYTES</a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="First.html#home">Home</a>
+      <a href="First.html#about">About</a>
+      <a href="First.html#menu" >Menu</a>
+      <a href="First.html#reviews">Reviews</a>
+      <a href="spin.html">Spin</a>
+      <a href="reserve.html" class="active">Reserve</a>
+      <a href="First.html#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+  </header>
+  <main>
+    <section class="page-hero reserve-hero">
+      <div class="page-hero-bg premium" data-parallax="0.15"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1600&q=85" data-fallback="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=85" alt="Warm café seating"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow hero-in">06 — RESERVATIONS</p>
+        <h1><span class="line"><span class="line-inner">Reserve</span></span><span class="line"><span class="line-inner"><em>a Table.</em></span></span></h1>
+        <p class="hero-copy hero-in">Plan your visit to Brew &amp; Bytes. Pick a day, a time and who is joining you, and settle in for good coffee and better company.</p>
+        <a href="#reserveForm" class="hero-btn hero-in"><span>Reserve a Table</span></a>
+        <p class="demo-tag hero-in">DEMO FEATURE · FRONTEND ONLY</p>
+      </div>
+    </section>
+
+    <section class="reserve-section">
+      <div class="reserve-grid">
+        <div class="reserve-info">
+          <div class="statement-label reveal">YOUR VISIT</div>
+          <h2 class="reveal">A quiet corner,<br><em>saved for you.</em></h2>
+          <ul class="reserve-steps reveal">
+            <li><b>01</b><span>Choose your day and time</span></li>
+            <li><b>02</b><span>Tell us who is joining you</span></li>
+            <li><b>03</b><span>Review your booking summary</span></li>
+          </ul>
+        </div>
+
+        <form class="reserve-form reveal" id="reserveForm" novalidate>
+          <div class="field">
+            <label for="rName">Full name</label>
+            <input type="text" id="rName" name="name" autocomplete="name" maxlength="60" required aria-describedby="rName-err" placeholder="Your full name">
+            <p class="err" id="rName-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="rEmail">Email address</label>
+            <input type="email" id="rEmail" name="email" autocomplete="email" maxlength="80" required aria-describedby="rEmail-err" placeholder="you@example.com">
+            <p class="err" id="rEmail-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="rPhone">Phone number</label>
+            <input type="tel" id="rPhone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" required aria-describedby="rPhone-err" placeholder="+91 98765 43210">
+            <p class="err" id="rPhone-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="rGuests">Number of guests</label>
+            <select id="rGuests" name="guests" required aria-describedby="rGuests-err">
+              <option value="" selected disabled>Select guests</option>
+              <option value="1">1 Guest</option><option value="2">2 Guests</option><option value="3">3 Guests</option><option value="4">4 Guests</option><option value="5">5 Guests</option><option value="6">6 Guests</option><option value="7">7 Guests</option><option value="8">8 Guests</option><option value="9">9 Guests</option><option value="10">10 Guests</option>
+            </select>
+            <p class="err" id="rGuests-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="rDate">Reservation date</label>
+            <input type="date" id="rDate" name="date" required aria-describedby="rDate-err">
+            <p class="err" id="rDate-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="rTime">Preferred time</label>
+            <input type="time" id="rTime" name="time" required aria-describedby="rTime-err">
+            <p class="err" id="rTime-err" role="alert"></p>
+          </div>
+          <div class="field field-wide">
+            <label for="rNotes">Special requests <small>(optional)</small></label>
+            <textarea id="rNotes" name="notes" rows="3" maxlength="300" placeholder="Celebrations, seating preferences, dietary notes…"></textarea>
+            <p class="counter"><span id="rCount">0</span> / 300</p>
+          </div>
+          <div class="form-actions field-wide">
+            <button type="submit" class="hero-btn reserve-submit" id="rSubmit"><span>Reserve a Table</span></button>
+            <button type="reset" class="reset-btn" id="rReset">Clear Form</button>
+          </div>
+          <p class="form-note field-wide">Demo only. Submitting shows a sample summary. It does not book a table.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Confirmation popup -->
+  <div class="modal" id="rModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rmTitle" aria-describedby="rmMsg">
+      <p class="eyebrow">DEMO RESERVATION</p>
+      <h2 id="rmTitle">Your booking summary</h2>
+      <p class="modal-msg" id="rmMsg">This is a demo. No table has been booked, availability has not been checked, and nothing has been sent to the café.</p>
+      <dl class="summary" id="rmSummary">
+        <div><dt>Name</dt><dd id="sName"></dd></div>
+        <div><dt>Email</dt><dd id="sEmail"></dd></div>
+        <div><dt>Phone</dt><dd id="sPhone"></dd></div>
+        <div><dt>Date</dt><dd id="sDate"></dd></div>
+        <div><dt>Time</dt><dd id="sTime"></dd></div>
+        <div><dt>Guests</dt><dd id="sGuests"></dd></div>
+        <div id="sNotesRow"><dt>Requests</dt><dd id="sNotes"></dd></div>
+      </dl>
+      <p class="demo-note">Demo reference <strong id="sRef"></strong>. It is generated in your browser and is not a real booking number.</p>
+      <div class="modal-actions">
+        <a href="First.html" class="hero-btn modal-primary" id="rmHome"><span>Back to Home</span></a>
+        <button type="button" class="reset-btn" id="rmClose" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><span>© 2026 Brew &amp; Bytes</span><span>CRAFTED FOR COFFEE &amp; GOOD IDEAS.</span></footer>
+  <script src="script.js"></script>
+  <script src="cart.js"></script>
+  <script src="reserve.js"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-IN" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Issue Details | CivicFix</title>
+  <meta name="description" content="View the details, status timeline and supporter count of a sample civic issue on CivicFix. Demo data for a frontend prototype.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/issue-details.js" defer></script>
+</head>
+<body class="page page--issue-details" data-page="issue-details">
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner container">
+      <a class="site-logo" href="index.html" aria-label="CivicFix home">
+        <span class="site-logo__mark" aria-hidden="true">CF</span>
+        <span class="site-logo__text">CivicFix</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-panel" data-action="toggle-nav">
+        <span class="nav-toggle__icon" aria-hidden="true"></span>
+        <span class="nav-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <div class="site-nav__panel" id="site-nav-panel">
+          <ul class="nav-links">
+            <li class="nav-links__item"><a class="nav-link" href="index.html" data-nav="home">Home</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="issues.html" data-nav="issues" aria-current="true">Explore Issues</a></li>
+            <li class="nav-links__item"><a class="nav-link" href="impact.html" data-nav="impact">Impact</a></li>
+          </ul>
+          <a class="button button--primary site-nav__cta" href="report.html" data-nav="report">Report an Issue</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main" id="main-content" tabindex="-1">
+
+    <section class="page-header" id="issue-header" aria-labelledby="issue-title">
+      <div class="container">
+        <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+          <ol class="breadcrumb__list">
+            <li class="breadcrumb__item"><a class="breadcrumb__link" href="index.html">Home</a></li>
+            <li class="breadcrumb__item"><a class="breadcrumb__link" href="issues.html">Explore Issues</a></li>
+            <li class="breadcrumb__item breadcrumb__item--current" id="breadcrumb-current" aria-current="page">Issue details</li>
+          </ol>
+        </nav>
+
+        <h1 class="page-header__title" id="issue-title" data-field="title">Loading issue…</h1>
+        <ul class="quick-facts" id="quick-facts" aria-label="Issue at a glance">
+          <li class="quick-facts__item"><span class="quick-facts__label">Category</span><span class="badge badge--category" id="qf-category">Category</span></li>
+          <li class="quick-facts__item"><span class="quick-facts__label">Severity</span><span class="badge badge--severity badge--medium" id="qf-severity">Medium</span></li>
+          <li class="quick-facts__item"><span class="quick-facts__label">Status</span><span class="badge badge--status badge--open" id="qf-status">Open</span></li>
+          <li class="quick-facts__item quick-facts__item--wide"><span class="quick-facts__label">Location</span><span class="quick-facts__value" id="qf-location">—</span></li>
+          <li class="quick-facts__item"><span class="quick-facts__label">Supporters</span><span class="quick-facts__value quick-facts__value--big" id="qf-support">0</span></li>
+        </ul>
+        <p class="notice notice--demo" id="demo-notice" role="note">Demo data: this issue is fictional sample content. Its location, dates, status and supporter count are for demonstration only.</p>
+      </div>
+    </section>
+
+    <!-- Issue content (JavaScript fills this using ?id=…) -->
+    <section class="section section--issue-detail" id="issue-detail" data-issue-id="">
+      <div class="container issue-detail">
+
+        <figure class="issue-detail__media">
+          <img class="issue-detail__image" id="issue-image" src="assets/images/issue-placeholder.svg" data-fallback-src="assets/images/issue-placeholder.svg" width="1200" height="750" alt="Photo of the reported issue" decoding="async">
+          <figcaption class="issue-detail__caption">Illustrative sample image.</figcaption>
+        </figure>
+
+        <div class="issue-detail__body">
+
+          <section class="issue-detail__section" id="issue-about" aria-labelledby="issue-about-title">
+            <h2 class="issue-detail__heading" id="issue-about-title">About this issue</h2>
+            <p class="issue-detail__description" id="issue-description" data-field="description">The issue description will appear here.</p>
+          </section>
+
+          <section class="issue-detail__section" id="issue-facts" aria-labelledby="issue-facts-title">
+            <h2 class="issue-detail__heading" id="issue-facts-title">Issue details</h2>
+            <dl class="detail-list">
+              <div class="detail-list__item">
+                <dt>Category</dt>
+                <dd><span class="badge badge--category" id="issue-category" data-field="category">Category</span></dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Severity</dt>
+                <dd><span class="badge badge--severity badge--medium" id="issue-severity" data-field="severity">Medium</span></dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Status</dt>
+                <dd><span class="badge badge--status badge--open" id="issue-status" data-field="status">Open</span></dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Location</dt>
+                <dd id="issue-location" data-field="location">Sample location</dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Nearby landmark</dt>
+                <dd id="issue-landmark" data-field="landmark">Not provided</dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Reported on</dt>
+                <dd><time id="issue-date" data-field="date" datetime="2000-01-01">Date</time></dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="issue-detail__section support-box" id="issue-support" aria-labelledby="issue-support-title">
+            <h2 class="issue-detail__heading" id="issue-support-title">Support this issue</h2>
+            <p class="support-box__text"><span class="support-box__count" id="upvote-count" data-field="support-count">0</span> sample supporters</p>
+            <button class="button button--primary support-box__button" type="button" id="upvote-button" data-action="toggle-support" aria-pressed="false">Support this issue</button>
+            <p class="support-box__message" id="upvote-message" role="status" aria-live="polite"></p>
+            <p class="support-box__note">Support is saved only in this browser and does not notify any authority.</p>
+          </section>
+
+          <section class="issue-detail__section" id="issue-timeline" aria-labelledby="issue-timeline-title">
+            <h2 class="issue-detail__heading" id="issue-timeline-title">Status timeline</h2>
+            <ol class="timeline" id="status-timeline" data-timeline></ol>
+            <div class="empty-state" id="status-timeline-empty" hidden>
+              <p class="empty-state__title">No timeline updates</p>
+              <p class="empty-state__text">There are no sample status updates for this issue yet.</p>
+            </div>
+          </section>
+
+          <section class="issue-detail__section" id="issue-report-info" aria-labelledby="issue-report-info-title">
+            <h2 class="issue-detail__heading" id="issue-report-info-title">Report information</h2>
+            <dl class="detail-list">
+              <div class="detail-list__item">
+                <dt>Reference ID</dt>
+                <dd id="issue-reference-id" data-field="reference-id">—</dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Data source</dt>
+                <dd id="issue-source" data-field="source">Sample data</dd>
+              </div>
+              <div class="detail-list__item">
+                <dt>Last updated</dt>
+                <dd><time id="issue-updated" data-field="updated" datetime="2000-01-01">—</time></dd>
+              </div>
+            </dl>
+          <p class="issue-detail__note">This report is not an official complaint and has not been verified by any authority.</p>
+          </section>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Missing-issue state (shown when the id is unknown or absent) -->
+    <section class="section section--missing" id="issue-missing-state" aria-labelledby="issue-missing-title" hidden>
+      <div class="container">
+        <div class="empty-state empty-state--missing">
+          <h2 class="empty-state__title" id="issue-missing-title">Issue not found</h2>
+          <p class="empty-state__text">We couldn’t find a sample issue with that ID. It may have been removed, or the link may be incomplete.</p>
+          <a class="button button--primary" href="issues.html">Browse all issues</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Similar issues -->
+    <section class="section section--similar" id="similar-issues-section" aria-labelledby="similar-issues-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="section-heading__title" id="similar-issues-title">Similar issues</h2>
+          <p class="section-heading__text">Other sample reports in the same category.</p>
+        </div>
+
+        <ul class="issue-list issue-list--similar" id="similar-issues" data-issue-list="similar"></ul>
+
+        <div class="empty-state" id="similar-issues-empty" hidden>
+          <p class="empty-state__title">No similar issues</p>
+          <p class="empty-state__text">There are no other sample issues in this category.</p>
+        </div>
+
+        <noscript>
+          <p class="notice notice--warning">JavaScript is required to load issue details and similar issues.</p>
+        </noscript>
+
+        <p class="back-link-wrapper"><a class="back-link" id="back-to-issues-link" href="issues.html">Back to all issues</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reusable issue card (same markup on index.html, issues.html and issue-details.html) -->
+  <template id="issue-card-template">
+    <li class="issue-list__item">
+      <article class="issue-card" data-issue-card data-issue-id="" data-category="" data-severity="" data-status="">
+        <figure class="issue-card__media">
+          <img class="issue-card__image" data-field="image" src="assets/images/issue-placeholder.svg" data-fallback-src="assets/images/issue-placeholder.svg" width="640" height="400" alt="Photo of the reported issue" loading="lazy" decoding="async">
+        </figure>
+        <div class="issue-card__content">
+          <p class="issue-card__category"><span class="badge badge--category" data-field="category">Category</span></p>
+          <h3 class="issue-card__title" data-field="title">Issue title</h3>
+          <p class="issue-card__description" data-field="description">Short description of the issue.</p>
+          <dl class="issue-card__meta">
+            <div class="issue-card__meta-item">
+              <dt>Location</dt>
+              <dd data-field="location">Sample location</dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Severity</dt>
+              <dd><span class="badge badge--severity badge--medium" data-field="severity">Medium</span></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Status</dt>
+              <dd><span class="badge badge--status badge--open" data-field="status">Open</span></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Reported</dt>
+              <dd><time data-field="date" datetime="2000-01-01">Date</time></dd>
+            </div>
+            <div class="issue-card__meta-item">
+              <dt>Supporters</dt>
+              <dd data-field="support-count">0</dd>
+            </div>
+          </dl>
+          <a class="issue-card__link button button--secondary" href="issue-details.html" data-field="details-link">View details<span class="visually-hidden"> for <span data-field="details-link-title">this issue</span></span></a>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <!-- Timeline item (rendered into #status-timeline) -->
+  <template id="timeline-item-template">
+    <li class="timeline__item" data-timeline-item data-status="">
+      <span class="timeline__marker" aria-hidden="true"></span>
+      <div class="timeline__content">
+        <p class="timeline__title"><span class="badge badge--status" data-field="status">Status</span></p>
+        <p class="timeline__date"><time data-field="date" datetime="2000-01-01">Date</time></p>
+        <p class="timeline__note" data-field="note">Update note.</p>
+      </div>
+    </li>
+  </template>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="site-footer__accent" aria-hidden="true"></div>
+    <div class="site-footer__inner container">
+      <div class="site-footer__brand">
+        <a class="site-logo site-logo--footer" href="index.html" aria-label="CivicFix home">
+          <span class="site-logo__mark" aria-hidden="true">CF</span>
+          <span class="site-logo__text">CivicFix</span>
+        </a>
+        <p class="site-footer__tagline">See an issue. Report it. Make your city better.</p>
+      </div>
+
+      <nav class="footer-nav" id="footer-nav" aria-label="Footer">
+        <p class="site-footer__heading">Explore</p>
+        <ul class="footer-links">
+          <li class="footer-links__item"><a class="footer-link" href="index.html">Home</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="issues.html">Explore Issues</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="report.html">Report an Issue</a></li>
+          <li class="footer-links__item"><a class="footer-link" href="impact.html">Impact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__about">
+        <p class="site-footer__heading">About this project</p>
+        <p class="site-footer__text">CivicFix is a frontend-only student portfolio prototype built with HTML, CSS and vanilla JavaScript.</p>
+      </div>
+
+      <p class="site-footer__disclaimer" id="footer-disclaimer" role="note"><strong>Prototype notice:</strong> CivicFix is not an official government portal. Reports are not sent to any authority, nothing is verified, and all sample data is fictional.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

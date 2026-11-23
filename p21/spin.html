@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Brew & Bytes — coffee, pastry and calm corners made for student life.">
+  <title>Spin the Wheel — Brew &amp; Bytes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="loaded subpage">
+  <header class="navbar" id="navbar">
+    <a href="First.html" class="logo">BREW &amp; BYTES</a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="First.html#home">Home</a>
+      <a href="First.html#about">About</a>
+      <a href="First.html#menu" >Menu</a>
+      <a href="First.html#reviews">Reviews</a>
+      <a href="spin.html" class="active">Spin</a>
+      <a href="reserve.html">Reserve</a>
+      <a href="First.html#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
+  </header>
+  <main>
+    <section class="spin-page">
+      <div class="spin-copy">
+        <p class="eyebrow hero-in">05 — SPIN THE WHEEL</p>
+        <h1><span class="line"><span class="line-inner">Feeling</span></span><span class="line"><span class="line-inner"><em>lucky?</em></span></span></h1>
+        <p class="spin-lead hero-in">One spin. A little luck. <em>A lot of reasons to smile.</em></p>
+        <p class="spin-sub hero-in">Free coffee, sweet savings and surprises are waiting on the wheel. Go on, make your move.</p>
+
+        <p class="spin-status" id="spinStatus" role="status" aria-live="polite">Tap SPIN in the centre of the wheel. One prize spin per visit.</p>
+
+        <div class="my-coupon" id="myCoupon" hidden>
+          <span class="coupon-label">YOUR COUPON</span>
+          <strong class="my-prize" id="myPrize"></strong>
+          <div class="coupon-row"><code id="myCode"></code><button type="button" class="my-copy" id="myCopy">Copy</button></div>
+          <p class="my-terms" id="myTerms"></p>
+        </div>
+
+        <ul class="spin-terms" id="spinTerms" aria-label="Coupon conditions"></ul>
+      </div>
+
+      <div class="wheel-stage">
+        <div class="wheel-wrap" id="wheelWrap">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <div class="wheel-rim">
+            <div class="wheel" id="wheel"><canvas id="wheelCanvas" role="img" aria-label="Prize wheel with 5% off, 10% off, free coffee and try again segments"></canvas></div>
+          </div>
+          <button type="button" class="wheel-hub" id="spinBtn" aria-label="Spin the wheel"><span>SPIN</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Result popup -->
+  <div class="modal" id="resultModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="resultTitle" aria-describedby="resultMsg">
+      <p class="eyebrow" id="resultEyebrow">YOUR RESULT</p>
+      <h2 id="resultTitle">—</h2>
+      <p class="modal-msg" id="resultMsg"></p>
+      <div class="coupon" id="couponBox" hidden>
+        <span class="coupon-label">YOUR COUPON CODE</span>
+        <div class="coupon-row"><code id="couponCode">BB-0000</code><button type="button" class="copy-btn" id="copyBtn">Copy</button></div>
+      </div>
+      <p class="demo-note" id="modalNote"></p>
+      <div class="modal-actions">
+        <button type="button" class="hero-btn modal-primary" id="againBtn"><span>Shop the Menu</span></button>
+        <button type="button" class="reset-btn" id="closeBtn" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><span>© 2026 Brew &amp; Bytes</span><span>CRAFTED FOR COFFEE &amp; GOOD IDEAS.</span></footer>
+  <script src="script.js"></script>
+  <script src="cart.js"></script>
+  <script src="spin.js"></script>
+</body>
+</html>
